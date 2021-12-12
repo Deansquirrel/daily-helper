@@ -39,6 +39,23 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>com.github.deansquirrel</groupId>
 			<artifactId>tools-common</artifactId>
@@ -54,14 +71,19 @@
 			<artifactId>tools-swagger</artifactId>
 			<version>0.0.2</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>com.github.deansquirrel</groupId>-->
-<!--			<artifactId>tools-db-mysql</artifactId>-->
-<!--			<version>0.0.4</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>com.github.deansquirrel</groupId>
+			<artifactId>tools-db-mysql</artifactId>
+			<version>0.0.4</version>
+		</dependency>
 		<dependency>
 			<groupId>com.github.deansquirrel</groupId>
 			<artifactId>tools-db-sqlite</artifactId>
+			<version>0.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.deansquirrel</groupId>
+			<artifactId>tools-apache-poi</artifactId>
 			<version>0.0.0</version>
 		</dependency>
 	</dependencies>

@@ -101,6 +101,10 @@
         <AppenderRef ref="Console"/>
         <AppenderRef ref="MyRollingFile"/>
     </Logger>
+      <Logger name="com.yuansong.dailyHelper" level="debug" additivity="false">
+          <AppenderRef ref="Console"/>
+          <AppenderRef ref="MyRollingFile"/>
+      </Logger>
     <Root level="info">
       <AppenderRef ref="Console"/>
       <AppenderRef ref="OtherRollingFile"/>

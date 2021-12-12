@@ -1,8 +1,6 @@
-package com.yuansong.tools.controller;
+package com.yuansong.dailyHelper.common;
 
 import com.github.deansquirrel.tools.common.ExceptionTool;
-import com.yuansong.dailyHelper.common.Response;
-import com.yuansong.dailyHelper.common.ResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;

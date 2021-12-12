@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "appConfig",
+      "type": "com.yuansong.dailyHelper.config.AppConfig",
+      "description": "Description for appConfig.version."
+    },
+    {
+      "name": "appConfig.version",
+      "type": "java.lang.String",
+      "description": "Description for appConfig.version."
+    }
+  ] }

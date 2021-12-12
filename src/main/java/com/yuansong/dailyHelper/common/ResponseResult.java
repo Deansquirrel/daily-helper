@@ -7,33 +7,45 @@ public class ResponseResult<T> {
     private T data;
 
     public int getCode() {
-        return this.code;
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getMsg() {
-        return this.msg;
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public T getData() {
-        return this.data;
+        return data;
     }
 
-    public ResponseResult<T> setCode(ResultCode retCode) {
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public ResponseResult<T> initCode(ResultCode retCode) {
         this.code = retCode.code;
         return this;
     }
 
-    public ResponseResult<T> setCode(int code) {
+    public ResponseResult<T> initCode(int code) {
         this.code = code;
         return this;
     }
 
-    public ResponseResult<T> setMsg(String msg) {
+    public ResponseResult<T> initMsg(String msg) {
         this.msg = msg;
         return this;
     }
 
-    public ResponseResult<T> setData(T data) {
+    public ResponseResult<T> initData(T data) {
         this.data = data;
         return this;
     }

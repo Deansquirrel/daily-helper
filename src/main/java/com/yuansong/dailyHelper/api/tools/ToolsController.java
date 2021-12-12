@@ -1,4 +1,4 @@
-package com.yuansong.dailyHelper.tools;
+package com.yuansong.dailyHelper.api.tools;
 
 import com.github.deansquirrel.tools.common.ExceptionTool;
 import com.github.deansquirrel.tools.secret.SimpleOne;
