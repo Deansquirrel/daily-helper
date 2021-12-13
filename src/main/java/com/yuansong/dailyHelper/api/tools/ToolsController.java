@@ -28,7 +28,7 @@ public class ToolsController {
      * @return 密文
      */
     @ApiOperation(value="加密文本")
-    @RequestMapping(value="/encrypt",method = RequestMethod.GET)
+    @RequestMapping(value="/secret/encrypt",method = RequestMethod.GET)
     public ResponseResult<String> encrypt(
             @ApiParam(name = "plainText", value = "明文", required = true)
             @RequestParam String plainText,
@@ -49,7 +49,7 @@ public class ToolsController {
      * @return 明文
      */
     @ApiOperation(value="解密文本")
-    @RequestMapping(value="/decrypt",method = RequestMethod.GET)
+    @RequestMapping(value="/secret/decrypt",method = RequestMethod.GET)
     public ResponseResult<String> decrypt(
             @ApiParam(name = "cipherText", value = "密文", required = true)
             @RequestParam String cipherText,

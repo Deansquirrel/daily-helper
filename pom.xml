@@ -84,7 +84,7 @@
 		<dependency>
 			<groupId>com.github.deansquirrel</groupId>
 			<artifactId>tools-apache-poi</artifactId>
-			<version>0.0.0</version>
+			<version>0.0.2</version>
 		</dependency>
 	</dependencies>
 

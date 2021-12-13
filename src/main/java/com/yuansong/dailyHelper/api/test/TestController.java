@@ -6,6 +6,7 @@ import com.github.deansquirrel.tools.common.SQLTool;
 import com.github.deansquirrel.tools.db.Constant;
 import com.github.deansquirrel.tools.db.IToolsDbHelper;
 import com.github.deansquirrel.tools.db.MySqlConnHelper;
+import com.github.deansquirrel.tools.poi.IDataMapper;
 import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
 import com.github.deansquirrel.tools.poi.XSSFWorkTable;
 import com.google.gson.Gson;
@@ -38,10 +39,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 @RestController
 @Api(tags={"test"})
@@ -173,66 +171,30 @@ public class TestController {
         logger.debug("length {}",nameList.size());
         logger.debug("=========================================================================");
 
-        XSSFWorkTable workTable = XSSFWorkTable.builder("First");
-        if(nameList.size() <= 0) {
-            logger.warn("list is empty");
-        } else {
-            List<List<Object>> rows = new ArrayList<>();
-            for(StudentDao stu : nameList) {
-                List<Object> row = new ArrayList<>();
-                row.add(stu.getId());
-                row.add(stu.getName());
-                row.add(stu.getSex());
-                row.add(stu.getBirth());
-                row.add(stu.getTel());
-                row.add(stu.getAddr());
-                rows.add(row);
+        IDataMapper<StudentDao> iDataMapper = new IDataMapper<StudentDao>() {
+            @Override
+            public List<String> getTitleList() {
+                return Arrays.asList("ID","姓名","性别","生日","Tel","Addr");
             }
-            workTable.setRows(rows);
-        }
-        if(workTable.getRows() != null && workTable.getRows().size() > 0) {
-            List<String> title = new ArrayList<>();
-            title.add("ID");
-            title.add("姓名");
-            title.add("性别");
-            title.add("生日");
-            title.add("Tel");
-            title.add("Addr");
-            workTable.setTitle(title);
-        }
-        Gson gson = new Gson();
-        logger.debug(gson.toJson(workTable));
 
-        List<XSSFWorkTable> list = new ArrayList<>();
-        list.add(workTable);
+            @Override
+            public List<Object> getRowData(StudentDao studentDao) {
+                List<Object> d = new ArrayList<>();
+                d.add(studentDao.getId());
+                d.add(studentDao.getName());
+                d.add(studentDao.getSex());
+                d.add(studentDao.getBirth());
+                d.add(studentDao.getTel());
+                d.add(studentDao.getAddr());
+                return d;
+            }
+        };
 
-        return XSSFWorkBookTool.getXSSFWorkBook(list);
+        XSSFWorkTable workTableF = XSSFWorkBookTool.getXSSFWorkTable("First", nameList, iDataMapper);
+        XSSFWorkTable workTableS = XSSFWorkBookTool.getXSSFWorkTable("Second", nameList, iDataMapper);
 
-//        Font font = book.createFont();
-//        font.setFontName("Calibri");
-//
-//        XSSFSheet sheet = book.createSheet("123");
-//        Row titleRow = sheet.createRow(0);
-//        for(int i = 0; i < eData.getTitle().size(); i++) {
-//            Cell cell = titleRow.createCell(i);
-//            cell.setCellValue(eData.getTitle().get(i));
-//        }
-//        for(int i = 0; i < eData.getRows().size(); i++) {
-//            Row row = sheet.createRow(i + 1);
-//            List<Object> rowsData = eData.getRows().get(i);
-//            for(int j = 0; j < rowsData.size(); j++) {
-//                Cell cell = row.createCell(j);
-//                Object data = rowsData.get(j);
-//                if (data instanceof Date) {
-//                    Date d = (Date) data;
-////                    cell.setCellValue(DateTool.GetDateTimeStr(d));
-//                    cell.setCellValue(d);
-//                } else {
-//                    cell.setCellValue(String.valueOf(data));
-//                }
-//            }
-//        }
-//        return book;
+        return XSSFWorkBookTool.getXSSFWorkBook(Arrays.asList(workTableF,workTableS));
+//        return XSSFWorkBookTool.getXSSFWorkBook(Collections.singletonList(workTable));
     }
 
     private void setResponseDownloadExcel(HttpServletResponse response, String fileName, XSSFWorkbook book) throws IOException {
