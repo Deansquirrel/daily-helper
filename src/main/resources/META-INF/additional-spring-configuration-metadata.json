@@ -9,5 +9,10 @@
       "name": "appConfig.version",
       "type": "java.lang.String",
       "description": "Description for appConfig.version."
+    },
+    {
+      "name": "appConfig.timestamp",
+      "type": "java.lang.String",
+      "description": "Description for appConfig.timestamp."
     }
   ] }

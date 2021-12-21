@@ -4,11 +4,13 @@ import com.github.deansquirrel.tools.common.ExceptionTool;
 import com.github.deansquirrel.tools.secret.SimpleOne;
 import com.yuansong.dailyHelper.common.Response;
 import com.yuansong.dailyHelper.common.ResponseResult;
+import com.yuansong.dailyHelper.features.evss.EvssService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ToolsController {
 
     private static final Logger logger = LoggerFactory.getLogger(ToolsController.class);
+
+    @Autowired
+    private EvssService evssService;
 
     /**
      * 加密文本

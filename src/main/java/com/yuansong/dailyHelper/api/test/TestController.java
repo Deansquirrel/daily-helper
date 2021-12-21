@@ -9,21 +9,17 @@ import com.github.deansquirrel.tools.db.MySqlConnHelper;
 import com.github.deansquirrel.tools.poi.IDataMapper;
 import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
 import com.github.deansquirrel.tools.poi.XSSFWorkTable;
-import com.google.gson.Gson;
 import com.yuansong.dailyHelper.api.test.dao.StudentDao;
 import com.yuansong.dailyHelper.common.Response;
 import com.yuansong.dailyHelper.common.ResponseResult;
 import com.yuansong.dailyHelper.config.AppConfig;
+import com.yuansong.dailyHelper.features.evss.EvssService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFTable;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -52,6 +48,9 @@ public class TestController {
     private final IToolsDbHelper iToolsDbHelper;
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private EvssService evssService;
+
     public TestController(AppConfig appConfig,
                           IToolsDbHelper iToolsDbHelper,
                           @Qualifier(Constant.BEAN_JDBC_TEMPLATE) JdbcTemplate jdbcTemplate) {
@@ -63,14 +62,16 @@ public class TestController {
     @ApiOperation(value="subTest")
     @RequestMapping(value="/subtest",method = RequestMethod.GET)
     public ResponseResult<?> subTest() {
-        XSSFWorkbook f = this.getTestXSSFWorkbook();
-        logger.debug(f == null ? "null" : f.toString());
+//        XSSFWorkbook f = this.getTestXSSFWorkbook();
+//        logger.debug(f == null ? "null" : f.toString());
+        evssService.subTest();
         return Response.makeOKResp();
     }
 
     @ApiOperation(value="获取版本")
     @RequestMapping(value="/version",method = RequestMethod.GET)
     public ResponseResult<String> version() {
+        logger.debug(appConfig.getTimestamp());
         return Response.makeOKStringResp(this.appConfig.getVersion());
     }
 
@@ -137,7 +138,6 @@ public class TestController {
 //    测试直接下载excel
 
 //    测试直接获取Excel
-
     private XSSFWorkbook getTestXSSFWorkbook() {
 
         MySqlConnHelper mySqlConnHelper = MySqlConnHelper.builder("test")
