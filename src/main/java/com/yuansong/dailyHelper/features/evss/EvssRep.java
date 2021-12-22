@@ -18,65 +18,80 @@ public class EvssRep {
     }
 
     private String sql = "" +
-            "select b.FIX_BLNG_ADMDVS 行政区划编码, b.FIXMEDINS_CODE 定点医药机构编码, b.FIXMEDINS_NAME 定点医药机构名称," +
-            "  A.结算总人次," +
-            "  A.社保卡结算人次," +
-            "  A.电子凭证结算人次," +
-            "  A.电子凭证结算人数," +
-            "  A.`10月结算总人次`," +
-            "  A.`10月社保卡结算人次`," +
-            "  A.`10月电子凭证结算人次`," +
-            "  A.`10月电子凭证结算人数`," +
-            "  A.结算总人次," +
-            "  A.社保卡结算人次," +
-            "  A.电子凭证结算人次," +
-            "  A.电子凭证结算人数," +
-            "  A.`10月结算总人次`," +
-            "  A.`10月社保卡结算人次`," +
-            "  A.`10月电子凭证结算人次`," +
-            "  A.`10月电子凭证结算人数`" +
-            "from fixmedins_b b " +
-            "left join (" +
-            "  SELECT 定点医药机构编码, sum(结算总人次) 结算总人次, sum(社保卡结算人次) 社保卡结算人次, sum(电子凭证结算人次) 电子凭证结算人次, sum(电子凭证结算人数) 电子凭证结算人数, sum( `10月结算总人次`) `10月结算总人次`, sum( `10月社保卡结算人次` ) `10月社保卡结算人次`, sum( `10月电子凭证结算人次` ) `10月电子凭证结算人次`, sum( `10月电子凭证结算人数` ) `10月电子凭证结算人数`" +
-            "  FROM (" +
-            "    SELECT" +
-            "     FIXMEDINS_CODE 定点医药机构编码, count(*) 结算总人次,  sum( CASE MDTRT_CERT_TYPE WHEN '01' THEN 0 ELSE 1 END ) 社保卡结算人次,  sum( CASE MDTRT_CERT_TYPE WHEN '01' THEN 1 ELSE 0 END ) 电子凭证结算人次,  0 电子凭证结算人数," +
-            "     0 `10月结算总人次`,  0 `10月社保卡结算人次`,  0 `10月电子凭证结算人次`,  0 `10月电子凭证结算人数` " +
-            "    FROM setl_d force index (IDX_SETL_D_3)" +
-            "    WHERE SETL_TIME >= '2021-03-13 00:00:00'   AND SETL_TIME < '2021-12-01 00:00:00' " +
-            "     and (FIXMEDINS_CODE like 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%')" +
-            "    GROUP BY FIXMEDINS_CODE" +
-            "    UNION ALL" +
-            "    SELECT FIXMEDINS_CODE," +
-            "     0,  0,  0,  count( DISTINCT psn_no )," +
-            "     0,  0,  0,  0 " +
-            "    FROM setl_d force index (IDX_SETL_D_3)" +
-            "    WHERE SETL_TIME >= '2021-03-13 00:00:00' AND SETL_TIME < '2021-12-01 00:00:00' AND MDTRT_CERT_TYPE = '01' " +
-            "     and (FIXMEDINS_CODE like 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%')" +
-            "    GROUP BY FIXMEDINS_CODE" +
-            "    UNION ALL" +
-            "    " +
-            "    SELECT" +
-            "     FIXMEDINS_CODE," +
-            "     0,  0,  0,  0," +
-            "     count(*),  sum( CASE MDTRT_CERT_TYPE WHEN '01' THEN 0 ELSE 1 END ),  sum( CASE MDTRT_CERT_TYPE WHEN '01' THEN 1 ELSE 0 END ),  0 " +
-            "    FROM setl_d force index (IDX_SETL_D_3)" +
-            "    WHERE SETL_TIME >= '2021-12-01 00:00:00' AND SETL_TIME < '2021-12-21 00:00:00' " +
-            "     and (FIXMEDINS_CODE like 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%')" +
-            "    GROUP BY FIXMEDINS_CODE" +
-            "    UNION ALL" +
-            "    SELECT" +
-            "     FIXMEDINS_CODE," +
-            "     0,  0,  0,  0," +
-            "     0,  0,  0,  count( DISTINCT psn_no ) " +
-            "    FROM setl_d force index (IDX_SETL_D_3)" +
-            "    WHERE SETL_TIME >= '2021-12-01 00:00:00' AND SETL_TIME < '2021-12-21 00:00:00' AND MDTRT_CERT_TYPE = '01'" +
-            "     and (FIXMEDINS_CODE like 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%')" +
-            "    GROUP BY FIXMEDINS_CODE" +
-            "  ) A" +
-            "  group by 定点医药机构编码" +
-            ") a on a.定点医药机构编码 = b.FIXMEDINS_CODE" +
-            " where b.FIXMEDINS_CODE like 'H1311%' OR B.FIXMEDINS_CODE LIKE 'P1311%' ";
+            "SELECT " +
+            " b.FIX_BLNG_ADMDVS, " +
+            " b.FIXMEDINS_CODE, " +
+            " b.FIXMEDINS_NAME, " +
+            " a.TOTAL_RC, " +
+            " a.SBK_RC, " +
+            " a.DZPZ_RC, " +
+            " a.DZPZ_RS, " +
+            " a.CURR_TOTAL_TC, " +
+            " a.CURR_SBK_RC, " +
+            " a.CURR_DZPZ_RC, " +
+            " a.CURR_DZPZ_RS " +
+            "FROM " +
+            " fixmedins_b b " +
+            " LEFT JOIN ( " +
+            " SELECT " +
+            "  FIXMEDINS_CODE, " +
+            "  sum(TOTAL_RC) TOTAL_RC, " +
+            "  sum(SBK_RC) SBK_RC, " +
+            "  sum(DZPZ_RC) DZPZ_RC, " +
+            "  sum(DZPZ_RS) DZPZ_RS, " +
+            "  sum(CURR_TOTAL_TC) CURR_TOTAL_TC, " +
+            "  sum(CURR_SBK_RC) CURR_SBK_RC, " +
+            "  sum(CURR_DZPZ_RC) CURR_DZPZ_RC, " +
+            "  sum(CURR_DZPZ_RS) CURR_DZPZ_RS  " +
+            " FROM " +
+            "  ( " +
+            "  SELECT FIXMEDINS_CODE, count(*) TOTAL_RC, sum( CASE MDTRT_CERT_TYPE WHEN '01' THEN 0 ELSE 1 END ) SBK_RC, sum( CASE MDTRT_CERT_TYPE WHEN '01' THEN 1 ELSE 0 END ) DZPZ_RC, 0 DZPZ_RS, 0 CURR_TOTAL_TC, 0 CURR_SBK_RC, 0 CURR_DZPZ_RC, 0 CURR_DZPZ_RS  " +
+            "  FROM " +
+            "   setl_d FORCE INDEX ( IDX_SETL_D_3 )  " +
+            "  WHERE 1=1 " +
+            "   AND SETL_TIME >= '2021-03-13 00:00:00'  " +
+            "   AND SETL_TIME < '2021-12-01 00:00:00'  " +
+            "   AND ( FIXMEDINS_CODE LIKE 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%' )  " +
+            "  GROUP BY FIXMEDINS_CODE  " +
+            "UNION ALL " +
+            "  SELECT " +
+            "   FIXMEDINS_CODE, 0, 0, 0, count( DISTINCT psn_no ), 0, 0, 0, 0  " +
+            "  FROM " +
+            "   setl_d FORCE INDEX ( IDX_SETL_D_3 )  " +
+            "  WHERE 1=1 " +
+            "   AND SETL_TIME >= '2021-03-13 00:00:00'  " +
+            "   AND SETL_TIME < '2021-12-01 00:00:00'  " +
+            "   AND MDTRT_CERT_TYPE = '01'  " +
+            "   AND ( FIXMEDINS_CODE LIKE 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%' )  " +
+            "  GROUP BY FIXMEDINS_CODE  " +
+            "UNION ALL " +
+            "  SELECT " +
+            "   FIXMEDINS_CODE, 0, 0, 0, 0, count(*), sum( CASE MDTRT_CERT_TYPE WHEN '01' THEN 0 ELSE 1 END ), sum( CASE MDTRT_CERT_TYPE WHEN '01' THEN 1 ELSE 0 END ), 0  " +
+            "  FROM " +
+            "   setl_d FORCE INDEX ( IDX_SETL_D_3 )  " +
+            "  WHERE 1=1 " +
+            "   AND SETL_TIME >= '2021-12-01 00:00:00'  " +
+            "   AND SETL_TIME < '2021-12-21 00:00:00'  " +
+            "   AND ( FIXMEDINS_CODE LIKE 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%' )  " +
+            "  GROUP BY FIXMEDINS_CODE   " +
+            " UNION ALL    " +
+            "  SELECT " +
+            "   FIXMEDINS_CODE, 0, 0, 0, 0, 0, 0, 0, count( DISTINCT psn_no )  " +
+            "  FROM " +
+            "   setl_d FORCE INDEX ( IDX_SETL_D_3 )  " +
+            "  WHERE 1=1 " +
+            "   AND SETL_TIME >= '2021-12-01 00:00:00'  " +
+            "   AND SETL_TIME < '2021-12-21 00:00:00'  " +
+            "   AND MDTRT_CERT_TYPE = '01'  " +
+            "   AND ( FIXMEDINS_CODE LIKE 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%' )  " +
+            "  GROUP BY FIXMEDINS_CODE  " +
+            "  ) A  " +
+            " GROUP BY " +
+            "  FIXMEDINS_CODE  " +
+            " ) a ON a.FIXMEDINS_CODE = b.FIXMEDINS_CODE  " +
+            "WHERE 1=1 " +
+            " AND (b.FIXMEDINS_CODE LIKE 'H1311%' OR b.FIXMEDINS_CODE LIKE 'P1311%')";
+
 
     public List<EvssDO> getList() {
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
