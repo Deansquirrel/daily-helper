@@ -23,4 +23,10 @@ public class EvssRepService {
     public List<EvssDO> getJmList() {
         return evssRep.getList();
     }
+
+
+    @TargetSource(EvssConstant.DB_CONN_JM)
+    public List<String> getT1List() {
+        return evssRep.getT2List();
+    }
 }

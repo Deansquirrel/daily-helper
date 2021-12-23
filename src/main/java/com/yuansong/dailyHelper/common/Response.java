@@ -2,8 +2,8 @@ package com.yuansong.dailyHelper.common;
 
 public class Response {
 
-    private final static String SUCCESS = "success";
-    private final static String FAIL = "fail";
+    public final static String SUCCESS = "success";
+    public final static String FAIL = "fail";
 
     public static <T> ResponseResult<T> makeResp(ResultCode retCode, String msg) {
         return new ResponseResult<T>().initCode(retCode).initMsg(msg);

@@ -94,6 +94,7 @@ public class EvssRep {
 
 
     public List<EvssDO> getList() {
+        System.out.println("EvssRep getList");
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             EvssDO d = new EvssDO();
 //                private String fixBlngAdmdvs; // 行政区划编码
@@ -105,5 +106,10 @@ public class EvssRep {
             return d;
         });
     }
+
+    private String sqlT1 = "select FIXMEDINS_CODE from fixmedins_b limit 10; ";
+     public List<String> getT2List() {
+         return jdbcTemplate.queryForList(sqlT1, String.class);
+     }
 
 }

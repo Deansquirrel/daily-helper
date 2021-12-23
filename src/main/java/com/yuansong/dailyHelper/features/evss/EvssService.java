@@ -19,10 +19,13 @@ public class EvssService {
 //    }
 
     public void subTest() {
-        logger.debug("sub test");
+        logger.debug("EvssService sub test");
+        logger.debug(String.valueOf(evssRepService.getT1List().size()));
         logger.debug(String.valueOf(evssRepService.getZgList().size()));
         logger.debug(String.valueOf(evssRepService.getJmList().size()));
     }
+
+
 
 
 }

@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.MessageFormat;
+
 @ControllerAdvice
 public class ExceptionHandler {
 
@@ -15,7 +17,7 @@ public class ExceptionHandler {
     @ResponseBody
     public ResponseResult<?> exceptionHandler(Exception e) {
         logger.error(ExceptionTool.getStackTrace(e));
-        return Response.makeErrResp();
+        return Response.makeErrRsp(MessageFormat.format("{0}[{1}]",Response.FAIL, e.getMessage()));
     }
 
 }

@@ -78,7 +78,7 @@
 		<dependency>
 			<groupId>com.github.deansquirrel</groupId>
 			<artifactId>tools-db-mysql</artifactId>
-			<version>0.0.4</version>
+			<version>0.0.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.deansquirrel</groupId>
