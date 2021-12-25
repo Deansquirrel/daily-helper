@@ -1,11 +1,14 @@
 package com.yuansong.dailyHelper.features.evss;
 
+import com.github.deansquirrel.tools.common.DateTool;
 import com.github.deansquirrel.tools.common.SQLTool;
 import com.github.deansquirrel.tools.db.Constant;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -49,8 +52,8 @@ public class EvssRep {
             "  FROM " +
             "   setl_d FORCE INDEX ( IDX_SETL_D_3 )  " +
             "  WHERE 1=1 " +
-            "   AND SETL_TIME >= '2021-03-13 00:00:00'  " +
-            "   AND SETL_TIME < '2021-12-01 00:00:00'  " +
+            "   AND SETL_TIME >= ?  " +
+            "   AND SETL_TIME < ?  " +
             "   AND ( FIXMEDINS_CODE LIKE 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%' )  " +
             "  GROUP BY FIXMEDINS_CODE  " +
             "UNION ALL " +
@@ -59,8 +62,8 @@ public class EvssRep {
             "  FROM " +
             "   setl_d FORCE INDEX ( IDX_SETL_D_3 )  " +
             "  WHERE 1=1 " +
-            "   AND SETL_TIME >= '2021-03-13 00:00:00'  " +
-            "   AND SETL_TIME < '2021-12-01 00:00:00'  " +
+            "   AND SETL_TIME >= ?  " +
+            "   AND SETL_TIME < ?  " +
             "   AND MDTRT_CERT_TYPE = '01'  " +
             "   AND ( FIXMEDINS_CODE LIKE 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%' )  " +
             "  GROUP BY FIXMEDINS_CODE  " +
@@ -70,8 +73,8 @@ public class EvssRep {
             "  FROM " +
             "   setl_d FORCE INDEX ( IDX_SETL_D_3 )  " +
             "  WHERE 1=1 " +
-            "   AND SETL_TIME >= '2021-12-01 00:00:00'  " +
-            "   AND SETL_TIME < '2021-12-21 00:00:00'  " +
+            "   AND SETL_TIME >= ?  " +
+            "   AND SETL_TIME < ?  " +
             "   AND ( FIXMEDINS_CODE LIKE 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%' )  " +
             "  GROUP BY FIXMEDINS_CODE   " +
             " UNION ALL    " +
@@ -80,8 +83,8 @@ public class EvssRep {
             "  FROM " +
             "   setl_d FORCE INDEX ( IDX_SETL_D_3 )  " +
             "  WHERE 1=1 " +
-            "   AND SETL_TIME >= '2021-12-01 00:00:00'  " +
-            "   AND SETL_TIME < '2021-12-21 00:00:00'  " +
+            "   AND SETL_TIME >= ?  " +
+            "   AND SETL_TIME < ?  " +
             "   AND MDTRT_CERT_TYPE = '01'  " +
             "   AND ( FIXMEDINS_CODE LIKE 'H1311%' OR FIXMEDINS_CODE LIKE 'P1311%' )  " +
             "  GROUP BY FIXMEDINS_CODE  " +
@@ -93,23 +96,33 @@ public class EvssRep {
             " AND (b.FIXMEDINS_CODE LIKE 'H1311%' OR b.FIXMEDINS_CODE LIKE 'P1311%')";
 
 
-    public List<EvssDO> getList() {
-        System.out.println("EvssRep getList");
+    public List<EvssDO> getList(Date endDate) {
+        Date begDate = new Date(1615564800000L);
+        Calendar ed = Calendar.getInstance();
+        ed.setTimeInMillis(endDate.getTime());
+        ed.set(Calendar.DAY_OF_MONTH, 1);
+
+        String begDateStr = DateTool.GetDateTimeStr(begDate);
+        String endDateStr = DateTool.GetDateTimeStr(endDate);
+        String monDateStr = DateTool.GetDateTimeStr(ed.getTime());
+
+        System.out.println(begDateStr);
+        System.out.println(endDateStr);
+        System.out.println(monDateStr);
+
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             EvssDO d = new EvssDO();
 //                private String fixBlngAdmdvs; // 行政区划编码
-            d.setFixBlngAdmdvs(SQLTool.getString(rs, "行政区划编码"));
+            d.setFixBlngAdmdvs(SQLTool.getString(rs, "FIX_BLNG_ADMDVS"));
 //                private String fixmedinsCode; // 定点医药机构编码
-            d.setFixmedinsCode(SQLTool.getString(rs, "定点医药机构编码"));
+            d.setFixmedinsCode(SQLTool.getString(rs, "FIXMEDINS_CODE"));
 //                private String fixmedinsName; // 定点医药机构名称,
-            d.setFixmedinsName(SQLTool.getString(rs, "定点医药机构名称"));
-            return d;
-        });
-    }
+            d.setFixmedinsName(SQLTool.getString(rs, "FIXMEDINS_NAME"));
+            //结算总人次
+            d.setTotalRc(SQLTool.getInt(rs,"TOTAL_RC"));
 
-    private String sqlT1 = "select FIXMEDINS_CODE from fixmedins_b limit 10; ";
-     public List<String> getT2List() {
-         return jdbcTemplate.queryForList(sqlT1, String.class);
-     }
+            return d;
+        }, begDateStr, endDateStr, begDateStr, endDateStr, monDateStr, endDateStr, monDateStr, endDateStr);
+    }
 
 }

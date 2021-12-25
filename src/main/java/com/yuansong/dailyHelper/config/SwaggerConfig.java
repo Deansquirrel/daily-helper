@@ -27,6 +27,6 @@ public class SwaggerConfig implements ISwaggerConfig {
 
     @Override
     public String getBasePackage() {
-        return "com.yuansong.dailyHelper";
+        return "com.yuansong.dailyHelper.api";
     }
 }

@@ -14,6 +14,7 @@ import com.yuansong.dailyHelper.common.Response;
 import com.yuansong.dailyHelper.common.ResponseResult;
 import com.yuansong.dailyHelper.config.AppConfig;
 import com.yuansong.dailyHelper.features.evss.EvssService;
+import com.yuansong.dailyHelper.global.Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -64,7 +65,6 @@ public class TestController {
     public ResponseResult<?> subTest() {
 //        XSSFWorkbook f = this.getTestXSSFWorkbook();
 //        logger.debug(f == null ? "null" : f.toString());
-        evssService.subTest();
         return Response.makeOKResp();
     }
 
@@ -126,7 +126,7 @@ public class TestController {
         fileName = fileName.replace(".","");
         fileName = fileName + ".xlsx";
         try {
-            this.setResponseDownloadExcel(response,fileName, f);
+            Util.setResponseDownloadExcel(response,fileName, f);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -197,16 +197,4 @@ public class TestController {
 //        return XSSFWorkBookTool.getXSSFWorkBook(Collections.singletonList(workTable));
     }
 
-    private void setResponseDownloadExcel(HttpServletResponse response, String fileName, XSSFWorkbook book) throws IOException {
-        response.setContentType("application/octet-stream;charset=ISO8859-1");
-        response.setHeader("Content-Disposition","attachment;filename="
-                + new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
-        response.addHeader("Pragma", "no-cache");
-        response.addHeader("Cache-Control", "no-cache");
-
-        OutputStream os = response.getOutputStream();
-        book.write(os);
-        os.flush();
-        os.close();
-    }
 }

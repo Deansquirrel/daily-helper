@@ -14,5 +14,20 @@
       "name": "appConfig.timestamp",
       "type": "java.lang.String",
       "description": "Description for appConfig.timestamp."
+    },
+    {
+      "name": "evssDb",
+      "type": "com.yuansong.dailyHelper.features.evss.EvssDbConfig",
+      "description": "Description for evssDb.zgConnStr."
+    },
+    {
+      "name": "evssDb.zgConnStr",
+      "type": "java.lang.String",
+      "description": "Description for evssDb.zgConnStr."
+    },
+    {
+      "name": "evssDb.jmConnStr",
+      "type": "java.lang.String",
+      "description": "Description for evssDb.jmConnStr."
     }
   ] }

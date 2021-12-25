@@ -3,8 +3,6 @@ package com.yuansong.dailyHelper.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-
 @Component
 @ConfigurationProperties(prefix = "app-config")
 public class AppConfig {
