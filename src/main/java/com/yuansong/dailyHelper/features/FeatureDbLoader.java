@@ -1,19 +1,20 @@
 package com.yuansong.dailyHelper.features;
 
+import com.yuansong.dailyHelper.util.DbLoaderHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DbLoader implements CommandLineRunner {
+public class FeatureDbLoader implements CommandLineRunner {
 
-    private static final Logger logger = LoggerFactory.getLogger(DbLoader.class);
+    private static final Logger logger = LoggerFactory.getLogger(FeatureDbLoader.class);
 
     private final FeatureConfig featureConfig;
     private final DbLoaderHelper dbLoaderHelper;
 
-    public DbLoader(FeatureConfig featureConfig, DbLoaderHelper dbLoaderHelper) {
+    public FeatureDbLoader(FeatureConfig featureConfig, DbLoaderHelper dbLoaderHelper) {
         this.featureConfig = featureConfig;
         this.dbLoaderHelper = dbLoaderHelper;
     }

@@ -1,8 +1,9 @@
-package com.yuansong.dailyHelper.features;
+package com.yuansong.dailyHelper.util;
 
 import com.github.deansquirrel.tools.common.ExceptionTool;
 import com.github.deansquirrel.tools.db.IToolsDbHelper;
 import com.github.deansquirrel.tools.db.MySqlConnHelper;
+import com.github.deansquirrel.tools.db.SQLiteConnHelper;
 import com.github.deansquirrel.tools.secret.SimpleOne;
 import com.yuansong.dailyHelper.features.Constant;
 import org.slf4j.Logger;
@@ -18,6 +19,13 @@ public class DbLoaderHelper {
 
     public DbLoaderHelper(IToolsDbHelper iToolsDbHelper) {
         this.iToolsDbHelper = iToolsDbHelper;
+    }
+
+    public void addSSQLiteConn(String connName, String path) {
+        SQLiteConnHelper conn = SQLiteConnHelper.builder(connName)
+                .setPath(path);
+        iToolsDbHelper.removeDataSource(connName);
+        iToolsDbHelper.addDataSource(conn.getName(), conn.getDataSource());
     }
 
     public void addMySQLConn(String connName, String connStr) {

@@ -14,6 +14,7 @@ import com.yuansong.dailyHelper.common.Response;
 import com.yuansong.dailyHelper.common.ResponseResult;
 import com.yuansong.dailyHelper.config.AppConfig;
 import com.yuansong.dailyHelper.features.evss.EvssService;
+import com.yuansong.dailyHelper.repository.db.config.ConnT;
 import com.yuansong.dailyHelper.util.Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,6 +50,9 @@ public class TestController {
 
     private final EvssService evssService;
 
+    @Autowired
+    private ConnT connT;
+
     public TestController(AppConfig appConfig,
                           IToolsDbHelper iToolsDbHelper,
                           @Qualifier(Constant.BEAN_JDBC_TEMPLATE) JdbcTemplate jdbcTemplate, EvssService evssService) {
@@ -64,6 +68,7 @@ public class TestController {
 //        XSSFWorkbook f = this.getTestXSSFWorkbook();
 //        logger.debug(f == null ? "null" : f.toString());
         logger.debug(appConfig.getTimestamp());
+        connT.getTest();
         return Response.makeOKResp();
     }
 

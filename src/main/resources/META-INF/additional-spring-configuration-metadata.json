@@ -24,5 +24,20 @@
       "name": "feature.db.zgFapConnStr",
       "type": "java.lang.String",
       "description": "Description for feature.db.zgFapConnStr."
+    },
+    {
+      "name": "dbConfig.ywDbPath",
+      "type": "java.lang.String",
+      "description": "Description for dbConfig.ywDbPath."
+    },
+    {
+      "name": "dbConfig.zlDbPath",
+      "type": "java.lang.String",
+      "description": "Description for dbConfig.zlDbPath."
+    },
+    {
+      "name": "dbConfig.configDbPath",
+      "type": "java.lang.String",
+      "description": "Description for dbConfig.configDbPath."
     }
   ] }

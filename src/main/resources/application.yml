@@ -30,6 +30,10 @@ logging:
 appConfig:
   version: '@project.version@'
   timestamp : '@timestamp@'
+dbConfig:
+  ywDbPath: db/yw
+  zlDbPath: db/zl
+  configDbPath: db/config
 feature:
   db:
     zgFapConnStr:
