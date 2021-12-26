@@ -4,7 +4,6 @@ import com.github.deansquirrel.tools.common.ExceptionTool;
 import com.github.deansquirrel.tools.db.IToolsDbHelper;
 import com.github.deansquirrel.tools.db.MySqlConnHelper;
 import com.github.deansquirrel.tools.secret.SimpleOne;
-import com.sun.istack.internal.NotNull;
 import com.yuansong.dailyHelper.global.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,7 @@ public class DbLoaderHelper {
         this.iToolsDbHelper = iToolsDbHelper;
     }
 
-    public void addMySQLConn(@NotNull String connName,@NotNull String connStr) {
+    public void addMySQLConn(String connName, String connStr) {
         if("".equals(connStr)) {
             logger.warn("conn[{}] is empty", connName);
             return;

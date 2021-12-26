@@ -106,9 +106,9 @@ public class EvssRep {
         String endDateStr = DateTool.GetDateTimeStr(endDate);
         String monDateStr = DateTool.GetDateTimeStr(ed.getTime());
 
-        System.out.println(begDateStr);
-        System.out.println(endDateStr);
-        System.out.println(monDateStr);
+//        System.out.println(begDateStr);
+//        System.out.println(endDateStr);
+//        System.out.println(monDateStr);
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             EvssDO d = new EvssDO();
@@ -120,7 +120,13 @@ public class EvssRep {
             d.setFixmedinsName(SQLTool.getString(rs, "FIXMEDINS_NAME"));
             //结算总人次
             d.setTotalRc(SQLTool.getInt(rs,"TOTAL_RC"));
-
+            d.setSbkRc(SQLTool.getInt(rs,"SBK_RC"));
+            d.setDzpzRc(SQLTool.getInt(rs,"DZPZ_RC"));
+            d.setDzpzRs(SQLTool.getInt(rs,"DZPZ_RS"));
+            d.setCurrTotalRc(SQLTool.getInt(rs,"CURR_TOTAL_TC"));
+            d.setCurrSbkRc(SQLTool.getInt(rs,"CURR_SBK_RC"));
+            d.setCurrDzpzRc(SQLTool.getInt(rs, "CURR_DZPZ_RC"));
+            d.setCurrDzpzRs(SQLTool.getInt(rs, "CURR_DZPZ_RS"));
             return d;
         }, begDateStr, endDateStr, begDateStr, endDateStr, monDateStr, endDateStr, monDateStr, endDateStr);
     }

@@ -14,7 +14,7 @@ import com.yuansong.dailyHelper.common.Response;
 import com.yuansong.dailyHelper.common.ResponseResult;
 import com.yuansong.dailyHelper.config.AppConfig;
 import com.yuansong.dailyHelper.features.evss.EvssService;
-import com.yuansong.dailyHelper.global.Util;
+import com.yuansong.dailyHelper.util.Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -32,8 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -49,15 +47,15 @@ public class TestController {
     private final IToolsDbHelper iToolsDbHelper;
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private EvssService evssService;
+    private final EvssService evssService;
 
     public TestController(AppConfig appConfig,
                           IToolsDbHelper iToolsDbHelper,
-                          @Qualifier(Constant.BEAN_JDBC_TEMPLATE) JdbcTemplate jdbcTemplate) {
+                          @Qualifier(Constant.BEAN_JDBC_TEMPLATE) JdbcTemplate jdbcTemplate, EvssService evssService) {
         this.appConfig = appConfig;
         this.iToolsDbHelper = iToolsDbHelper;
         this.jdbcTemplate = jdbcTemplate;
+        this.evssService = evssService;
     }
 
     @ApiOperation(value="subTest")
@@ -65,6 +63,7 @@ public class TestController {
     public ResponseResult<?> subTest() {
 //        XSSFWorkbook f = this.getTestXSSFWorkbook();
 //        logger.debug(f == null ? "null" : f.toString());
+        logger.debug(appConfig.getTimestamp());
         return Response.makeOKResp();
     }
 

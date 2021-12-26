@@ -1,10 +1,7 @@
 package com.yuansong.dailyHelper.features.evss;
 
 import com.github.deansquirrel.tools.common.DateTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.yuansong.dailyHelper.common.Response;
-import com.yuansong.dailyHelper.common.ResponseResult;
-import com.yuansong.dailyHelper.global.Util;
+import com.yuansong.dailyHelper.util.Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -16,14 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.List;
 
 @RestController
 @Api(tags={"Evss"})
-@RequestMapping(value = "/feature/evss")
+@RequestMapping(value = "/feature")
 public class EvssController {
 
     private static final Logger logger = LoggerFactory.getLogger(EvssController.class);
@@ -35,23 +28,15 @@ public class EvssController {
     }
 
     @ApiOperation(value="电子凭证取数合并")
-    @RequestMapping(value="/",method = RequestMethod.GET)
+    @RequestMapping(value="/evss",method = RequestMethod.GET)
     public void getEvss(HttpServletResponse response) {
-        logger.debug("============================================");
         XSSFWorkbook f = evssService.getWorkBook(evssService.getData());
-        logger.debug("============================================");
-        String fileName = DateTool.GetDateTimeWithMillionSecond();
-        fileName = fileName.replace(" ","");
-        fileName = fileName.replace("-","");
-        fileName = fileName.replace(":","");
-        fileName = fileName.replace(".","");
-        fileName = fileName + ".xlsx";
+        String fileName = "电子凭证结算统计" + DateTool.GetStr("yyyyMMddHHmmss") + ".xlsx";
         try {
             Util.setResponseDownloadExcel(response,fileName, f);
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        return Response.makeOKResp();
     }
 
 }

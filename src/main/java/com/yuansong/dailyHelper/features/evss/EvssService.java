@@ -1,5 +1,6 @@
 package com.yuansong.dailyHelper.features.evss;
 
+import com.github.deansquirrel.tools.common.DateTool;
 import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
 import com.github.deansquirrel.tools.poi.XSSFWorkTable;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -19,46 +20,37 @@ public class EvssService {
     }
 
     public List<EvssDO> getData() {
+        return getData(new Date());
+    }
+
+    public List<EvssDO> getData(Date endData) {
         List<EvssDO> zgList = evssRepService.getZgList();
-        logger.debug("zg size {}", zgList.size());
         List<EvssDO> jmList = evssRepService.getJmList();
-        logger.debug("jm size {}", jmList.size());
         Map<String, EvssDO> r = new HashMap<>();
         for(EvssDO d : zgList) {
             r.put(d.getFixmedinsCode(), d);
         }
         for(EvssDO d : jmList) {
             if(r.containsKey(d.getFixmedinsCode())) {
-                EvssDO rd = r.get(d.getFixmedinsCode());
-                r.put(d.getFixmedinsCode(), getEvssDOAdd(rd, d));
+                r.put(d.getFixmedinsCode(), r.get(d.getFixmedinsCode()).add(d));
             } else {
                 r.put(d.getFixmedinsCode(), d);
             }
         }
-        logger.debug("all {}", r.size());
-        return new ArrayList<>(r.values());
+        List<EvssDO> list = new ArrayList<>(r.values());
+        Collections.sort(list);
+        return list;
     }
 
     public XSSFWorkbook getWorkBook(List<EvssDO> list) {
-        XSSFWorkTable table = XSSFWorkBookTool.getXSSFWorkTable("szpz",list, new EvssDODataMapper());
+        return getWorkBook(list, new Date());
+    }
+
+    public XSSFWorkbook getWorkBook(List<EvssDO> list, Date endDate) {
+        XSSFWorkTable table = XSSFWorkBookTool.getXSSFWorkTable(DateTool.GetDateStr(),list, new EvssDODataMapper());
         List<XSSFWorkTable> tableList = new ArrayList<>();
         tableList.add(table);
         return XSSFWorkBookTool.getXSSFWorkBook(tableList);
-    }
-
-    private EvssDO getEvssDOAdd(EvssDO a, EvssDO b) {
-        Integer totalRc = null;
-        if(a.getTotalRc() != null && b.getTotalRc() != null) {
-            totalRc = a.getTotalRc() + b.getTotalRc();
-        }
-        if(a.getTotalRc() == null) {
-            totalRc = b.getTotalRc();
-        }
-        if(b.getTotalRc() == null) {
-            totalRc = a.getTotalRc();
-        }
-        a.setTotalRc(totalRc);
-        return a;
     }
 
 }

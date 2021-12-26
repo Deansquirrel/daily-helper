@@ -20,12 +20,7 @@ public class SetlDRep {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<SetlDDO> getList(
-            String setlId,
-            Date setlTimeBeg,
-            Date setlTimeEnd,
-            String fixmedinsCode,
-            String fixmedinsCodeLike) {
+    public List<SetlDDO> getList(SetlDQuery query) {
         List<Object> objList = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT ");
@@ -39,25 +34,25 @@ public class SetlDRep {
         }
         sb.append("FROM SETL_D ");
         sb.append("WHERE 1=1 ");
-        if(setlId != null) {
+        if(query.getSetlId() != null) {
             sb.append(" AND SETL_ID = ?");
-            objList.add(setlId);
+            objList.add(query.getSetlId());
         }
-        if(setlTimeBeg != null) {
+        if(query.getSetlTimeBeg() != null) {
             sb.append(" AND SETL_TIME >= ?");
-            objList.add(setlTimeBeg);
+            objList.add(query.getSetlTimeBeg());
         }
-        if(setlTimeEnd != null) {
+        if(query.getSetlTimeEnd() != null) {
             sb.append(" AND SETL_TIME < ?");
-            objList.add(setlTimeEnd);
+            objList.add(query.getSetlTimeEnd());
         }
-        if(fixmedinsCode != null) {
+        if(query.getFixmedinsCode() != null) {
             sb.append(" AND FIXMEDINS_CODE = ?");
-            objList.add(fixmedinsCode);
+            objList.add(query.getFixmedinsCode());
         }
-        if(fixmedinsCodeLike != null) {
+        if(query.getFixmedinsCodeLike() != null) {
             sb.append(" AND FIXMEDINS_CODE LIKE ?");
-            objList.add(fixmedinsCodeLike);
+            objList.add(query.getFixmedinsCodeLike());
         }
         sb.append(";");
         jdbcTemplate.query(sb.toString(), new SetlDRowMapper(), objList.toArray());

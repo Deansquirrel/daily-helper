@@ -4,7 +4,6 @@ import com.github.deansquirrel.tools.common.ExceptionTool;
 import com.github.deansquirrel.tools.db.IToolsDbHelper;
 import com.github.deansquirrel.tools.db.MySqlConnHelper;
 import com.github.deansquirrel.tools.secret.SimpleOne;
-import com.sun.istack.internal.NotNull;
 import com.yuansong.dailyHelper.features.evss.EvssConstant;
 import com.yuansong.dailyHelper.global.Constant;
 import org.slf4j.Logger;
@@ -22,7 +21,7 @@ public class ConfigService {
         this.iToolsDbHelper = iToolsDbHelper;
     }
 
-    public boolean loadMySQL(@NotNull String connName, @NotNull String connStr) {
+    public boolean loadMySQL(String connName, String connStr) {
         if("".equals(connName)) {
             logger.warn("{} conn is empty;",connName);
             return false;
