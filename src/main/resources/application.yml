@@ -30,6 +30,7 @@ logging:
 appConfig:
   version: '@project.version@'
   timestamp : '@timestamp@'
-evssDb:
-  zgConnStr: IiQQKwCfpb0hMLNbjih64W5J1i0gJBIpIiYVLCcnFC8mZUd3fGJGcm5hVnY+dEx0byYRKCBtaldicFFhKVhITG1cbmxzZ1shXH90ZnlGZlhwYldAfEA=
-  jmConnStr: AzQ+CSGPi58AIJ15rzhUw09Z+A8BNDwLAzY7DgY3Og0HdWlVXXJoUE9xeFQfZGJWTjY/CgF9RHVDYH9DCEhmbkxMQE5Sd3UDfW9aRFhWSHpRcnliXVA=
+feature:
+  db:
+    zgFapConnStr:
+    jmFapConnStr:

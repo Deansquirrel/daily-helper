@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.evss;
 
-import com.github.deansquirrel.tools.common.DateTool;
 import com.github.deansquirrel.tools.db.TargetSource;
+import com.yuansong.dailyHelper.features.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,12 +22,12 @@ public class EvssRepService {
         this.evssRep = evssRep;
     }
 
-    @TargetSource(EvssConstant.DB_CONN_ZG)
+    @TargetSource(Constant.DB_FAP_ZG)
     public List<EvssDO> getZgList() {
         return evssRep.getList(getEndDate());
     }
 
-    @TargetSource(EvssConstant.DB_CONN_JM)
+    @TargetSource(Constant.DB_FAP_JM)
     public List<EvssDO> getJmList() {
         return evssRep.getList(getEndDate());
     }

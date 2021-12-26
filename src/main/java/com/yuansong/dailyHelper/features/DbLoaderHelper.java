@@ -4,7 +4,7 @@ import com.github.deansquirrel.tools.common.ExceptionTool;
 import com.github.deansquirrel.tools.db.IToolsDbHelper;
 import com.github.deansquirrel.tools.db.MySqlConnHelper;
 import com.github.deansquirrel.tools.secret.SimpleOne;
-import com.yuansong.dailyHelper.global.Constant;
+import com.yuansong.dailyHelper.features.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

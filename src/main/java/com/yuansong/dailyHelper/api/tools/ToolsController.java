@@ -4,6 +4,7 @@ import com.github.deansquirrel.tools.common.ExceptionTool;
 import com.github.deansquirrel.tools.secret.SimpleOne;
 import com.yuansong.dailyHelper.common.Response;
 import com.yuansong.dailyHelper.common.ResponseResult;
+import com.yuansong.dailyHelper.features.Constant;
 import com.yuansong.dailyHelper.features.evss.EvssService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -65,6 +66,19 @@ public class ToolsController {
         } catch (Exception e) {
             logger.debug(ExceptionTool.getStackTrace(e));
             return Response.makeErrRsp("解密时遇到错误：" +e.getMessage());
+        }
+    }
+
+    @ApiOperation(value="获取数据库连接配置")
+    @RequestMapping(value="/dbconn",method = RequestMethod.GET)
+    public ResponseResult<String> encrypt(
+            @ApiParam(name = "connStr", value = "连接配置", required = true)
+            @RequestParam String connStr) {
+        try {
+            return Response.makeOKStringResp(SimpleOne.EncryptToBase64Format(connStr, Constant.DB_CONN_KEY));
+        } catch (Exception e) {
+            logger.debug(ExceptionTool.getStackTrace(e));
+            return Response.makeErrRsp("错误：" +e.getMessage());
         }
     }
 
