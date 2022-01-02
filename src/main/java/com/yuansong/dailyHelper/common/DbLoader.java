@@ -24,8 +24,8 @@ public class DbLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        dbLoaderHelper.addSSQLiteConn(Constant.DB_CONFIG_CONFIG, dbConfig.getConfigDbPath());
-        dbLoaderHelper.addSSQLiteConn(Constant.DB_CONFIG_ZL, dbConfig.getZlDbPath());
-        dbLoaderHelper.addSSQLiteConn(Constant.DB_CONFIG_YW, dbConfig.getYwDbPath());
+        dbLoaderHelper.addSSQLiteConn(Constant.DB_CONFIG, dbConfig.getConfigDbPath());
+        dbLoaderHelper.addSSQLiteConn(Constant.DB_ZL, dbConfig.getZlDbPath());
+        dbLoaderHelper.addSSQLiteConn(Constant.DB_YW, dbConfig.getYwDbPath());
     }
 }
