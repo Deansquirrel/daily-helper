@@ -5,14 +5,21 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig implements ISwaggerConfig {
+
+    private final AppConfig appConfig;
+
+    public SwaggerConfig(AppConfig appConfig) {
+        this.appConfig = appConfig;
+    }
+
     @Override
     public Boolean getEnable() {
-        return true;
+        return appConfig.isSwagger();
     }
 
     @Override
     public String getTitle() {
-        return "Daily Helper";
+        return "DService";
     }
 
     @Override
@@ -22,11 +29,11 @@ public class SwaggerConfig implements ISwaggerConfig {
 
     @Override
     public String getVersion() {
-        return "0.0.0";
+        return appConfig.getVersion();
     }
 
     @Override
     public String getBasePackage() {
-        return "com.yuansong.dailyHelper.api";
+        return "com.yuansong.dService.controller";
     }
 }

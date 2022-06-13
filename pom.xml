@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.yuansong</groupId>
 	<artifactId>daily-helper</artifactId>
-	<version>0.0.0</version>
+	<version>0.1.0</version>
 	<name>daily-helper</name>
 	<description>daily helper</description>
 	<properties>
@@ -78,22 +78,17 @@
 		<dependency>
 			<groupId>com.github.deansquirrel</groupId>
 			<artifactId>tools-db-mysql</artifactId>
-			<version>0.0.5</version>
+			<version>0.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.deansquirrel</groupId>
 			<artifactId>tools-db-sqlite</artifactId>
-			<version>0.0.0</version>
+			<version>0.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.deansquirrel</groupId>
 			<artifactId>tools-apache-poi</artifactId>
 			<version>0.0.3</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.deansquirrel</groupId>
-			<artifactId>tools-task</artifactId>
-			<version>0.0.0</version>
 		</dependency>
 	</dependencies>
 

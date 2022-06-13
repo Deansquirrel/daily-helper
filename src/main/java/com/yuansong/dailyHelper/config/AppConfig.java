@@ -9,9 +9,11 @@ public class AppConfig {
 
     private String version;
 
-    private String mailSenderConfig;
-
     private String timestamp;
+
+    private Boolean swagger;
+
+    private String mailSenderConfig;
 
     public String getVersion() {
         return version;
@@ -37,4 +39,11 @@ public class AppConfig {
         this.timestamp = timestamp;
     }
 
+    public boolean isSwagger() {
+        return swagger;
+    }
+
+    public void setSwagger(Boolean swagger) {
+        this.swagger = swagger;
+    }
 }
