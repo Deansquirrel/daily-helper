@@ -14,6 +14,20 @@
       "name": "appConfig.timestamp",
       "type": "java.lang.String",
       "description": "Description for appConfig.timestamp."
+    },
+    {
+      "name": "conn",
+      "type": "com.yuansong.dailyHelper.config.ConnConfig",
+      "description": "Description for conn."
+    },
+    {
+      "name": "conn.tidb-one",
+      "type": "java.lang.String",
+      "description": "Description for conn.tidb-one."
+    },
+    {
+      "name": "conn.tidb_two",
+      "type": "java.lang.String",
+      "description": "Description for conn.tidb_two."
     }
-
   ] }

@@ -1,4 +1,4 @@
-package com.yuansong.dailyHelper.features.tool;
+package com.yuansong.dailyHelper.features.tool.controller;
 
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.service.secret.ISecretService;
