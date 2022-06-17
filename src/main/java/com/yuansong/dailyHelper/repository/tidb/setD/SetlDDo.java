@@ -49,7 +49,40 @@ public class SetlDDo {
     public void setInitSetlId(String initSetlId) {
         this.initSetlId = initSetlId;
     }
-//    SETL_ID	varchar	30		True	False	结算ID
+
+    public String getFixmedinsCode() {
+        return fixmedinsCode;
+    }
+
+    public void setFixmedinsCode(String fixmedinsCode) {
+        this.fixmedinsCode = fixmedinsCode;
+    }
+
+    public String getFixmedinsName() {
+        return fixmedinsName;
+    }
+
+    public void setFixmedinsName(String fixmedinsName) {
+        this.fixmedinsName = fixmedinsName;
+    }
+
+    public Date getSetlTime() {
+        return setlTime;
+    }
+
+    public void setSetlTime(Date setlTime) {
+        this.setlTime = setlTime;
+    }
+
+    public BigDecimal getMedfeeSumamt() {
+        return medfeeSumamt;
+    }
+
+    public void setMedfeeSumamt(BigDecimal medfeeSumamt) {
+        this.medfeeSumamt = medfeeSumamt;
+    }
+
+    //    SETL_ID	varchar	30		True	False	结算ID
 //    CLR_OPTINS	varchar	6		True	False		清算经办机构
 //    MDTRT_ID	varchar	30		True	False		就诊ID
 //    INIT_SETL_ID	varchar	30		False	False		原结算ID
