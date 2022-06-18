@@ -1,4 +1,4 @@
-package com.yuansong.dailyHelper.features.tool;
+package com.yuansong.dailyHelper.features.mqreport;
 
 import com.github.deansquirrel.tools.swagger.ISwaggerConfig;
 import org.springframework.context.annotation.Bean;
@@ -10,32 +10,32 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
-@Component("FeaturesToolBean")
-public class FeaturesToolBean {
+@Component("FeatureMQReportBean")
+public class FeatureMQReportBean {
 
     private final ISwaggerConfig swaggerConfig;
 
-    public FeaturesToolBean(ISwaggerConfig swaggerConfig) {
+    public FeatureMQReportBean(ISwaggerConfig swaggerConfig) {
         this.swaggerConfig = swaggerConfig;
     }
 
-    @Bean("FeaturesToolsDocket")
+    @Bean("FeatureMQReportDocket")
     public Docket controller1Apis() {
         Docket docket = new Docket(DocumentationType.SWAGGER_2);
         docket.enable(this.swaggerConfig != null && this.swaggerConfig.getEnable() != null && this.swaggerConfig.getEnable())
                 .apiInfo(this.apiInfo());
 
         return docket
-                .groupName("02Tools")
+                .groupName("03MQReport")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.yuansong.dailyHelper.features.tool"))
+                .apis(RequestHandlerSelectors.basePackage("com.yuansong.dailyHelper.features.mqreport"))
                 .paths(PathSelectors.any()).build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title(this.swaggerConfig == null ? "Tools"
-                        : this.swaggerConfig.getTitle() == null ? "Tools"
+                .title(this.swaggerConfig == null ? "MQReport"
+                        : this.swaggerConfig.getTitle() == null ? "MQReport"
                         : this.swaggerConfig.getTitle())
                 .description(this.swaggerConfig == null ? ""
                         : this.swaggerConfig.getDescription() == null ? ""

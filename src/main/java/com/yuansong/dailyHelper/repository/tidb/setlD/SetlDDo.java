@@ -1,4 +1,4 @@
-package com.yuansong.dailyHelper.repository.tidb.setD;
+package com.yuansong.dailyHelper.repository.tidb.setlD;
 
 import java.math.BigDecimal;
 import java.util.Date;

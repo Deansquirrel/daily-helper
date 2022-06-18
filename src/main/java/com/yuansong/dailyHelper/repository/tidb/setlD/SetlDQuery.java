@@ -1,4 +1,4 @@
-package com.yuansong.dailyHelper.repository.tidb.setD;
+package com.yuansong.dailyHelper.repository.tidb.setlD;
 
 public class SetlDQuery {
     private String setlId;
