@@ -26,8 +26,8 @@
       "description": "Description for conn.tidb-one."
     },
     {
-      "name": "conn.tidb_two",
+      "name": "conn.tidb-two",
       "type": "java.lang.String",
-      "description": "Description for conn.tidb_two."
+      "description": "Description for conn.tidb-two."
     }
   ] }
