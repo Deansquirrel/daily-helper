@@ -10,7 +10,7 @@ public class M01DataMapper implements IDataMapper<M01Do> {
     @Override
     public List<String> getTitleList() {
         List<String> list = new ArrayList<>();
-        list.add("参保区划");
+        list.add("区划");
         list.add("人数");
         return list;
     }
