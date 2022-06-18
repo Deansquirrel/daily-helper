@@ -45,4 +45,5 @@ db/
 *.db
 
 application-dev.yml
+/export
 
