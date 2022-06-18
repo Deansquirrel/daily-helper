@@ -1,18 +1,12 @@
 package com.yuansong.dailyHelper.global.runner;
 
-import com.github.deansquirrel.tools.common.CommonTool;
-import com.github.deansquirrel.tools.common.DateTool;
+import com.github.deansquirrel.tools.db.IToolsDbHelper;
 import com.yuansong.dailyHelper.config.AppConfig;
 import com.yuansong.dailyHelper.repository.IRepTiDbOne;
-import com.yuansong.dailyHelper.repository.tidb.setlD.SetlDDo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.text.MessageFormat;
-import java.util.List;
 
 @Component
 public class TRunner implements CommandLineRunner {
@@ -23,9 +17,12 @@ public class TRunner implements CommandLineRunner {
 
     private final IRepTiDbOne repTiDbOne;
 
-    public TRunner(AppConfig appConfig, IRepTiDbOne repTiDbOne) {
+    private final IToolsDbHelper toolsDbHelper;
+
+    public TRunner(AppConfig appConfig, IRepTiDbOne repTiDbOne, IToolsDbHelper toolsDbHelper) {
         this.appConfig = appConfig;
         this.repTiDbOne = repTiDbOne;
+        this.toolsDbHelper = toolsDbHelper;
     }
 
     @Override
@@ -44,6 +41,7 @@ public class TRunner implements CommandLineRunner {
 //                    d.getMedfeeSumamt()
 //                    ));
 //        }
+
         logger.debug("========================== TRunner End ==================================");
     }
 }

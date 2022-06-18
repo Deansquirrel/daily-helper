@@ -59,21 +59,16 @@ public class M01Rep {
     }
 
     public List<M01Do> getList(M01Query query) {
-        logger.debug(DateTool.GetDateTimeStr(query.getMonth()));
         Calendar cal1 = Calendar.getInstance();
         cal1.setTimeInMillis(query.getMonth().getTime());
         cal1.add(Calendar.MONTH,-5);
-        logger.debug(DateTool.GetDateTimeStr(cal1.getTime()));
         Calendar cal2 = Calendar.getInstance();
         cal2.setTimeInMillis(query.getMonth().getTime());
         cal2.add(Calendar.MONTH, 1);
-        logger.debug(DateTool.GetDateTimeStr(cal2.getTime()));
-
         return jdbcTemplate.query(SQL_QUERY,
                 new M01RowMapper(),
                 DateTool.GetStr(cal1.getTime(),"yyyyMM"),
                 DateTool.GetDateStr(cal2.getTime()));
-//        return null;
     }
 
 }

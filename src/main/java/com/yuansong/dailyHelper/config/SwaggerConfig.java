@@ -19,7 +19,7 @@ public class SwaggerConfig implements ISwaggerConfig {
 
     @Override
     public String getTitle() {
-        return "DService";
+        return "DailyHelper";
     }
 
     @Override
@@ -34,6 +34,6 @@ public class SwaggerConfig implements ISwaggerConfig {
 
     @Override
     public String getBasePackage() {
-        return "com.yuansong.dService.controller";
+        return "com.yuansong.dailyHelper.controller";
     }
 }

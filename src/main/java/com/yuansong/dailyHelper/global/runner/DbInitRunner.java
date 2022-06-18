@@ -47,7 +47,7 @@ public class DbInitRunner implements CommandLineRunner {
 
     private void addMySQLConn(String connName, String connStr) {
         try {
-            mySqlLoadHelper.addMySQLConn(connName, secretService.decrypt(connStr));
+            mySqlLoadHelper.addMySQLConn(connName, secretService.decrypt(connStr),14400,null);
         } catch (Exception e) {
             logger.error(MessageFormat.format("加载数据配置【{0}】时遇到错误",connName));
             logger.error(ExceptionTool.getStackTrace(e));
