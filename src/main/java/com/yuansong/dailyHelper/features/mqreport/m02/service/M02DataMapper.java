@@ -17,9 +17,9 @@ public class M02DataMapper implements IDataMapper<M02Do> {
 
     @Override
     public List<Object> getRowData(M02Do data) {
-        List<Object> listM02 = new ArrayList<>();
-        listM02.add(data.getInsuAdmdvs() == null ? "" : data.getInsuAdmdvs());
-        listM02.add(data.getUrrInsu()  == null ? "" : String.valueOf(data.getUrrInsu()));
-        return listM02;
+        List<Object> list = new ArrayList<>();
+        list.add(data.getInsuAdmdvs() == null ? "" : data.getInsuAdmdvs());
+        list.add(data.getUrrInsu()  == null ? "" : String.valueOf(data.getUrrInsu()));
+        return list;
     }
 }

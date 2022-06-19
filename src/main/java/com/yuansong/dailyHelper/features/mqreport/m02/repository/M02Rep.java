@@ -18,7 +18,7 @@ import java.util.List;
 @Repository
 public class M02Rep {
 
-    private static Logger logger = LoggerFactory.getLogger(M02Rep.class);
+    private static final Logger logger = LoggerFactory.getLogger(M02Rep.class);
 
     private static final String SQL_QUERY = "" +
             "SELECT p.INSU_ADMDVS,COUNT(DISTINCT r.PSN_NO) URR_INSU " +

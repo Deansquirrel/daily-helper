@@ -15,26 +15,7 @@ import java.util.List;
 @Repository
 public class M01Rep {
 
-    private static Logger logger = LoggerFactory.getLogger(M01Rep.class);
-
-//    -- 职工参保
-//    SELECT p.INSU_ADMDVS,COUNT(DISTINCT r.PSN_NO) URR_INSU
-//    FROM
-//    staf_psn_clct_detl_d r
-//    LEFT JOIN psn_insu_d p ON r.PSN_NO = p.PSN_NO
-//    WHERE r.PSN_NO LIKE '13%'
-//            --  and p.PSN_INSU_STAS in (1,2)
-//    and p.PSN_INSU_STAS in (1)
-//    and p.INSUTYPE = '310'
-//    and r.INSUTYPE = '310'
-//    and p.INSU_ADMDVS like '1311%'
-//    and r.CLCT_TYPE = 10
-//    and r.CLCT_FLAG = 1
-//    and ACCRYM_END >= '202112'
-//    and CLCT_TIME < '2022-06-01'
-//    and REVS_FLAG = 'Z'
-//    GROUP BY p.INSU_ADMDVS
-//    order by p.INSU_ADMDVS;
+    private static final Logger logger = LoggerFactory.getLogger(M01Rep.class);
 
     private static final String SQL_QUERY = "" +
             "SELECT p.INSU_ADMDVS,COUNT(DISTINCT r.PSN_NO) URR_INSU " +

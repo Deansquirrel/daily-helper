@@ -42,4 +42,11 @@ public class MQReportController {
         mqReportService.getM02File(null);
         return Response.makeOKResp();
     }
+
+    @ApiOperation(value="职工待遇")
+    @RequestMapping(value="/m03",method = RequestMethod.GET)
+    public ResponseResult<?> getM03Data() {
+        mqReportService.getM03File(null);
+        return Response.makeOKResp();
+    }
 }

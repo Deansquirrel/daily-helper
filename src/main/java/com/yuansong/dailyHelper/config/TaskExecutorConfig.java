@@ -22,6 +22,8 @@ public class TaskExecutorConfig {
         threadPoolTaskExecutor.setThreadNamePrefix(DHConstant.TASK_EXECUTOR+"-");
         threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         threadPoolTaskExecutor.initialize();
+        threadPoolTaskExecutor.setAllowCoreThreadTimeOut(true);
+        threadPoolTaskExecutor.setKeepAliveSeconds(5*60);
         return threadPoolTaskExecutor;
     }
 }
