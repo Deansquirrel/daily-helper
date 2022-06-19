@@ -47,12 +47,6 @@ public class M01Rep {
         String clctTime = DateTool.GetDateStr(cal.getTime());
         cal.add(Calendar.MONTH,-6);
         String accrymEnd = DateTool.GetStr(cal.getTime(), "yyyyMM");
-//        Calendar cal1 = Calendar.getInstance();
-//        cal1.setTimeInMillis(query.getMonth().getTime());
-//        cal1.add(Calendar.MONTH,-5);
-//        Calendar cal2 = Calendar.getInstance();
-//        cal2.setTimeInMillis(query.getMonth().getTime());
-//        cal2.add(Calendar.MONTH, 1);
         logger.debug(MessageFormat.format("M01 SQL {0} {1} {2}",SQL_QUERY, accrymEnd, clctTime));
         return jdbcTemplate.query(SQL_QUERY,
                 new M01RowMapper(),

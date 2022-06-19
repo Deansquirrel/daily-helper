@@ -1,6 +1,5 @@
 package com.yuansong.dailyHelper.features.mqreport;
 
-import com.yuansong.dailyHelper.features.mqreport.m01.service.M01Service;
 import com.yuansong.dailyHelper.util.io.Response;
 import com.yuansong.dailyHelper.util.io.ResponseResult;
 import io.swagger.annotations.Api;
@@ -8,8 +7,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @Api(tags={"MQReport"})
@@ -54,6 +51,13 @@ public class MQReportController {
     @RequestMapping(value="/m04",method = RequestMethod.GET)
     public ResponseResult<?> getM04Data() {
         mqReportService.getM04File(null);
+        return Response.makeOKResp();
+    }
+
+    @ApiOperation(value="生育")
+    @RequestMapping(value="/m05",method = RequestMethod.GET)
+    public ResponseResult<?> getM05Data() {
+        mqReportService.getM05File(null);
         return Response.makeOKResp();
     }
 }
