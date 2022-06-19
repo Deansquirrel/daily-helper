@@ -10,6 +10,8 @@ import com.yuansong.dailyHelper.features.mqreport.m02.repository.M02Do;
 import com.yuansong.dailyHelper.features.mqreport.m02.service.M02Service;
 import com.yuansong.dailyHelper.features.mqreport.m03.repository.M03Do;
 import com.yuansong.dailyHelper.features.mqreport.m03.service.M03Service;
+import com.yuansong.dailyHelper.features.mqreport.m04.repository.M04Do;
+import com.yuansong.dailyHelper.features.mqreport.m04.service.M04Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.io.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -31,11 +33,13 @@ public class MQReportService {
     private final M01Service m01Service;        //职工参保
     private final M02Service m02Service;        //居民参保
     private final M03Service m03Service;        //职工待遇
+    private final M04Service m04Service;        //职工待遇
 
-    public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service) {
+    public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service, M04Service m04Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
+        this.m04Service = m04Service;
     }
 
     private String getExportFileName() {
@@ -133,6 +137,25 @@ public class MQReportService {
             }
         }
         this.saveFile(m03Service.getExportFileName(), m03Service.getMDataTable(m03Data),"M03");
+        flag = false;
+        List<M04Do> m04Data = null;
+        while(!flag){
+            taskId = CommonTool.UUID().replace("-", "");
+            try{
+                logger.debug(taskId + " 开始查询M04月报数据");
+                m04Data = m04Service.getMData(queryMonth);
+                list.add(m04Service.getMDataTable(m04Data));
+                logger.debug(taskId + " 查询M04月报数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(m04Service.getExportFileName(), m04Service.getMDataTable(m04Data),"M03");
         this.saveFile(this.getExportFileName(), list, "AllM月报");
     }
 
@@ -207,6 +230,29 @@ public class MQReportService {
             }
         }
         this.saveFile(m03Service.getExportFileName(), m03Service.getMDataTable(mData), "M03月报");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getM04File(Date queryMonth) {
+        boolean flag = false;
+        List<M04Do> mData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出M04月报数据");
+                logger.debug(taskId + " 开始查询M04月报数据");
+                mData = m04Service.getMData(queryMonth);
+                logger.debug(taskId + " 查询M04月报数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(m04Service.getExportFileName(), m04Service.getMDataTable(mData), "M03月报");
     }
 
 }

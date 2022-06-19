@@ -53,16 +53,11 @@ public class FileUtil {
 
     public synchronized static String getNextStr() {
         String s = getStr();
-        if(!s.equals(lastTimeStr)) {
-            lastTimeStr = s;
-            return s;
+        while(s.equals(lastTimeStr)) {
+            s = getStr();
         }
-        long t = System.currentTimeMillis();
-        long u = System.currentTimeMillis();
-        while(t-u<1000) {
-            t = System.currentTimeMillis();
-        }
-        return getStr();
+        lastTimeStr = s;
+        return lastTimeStr;
     }
 
     private static String getStr() {
