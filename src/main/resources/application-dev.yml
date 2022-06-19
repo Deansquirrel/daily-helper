@@ -1,0 +1,7 @@
+server:
+  port: 8090
+appConfig:
+  swagger: true
+conn:
+  tidb-one: "DCYGCi6ds5wPMqV6oCpswEBLwAwOJgQIDCQDDQklAg4IZ1FWUmBQU0BjQFcQdlpVQSQHCQ5vfHZMckdAB1pebUNeeE1dZU0Acn1iR1dEcHleYEFhUkI="
+  tidb-two: 'DCYGCi6ds5wPMqV6oCpswEBLwAwOJgQIDCQDDQklAg4IZ1FWUmBQU0BjQFcQdlpVQSQHCQ5vfHZMckdAB1pebUNeeE1dZU0Acn1iR1dEcHleYEFhUkI='

@@ -17,9 +17,9 @@ public class M01DataMapper implements IDataMapper<M01Do> {
 
     @Override
     public List<Object> getRowData(M01Do data) {
-        List<Object> list = new ArrayList<>();
-        list.add(data.getInsuAdmdvs() == null ? "" : data.getInsuAdmdvs());
-        list.add(data.getUrrInsu()  == null ? "" : String.valueOf(data.getUrrInsu()));
-        return list;
+        List<Object> listM01 = new ArrayList<>();
+        listM01.add(data.getInsuAdmdvs() == null ? "" : data.getInsuAdmdvs());
+        listM01.add(data.getUrrInsu()  == null ? "" : String.valueOf(data.getUrrInsu()));
+        return listM01;
     }
 }

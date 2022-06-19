@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -59,16 +60,22 @@ public class M01Rep {
     }
 
     public List<M01Do> getList(M01Query query) {
-        Calendar cal1 = Calendar.getInstance();
-        cal1.setTimeInMillis(query.getMonth().getTime());
-        cal1.add(Calendar.MONTH,-5);
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTimeInMillis(query.getMonth().getTime());
-        cal2.add(Calendar.MONTH, 1);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(query.getMonth().getTime());
+        cal.add(Calendar.MONTH, 1);
+        String clctTime = DateTool.GetDateStr(cal.getTime());
+        cal.add(Calendar.MONTH,-6);
+        String accrymEnd = DateTool.GetStr(cal.getTime(), "yyyyMM");
+//        Calendar cal1 = Calendar.getInstance();
+//        cal1.setTimeInMillis(query.getMonth().getTime());
+//        cal1.add(Calendar.MONTH,-5);
+//        Calendar cal2 = Calendar.getInstance();
+//        cal2.setTimeInMillis(query.getMonth().getTime());
+//        cal2.add(Calendar.MONTH, 1);
+        logger.debug(MessageFormat.format("M01 SQL {0} {1} {2}",SQL_QUERY, accrymEnd, clctTime));
         return jdbcTemplate.query(SQL_QUERY,
                 new M01RowMapper(),
-                DateTool.GetStr(cal1.getTime(),"yyyyMM"),
-                DateTool.GetDateStr(cal2.getTime()));
+                accrymEnd, clctTime);
     }
 
 }
