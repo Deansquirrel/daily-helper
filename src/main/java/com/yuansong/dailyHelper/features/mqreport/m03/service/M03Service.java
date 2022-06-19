@@ -25,7 +25,7 @@ public class M03Service {
         this.m03RepService = m03RepService;
     }
 
-    public List<M03Do> getM03Data(Date queryMonth) {
+    public List<M03Do> getMData(Date queryMonth) {
         if(queryMonth == null) {
             queryMonth = this.getDefaultQueryMonth();
         }
@@ -36,7 +36,7 @@ public class M03Service {
         return FileUtil.getNextStr() + "职工待遇.xlsx";
     }
 
-    public XSSFWorkTable getM03DataTable(List<M03Do> list) {
+    public XSSFWorkTable getMDataTable(List<M03Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }

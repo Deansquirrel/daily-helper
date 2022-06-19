@@ -4,8 +4,11 @@ import com.github.deansquirrel.tools.common.CommonTool;
 import com.github.deansquirrel.tools.common.ExceptionTool;
 import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
 import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.yuansong.dailyHelper.features.mqreport.m01.repository.M01Do;
 import com.yuansong.dailyHelper.features.mqreport.m01.service.M01Service;
+import com.yuansong.dailyHelper.features.mqreport.m02.repository.M02Do;
 import com.yuansong.dailyHelper.features.mqreport.m02.service.M02Service;
+import com.yuansong.dailyHelper.features.mqreport.m03.repository.M03Do;
 import com.yuansong.dailyHelper.features.mqreport.m03.service.M03Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.io.FileUtil;
@@ -15,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,71 +42,24 @@ public class MQReportService {
         return FileUtil.getNextStr() + "月报.xlsx";
     }
 
-    @Async(DHConstant.TASK_EXECUTOR)
-    public void getAllMFile(Date queryMonth) {
-        String taskId = "";
-        logger.debug(taskId + "开始导出全部月报数据");
-        boolean flag = false;
+    private void saveFile(String fileName, XSSFWorkTable table, String logKey) {
         List<XSSFWorkTable> list = new ArrayList<>();
-        while(!flag) {
-            taskId = CommonTool.UUID().replace("-", "");
+        list.add(table);
+        this.saveFile(fileName, list, logKey);
+    }
+
+    //保存文件
+    private void saveFile(String fileName, List<XSSFWorkTable> list, String logKey) {
+        String taskId = CommonTool.UUID().replace("-", "");
+        boolean flag = false;
+        while (!flag) {
             try {
-                logger.debug(taskId + "开始查询M01月报数据");
-                list.add(m01Service.getM01DataTable(m01Service.getM01Data(null)));
-                logger.debug(taskId + "查询M01月报数据完成");
-                flag = true;
-            }catch (Exception e) {
-                logger.debug(ExceptionTool.getStackTrace(e));
-                try {
-                    Thread.sleep(60 * 1000L);
-                } catch (InterruptedException ignored) {
-                }
-            }
-        }
-        flag = false;
-        while(!flag){
-            taskId = CommonTool.UUID().replace("-", "");
-            try{
-                logger.debug(taskId + "开始查询M02月报数据");
-                list.add(m02Service.getM02DataTable(m02Service.getM02Data(null)));
-                logger.debug(taskId + "查询M02月报数据完成");
-                flag = true;
-            }catch (Exception e) {
-                logger.debug(ExceptionTool.getStackTrace(e));
-                try {
-                    Thread.sleep(60 * 1000L);
-                } catch (InterruptedException ignored) {
-                }
-            }
-        }
-        flag = false;
-        while(!flag){
-            taskId = CommonTool.UUID().replace("-", "");
-            try{
-                logger.debug(taskId + "开始查询M03月报数据");
-                list.add(m03Service.getM03DataTable(m03Service.getM03Data(null)));
-                logger.debug(taskId + "查询M03月报数据完成");
-                flag = true;
-            }catch (Exception e) {
-                logger.debug(ExceptionTool.getStackTrace(e));
-                try {
-                    Thread.sleep(60 * 1000L);
-                } catch (InterruptedException ignored) {
-                }
-            }
-        }
-        flag = false;
-        while(!flag) {
-            taskId = CommonTool.UUID().replace("-", "");
-            try{
-                logger.debug(taskId + "开始生成AllM月报数据文件");
+                logger.debug(MessageFormat.format("{0} 开始生成{1}数据文件", taskId, logKey));
                 XSSFWorkbook f = XSSFWorkBookTool.getXSSFWorkBook(list);
-                logger.debug(taskId + "生成AllM月报数据文件完成");
-                logger.debug(taskId + "开始保存AllM月报数据文件");
-                String fileName = this.getExportFileName();
-                logger.debug(fileName);
+                logger.debug(MessageFormat.format("{0} 生成{1}数据文件完成", taskId, logKey));
+                logger.debug(MessageFormat.format("{0} 开始{1}保存数据文件", taskId, logKey));
                 FileUtil.saveXSSFWorkbook(fileName, f);
-                logger.debug(taskId + "保存AllM月报数据文件完成");
+                logger.debug(MessageFormat.format("{0} 保存{1}数据文件完成", taskId, logKey));
                 flag = true;
             } catch (Exception e) {
                 logger.debug(ExceptionTool.getStackTrace(e));
@@ -112,6 +69,71 @@ public class MQReportService {
                 }
             }
         }
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getAllMFile(Date queryMonth) {
+        String taskId = "";
+        logger.debug(taskId + "开始导出全部月报数据");
+        boolean flag = false;
+        List<XSSFWorkTable> list = new ArrayList<>();
+        List<M01Do> m01Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询M01月报数据");
+                m01Data = m01Service.getMData(queryMonth);
+                list.add(m01Service.getMDataTable(m01Data));
+                logger.debug(taskId + " 查询M01月报数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(m01Service.getExportFileName(), m01Service.getMDataTable(m01Data),"M01");
+        flag = false;
+        List<M02Do> m02Data = null;
+        while(!flag){
+            taskId = CommonTool.UUID().replace("-", "");
+            try{
+                logger.debug(taskId + " 开始查询M02月报数据");
+                m02Data = m02Service.getMData(queryMonth);
+                list.add(m02Service.getMDataTable(m02Data));
+                logger.debug(taskId + " 查询M02月报数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(m02Service.getExportFileName(), m02Service.getMDataTable(m02Data),"M02");
+        flag = false;
+        List<M03Do> m03Data = null;
+        while(!flag){
+            taskId = CommonTool.UUID().replace("-", "");
+            try{
+                logger.debug(taskId + " 开始查询M03月报数据");
+                m03Data = m03Service.getMData(queryMonth);
+                list.add(m03Service.getMDataTable(m03Data));
+                logger.debug(taskId + " 查询M03月报数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(m03Service.getExportFileName(), m03Service.getMDataTable(m03Data),"M03");
+        this.saveFile(this.getExportFileName(), list, "AllM月报");
     }
 
     /**
@@ -121,14 +143,14 @@ public class MQReportService {
     @Async(DHConstant.TASK_EXECUTOR)
     public void getM01File(Date queryMonth) {
         boolean flag = false;
-        List<XSSFWorkTable> list = new ArrayList<>();
+        List<M01Do> mData = null;
         while(!flag) {
             String taskId = CommonTool.UUID().replace("-", "");
             try {
-                logger.debug(taskId + "开始导出M01月报数据");
-                logger.debug(taskId + "开始查询M01月报数据");
-                list.add(m01Service.getM01DataTable(m01Service.getM01Data(null)));
-                logger.debug(taskId + "查询M01月报数据完成");
+                logger.debug(taskId + " 开始导出M01月报数据");
+                logger.debug(taskId + " 开始查询M01月报数据");
+                mData =  m01Service.getMData(queryMonth);
+                logger.debug(taskId + " 查询M01月报数据完成");
                 flag = true;
             } catch (Exception e) {
                 logger.debug(ExceptionTool.getStackTrace(e));
@@ -138,40 +160,20 @@ public class MQReportService {
                 }
             }
         }
-        flag = false;
-        while(!flag) {
-            String taskId = CommonTool.UUID().replace("-", "");
-            try{
-                logger.debug(taskId + "开始生成M01月报数据文件");
-                XSSFWorkbook f = XSSFWorkBookTool.getXSSFWorkBook(list);
-                logger.debug(taskId + "生成M01月报数据文件完成");
-                logger.debug(taskId + "开始保存M01月报数据文件");
-                String fileName = m01Service.getExportFileName();
-                logger.debug(fileName);
-                FileUtil.saveXSSFWorkbook(fileName, f);
-                logger.debug(taskId + "保存M01月报数据文件完成");
-                flag = true;
-            } catch (Exception e) {
-                logger.debug(ExceptionTool.getStackTrace(e));
-                try {
-                    Thread.sleep(60 * 1000L);
-                } catch (InterruptedException ignored) {
-                }
-            }
-        }
+        this.saveFile(m01Service.getExportFileName(), m01Service.getMDataTable(mData), "M01月报");
     }
 
     @Async(DHConstant.TASK_EXECUTOR)
     public void getM02File(Date queryMonth) {
         boolean flag = false;
-        List<XSSFWorkTable> list = new ArrayList<>();
+        List<M02Do> mData = null;
         while(!flag) {
             String taskId = CommonTool.UUID().replace("-", "");
             try {
-                logger.debug(taskId + "开始导出M02月报数据");
-                logger.debug(taskId + "开始查询M02月报数据");
-                list.add(m02Service.getM02DataTable(m02Service.getM02Data(null)));
-                logger.debug(taskId + "查询M02月报数据完成");
+                logger.debug(taskId + " 开始导出M02月报数据");
+                logger.debug(taskId + " 开始查询M02月报数据");
+                mData =  m02Service.getMData(queryMonth);
+                logger.debug(taskId + " 查询M02月报数据完成");
                 flag = true;
             } catch (Exception e) {
                 logger.debug(ExceptionTool.getStackTrace(e));
@@ -181,40 +183,20 @@ public class MQReportService {
                 }
             }
         }
-        flag = false;
-        while(!flag) {
-            String taskId = CommonTool.UUID().replace("-", "");
-            try{
-                logger.debug(taskId + "开始生成M02月报数据文件");
-                XSSFWorkbook f = XSSFWorkBookTool.getXSSFWorkBook(list);
-                logger.debug(taskId + "生成M02月报数据文件完成");
-                logger.debug(taskId + "开始保存M02月报数据文件");
-                String fileName = m02Service.getExportFileName();
-                logger.debug(fileName);
-                FileUtil.saveXSSFWorkbook(fileName, f);
-                logger.debug(taskId + "保存M02月报数据文件完成");
-                flag = true;
-            } catch (Exception e) {
-                logger.debug(ExceptionTool.getStackTrace(e));
-                try {
-                    Thread.sleep(60 * 1000L);
-                } catch (InterruptedException ignored) {
-                }
-            }
-        }
+        this.saveFile(m02Service.getExportFileName(), m02Service.getMDataTable(mData), "M02月报");
     }
 
     @Async(DHConstant.TASK_EXECUTOR)
     public void getM03File(Date queryMonth) {
         boolean flag = false;
-        List<XSSFWorkTable> list = new ArrayList<>();
+        List<M03Do> mData = null;
         while(!flag) {
             String taskId = CommonTool.UUID().replace("-", "");
             try {
-                logger.debug(taskId + "开始导出M03月报数据");
-                logger.debug(taskId + "开始查询M03月报数据");
-                list.add(m03Service.getM03DataTable(m03Service.getM03Data(null)));
-                logger.debug(taskId + "查询M03月报数据完成");
+                logger.debug(taskId + " 开始导出M03月报数据");
+                logger.debug(taskId + " 开始查询M03月报数据");
+                mData = m03Service.getMData(queryMonth);
+                logger.debug(taskId + " 查询M03月报数据完成");
                 flag = true;
             } catch (Exception e) {
                 logger.debug(ExceptionTool.getStackTrace(e));
@@ -224,27 +206,7 @@ public class MQReportService {
                 }
             }
         }
-        flag = false;
-        while(!flag) {
-            String taskId = CommonTool.UUID().replace("-", "");
-            try{
-                logger.debug(taskId + "开始生成M03月报数据文件");
-                XSSFWorkbook f = XSSFWorkBookTool.getXSSFWorkBook(list);
-                logger.debug(taskId + "生成M03月报数据文件完成");
-                logger.debug(taskId + "开始保存M03月报数据文件");
-                String fileName = m03Service.getExportFileName();
-                logger.debug(fileName);
-                FileUtil.saveXSSFWorkbook(fileName, f);
-                logger.debug(taskId + "保存M03月报数据文件完成");
-                flag = true;
-            } catch (Exception e) {
-                logger.debug(ExceptionTool.getStackTrace(e));
-                try {
-                    Thread.sleep(60 * 1000L);
-                } catch (InterruptedException ignored) {
-                }
-            }
-        }
+        this.saveFile(m03Service.getExportFileName(), m03Service.getMDataTable(mData), "M03月报");
     }
 
 }

@@ -21,7 +21,7 @@ public class M01Service {
         this.m01RepService = m01RepService;
     }
 
-    public List<M01Do> getM01Data(Date queryMonth) {
+    public List<M01Do> getMData(Date queryMonth) {
         if(queryMonth == null) {
             queryMonth = this.getDefaultQueryMonth();
         }
@@ -32,7 +32,7 @@ public class M01Service {
         return FileUtil.getNextStr() + "职工参保.xlsx";
     }
 
-    public XSSFWorkTable getM01DataTable(List<M01Do> list) {
+    public XSSFWorkTable getMDataTable(List<M01Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
