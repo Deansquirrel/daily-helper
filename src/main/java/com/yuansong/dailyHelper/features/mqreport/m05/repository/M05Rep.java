@@ -22,7 +22,7 @@ public class M05Rep {
     private static final Logger logger = LoggerFactory.getLogger(M05Rep.class);
 
     private static final String SQL_QUERY_A = "" +
-            "SELECT p.INSU_ADMDVS,COUNT(DISTINCT r.PSN_NO) A01 " +
+            "SELECT p.INSU_ADMDVS,COUNT(DISTINCT r.PSN_NO) `A01`, 0 `B01`, 0 `C01`, 0 `C02`, 0 `D01` " +
             "FROM staf_psn_clct_detl_d r " +
             "LEFT JOIN psn_insu_d p ON r.PSN_NO = p.PSN_NO " +
             "WHERE r.PSN_NO LIKE '13%' " +
@@ -44,7 +44,7 @@ public class M05Rep {
             "GROUP BY p.INSU_ADMDVS " +
             "order by p.INSU_ADMDVS;";
     private static final String SQL_QUERY_B = "" +
-            "select INSU_ADMDVS, count(*) B01 " +
+            "select INSU_ADMDVS, count(*) `B01`,0 `A01`, 0 `C01`, 0 `C02`, 0 `D01` " +
             "from (" +
             "   select PSN_NO,INSU_ADMDVS" +
             "   from setl_d" +
@@ -69,7 +69,7 @@ public class M05Rep {
             "group by INSU_ADMDVS " +
             "order by INSU_ADMDVS;";
     private static final String SQL_QUERY_C = "" +
-            "select INSU_ADMDVS, count(*) C1, count(DISTINCT PSN_NO) C2 " +
+            "select INSU_ADMDVS, count(*) `C01`, count(DISTINCT PSN_NO) `C02`,0 `A01`, 0 `B01`, 0 `D01` " +
             "from ( " +
             "   select PSN_NO,INSU_ADMDVS " +
             "   from setl_d " +
@@ -90,7 +90,7 @@ public class M05Rep {
             "group by INSU_ADMDVS " +
             "order by INSU_ADMDVS;";
     private static final String SQL_QUERY_D = "" +
-            "select INSU_ADMDVS,count(*) D1 " +
+            "select INSU_ADMDVS,count(*) `D01`,0 `A01`, 0 `B01`, 0 `C01`, 0 `C02` " +
             "from setl_d " +
             "where 1=1 " +
             "   and INSU_ADMDVS like '1311%' " +
@@ -122,7 +122,8 @@ public class M05Rep {
         String clctTime = DateTool.GetDateStr(cal.getTime());
         cal.add(Calendar.MONTH,-6);
         String accrymEnd = DateTool.GetStr(cal.getTime(), "yyyyMM");
-        logger.debug(MessageFormat.format("M05_A SQL {0} {1} {2}",SQL_QUERY_A, accrymEnd, clctTime));
+        logger.debug(MessageFormat.format("M05_A SQL {0} {1} {2}",
+                SQL_QUERY_A, accrymEnd, clctTime));
         return jdbcTemplate.query(SQL_QUERY_A,
                 new M05RowMapper(),
                 accrymEnd, clctTime);
@@ -137,6 +138,8 @@ public class M05Rep {
         cal.set(Calendar.MONTH, Calendar.JANUARY);
         String setlTimeMin = DateTool.GetDateTimeStr(cal.getTime());
         String ymMin = DateTool.GetStr(cal.getTime(), "yyyyMM");
+        logger.debug(MessageFormat.format("M05_B SQL {0} {1} {2} {3} {4}",
+                SQL_QUERY_B, setlTimeMin, setlTimeMax, ymMin, ymMax));
         return jdbcTemplate.query(SQL_QUERY_B, new M05RowMapper(),
                 setlTimeMin, setlTimeMax, ymMin, ymMax);
     }
@@ -148,6 +151,8 @@ public class M05Rep {
         String setlTimeMax = DateTool.GetDateTimeStr(cal.getTime());
         cal.set(Calendar.MONTH, Calendar.JANUARY);
         String setlTimeMin = DateTool.GetDateTimeStr(cal.getTime());
+        logger.debug(MessageFormat.format("M05_C SQL {0} {1} {2} ",
+                SQL_QUERY_C, setlTimeMin, setlTimeMax, setlTimeMin, setlTimeMax));
         return jdbcTemplate.query(SQL_QUERY_C, new M05RowMapper(),
                 setlTimeMin, setlTimeMax);
     }
@@ -159,6 +164,8 @@ public class M05Rep {
         String setlTimeMax = DateTool.GetDateTimeStr(cal.getTime());
         cal.set(Calendar.MONTH, Calendar.JANUARY);
         String setlTimeMin = DateTool.GetDateTimeStr(cal.getTime());
+        logger.debug(MessageFormat.format("M05_D SQL {0} {1} {2} ",
+                SQL_QUERY_D, setlTimeMin, setlTimeMax, setlTimeMin, setlTimeMax));
         return jdbcTemplate.query(SQL_QUERY_D, new M05RowMapper(),
                 setlTimeMin, setlTimeMax);
     }
