@@ -48,7 +48,7 @@ public class M07Rep {
         String clctTime = DateTool.GetDateStr(cal.getTime());
         cal.add(Calendar.MONTH,-6);
         String accrymEnd = DateTool.GetStr(cal.getTime(), "yyyyMM");
-        logger.debug(MessageFormat.format("M06 SQL {0} {1} {2}",SQL_QUERY, accrymEnd, clctTime));
+        logger.debug(MessageFormat.format("M07 SQL {0} {1} {2}",SQL_QUERY, accrymEnd, clctTime));
         return jdbcTemplate.query(SQL_QUERY,
                 new M07RowMapper(),
                 accrymEnd, clctTime);
