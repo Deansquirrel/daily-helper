@@ -67,4 +67,11 @@ public class MQReportController {
         mqReportService.getM06File(null);
         return Response.makeOKResp();
     }
+
+    @ApiOperation(value="职工实施统账退休")
+    @RequestMapping(value="/m07",method = RequestMethod.GET)
+    public ResponseResult<?> getM07Data() {
+        mqReportService.getM07File(null);
+        return Response.makeOKResp();
+    }
 }
