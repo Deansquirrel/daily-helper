@@ -22,7 +22,7 @@ public class M05Rep {
     private static final Logger logger = LoggerFactory.getLogger(M05Rep.class);
 
     private static final String SQL_QUERY_A = "" +
-            "SELECT p.INSU_ADMDVS,COUNT(DISTINCT r.PSN_NO) `A01`, 0 `B01`, 0 `C01`, 0 `C02`, 0 `D01` " +
+            "SELECT p.INSU_ADMDVS,COUNT(DISTINCT r.PSN_NO) `A01`, NULL `B01`, NULL `C01`, NULL `C02`, NULL `D01` " +
             "FROM staf_psn_clct_detl_d r " +
             "LEFT JOIN psn_insu_d p ON r.PSN_NO = p.PSN_NO " +
             "WHERE r.PSN_NO LIKE '13%' " +
@@ -44,7 +44,7 @@ public class M05Rep {
             "GROUP BY p.INSU_ADMDVS " +
             "order by p.INSU_ADMDVS;";
     private static final String SQL_QUERY_B = "" +
-            "select INSU_ADMDVS, count(*) `B01`,0 `A01`, 0 `C01`, 0 `C02`, 0 `D01` " +
+            "select INSU_ADMDVS, count(*) `B01`,NULL `A01`, NULL `C01`, NULL `C02`, NULL `D01` " +
             "from (" +
             "   select PSN_NO,INSU_ADMDVS" +
             "   from setl_d" +
@@ -69,7 +69,7 @@ public class M05Rep {
             "group by INSU_ADMDVS " +
             "order by INSU_ADMDVS;";
     private static final String SQL_QUERY_C = "" +
-            "select INSU_ADMDVS, count(*) `C01`, count(DISTINCT PSN_NO) `C02`,0 `A01`, 0 `B01`, 0 `D01` " +
+            "select INSU_ADMDVS, count(*) `C01`, count(DISTINCT PSN_NO) `C02`,NULL `A01`, NULL `B01`, NULL `D01` " +
             "from ( " +
             "   select PSN_NO,INSU_ADMDVS " +
             "   from setl_d " +
@@ -90,7 +90,7 @@ public class M05Rep {
             "group by INSU_ADMDVS " +
             "order by INSU_ADMDVS;";
     private static final String SQL_QUERY_D = "" +
-            "select INSU_ADMDVS,count(*) `D01`,0 `A01`, 0 `B01`, 0 `C01`, 0 `C02` " +
+            "select INSU_ADMDVS,count(*) `D01`,NULL `A01`, NULL `B01`, NULL `C01`, NULL `C02` " +
             "from setl_d " +
             "where 1=1 " +
             "   and INSU_ADMDVS like '1311%' " +

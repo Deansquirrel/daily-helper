@@ -20,7 +20,7 @@ public class MQReportController {
     }
 
     @ApiOperation(value="全部月报")
-    @RequestMapping(value="/all",method = RequestMethod.GET)
+    @RequestMapping(value="/allm",method = RequestMethod.GET)
     public ResponseResult<?> getAllMData() {
         mqReportService.getAllMFile(null);
         return Response.makeOKResp();
@@ -58,6 +58,13 @@ public class MQReportController {
     @RequestMapping(value="/m05",method = RequestMethod.GET)
     public ResponseResult<?> getM05Data() {
         mqReportService.getM05File(null);
+        return Response.makeOKResp();
+    }
+
+    @ApiOperation(value="职工实施统账在职")
+    @RequestMapping(value="/m06",method = RequestMethod.GET)
+    public ResponseResult<?> getM06Data() {
+        mqReportService.getM06File(null);
         return Response.makeOKResp();
     }
 }
