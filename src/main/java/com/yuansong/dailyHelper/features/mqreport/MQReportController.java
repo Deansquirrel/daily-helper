@@ -74,4 +74,18 @@ public class MQReportController {
         mqReportService.getM07File(null);
         return Response.makeOKResp();
     }
+
+    @ApiOperation(value="农民工（进城务工人员参加职工基本医疗保险的人数）")
+    @RequestMapping(value="/m08",method = RequestMethod.GET)
+    public ResponseResult<?> getM08Data() {
+        mqReportService.getM08File(null);
+        return Response.makeOKResp();
+    }
+
+    @ApiOperation(value="一次性缴费")
+    @RequestMapping(value="/m09",method = RequestMethod.GET)
+    public ResponseResult<?> getM09Data() {
+        mqReportService.getM09File(null);
+        return Response.makeOKResp();
+    }
 }
