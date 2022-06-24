@@ -22,6 +22,8 @@ import com.yuansong.dailyHelper.features.mqreport.m08.repository.M08Do;
 import com.yuansong.dailyHelper.features.mqreport.m08.service.M08Service;
 import com.yuansong.dailyHelper.features.mqreport.m09.repository.M09Do;
 import com.yuansong.dailyHelper.features.mqreport.m09.service.M09Service;
+import com.yuansong.dailyHelper.features.mqreport.q01.repository.Q01Do;
+import com.yuansong.dailyHelper.features.mqreport.q01.service.Q01Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.io.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -50,15 +52,12 @@ public class MQReportService {
     private final M08Service m08Service;        //农民工（进城务工人员参加职工基本医疗保险的人数）
     private final M09Service m09Service;        //一次性缴费
 
-    public MQReportService(M01Service m01Service,
-                           M02Service m02Service,
-                           M03Service m03Service,
-                           M04Service m04Service,
-                           M05Service m05Service,
-                           M06Service m06Service,
-                           M07Service m07Service,
-                           M08Service m08Service,
-                           M09Service m09Service) {
+    private final Q01Service q01Service;        //HI2参保人数
+
+    public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service,
+                           M04Service m04Service, M05Service m05Service, M06Service m06Service,
+                           M07Service m07Service, M08Service m08Service, M09Service m09Service,
+                           Q01Service q01Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
@@ -68,10 +67,14 @@ public class MQReportService {
         this.m07Service = m07Service;
         this.m08Service = m08Service;
         this.m09Service = m09Service;
+        this.q01Service = q01Service;
     }
 
-    private String getExportFileName() {
+    private String getMExportFileName() {
         return FileUtil.getNextStr() + "月报.xlsx";
+    }
+    private String getQExportFileName() {
+        return FileUtil.getNextStr() + "季报.xlsx";
     }
 
     private void saveFile(String fileName, XSSFWorkTable table, String logKey) {
@@ -101,6 +104,33 @@ public class MQReportService {
                 }
             }
         }
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getAllQFile(Date queryMonth) {
+        String taskId = "";
+        logger.debug(taskId + "开始导出全部季报数据");
+        boolean flag = false;
+        List<XSSFWorkTable> list = new ArrayList<>();
+        List<Q01Do> q01Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询Q01数据");
+                q01Data = q01Service.getQData(queryMonth);
+                list.add(q01Service.getQDataTable(q01Data));
+                logger.debug(taskId + " 查询Q01数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q01Service.getExportFileName(), q01Service.getQDataTable(q01Data),"M01");
+        this.saveFile(this.getQExportFileName(), list, "AllQ季报");
     }
 
     @Async(DHConstant.TASK_EXECUTOR)
@@ -279,7 +309,30 @@ public class MQReportService {
             }
         }
         this.saveFile(m09Service.getExportFileName(), m09Service.getMDataTable(m09Data),"M09");
-        this.saveFile(this.getExportFileName(), list, "AllM月报");
+        this.saveFile(this.getMExportFileName(), list, "AllM月报");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getQ01File(Date queryMonth) {
+        boolean flag = false;
+        List<Q01Do> qData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出Q01数据");
+                logger.debug(taskId + " 开始查询Q01数据");
+                qData =  q01Service.getQData(queryMonth);
+                logger.debug(taskId + " 查询Q01数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q01Service.getExportFileName(), q01Service.getQDataTable(qData), "Q01");
     }
 
     /**

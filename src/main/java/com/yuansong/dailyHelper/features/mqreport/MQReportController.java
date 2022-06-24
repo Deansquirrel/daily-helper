@@ -26,6 +26,20 @@ public class MQReportController {
         return Response.makeOKResp();
     }
 
+    @ApiOperation(value="全部季报")
+    @RequestMapping(value="/allq",method = RequestMethod.GET)
+    public ResponseResult<?> getAllQData() {
+        mqReportService.getAllQFile(null);
+        return Response.makeOKResp();
+    }
+
+    @ApiOperation(value="HI2参保人数")
+    @RequestMapping(value="/q01",method = RequestMethod.GET)
+    public ResponseResult<?> getQ01Data() {
+        mqReportService.getQ01File(null);
+        return Response.makeOKResp();
+    }
+
     @ApiOperation(value="职工参保")
     @RequestMapping(value="/m01",method = RequestMethod.GET)
     public ResponseResult<?> getM01Data() {
