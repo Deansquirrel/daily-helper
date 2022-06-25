@@ -23,7 +23,7 @@ public class Q04Rep {
             "   sum(MEDFEE_SUMAMT) MEDFEE_SUMAMT, sum(hifp_pay) hifp_pay," +
             "   sum(other_pay) other_pay, sum(self_pay) self_pay, sum(ACCT_PAY) ACCT_PAY," +
             "   (sum(MEDFEE_SUMAMT) - sum(hifp_pay) - sum(other_pay) - sum(self_pay)) zifu," +
-            "   if(sum(ACCT_PAY) - self_pay > 0, sum(ACCT_PAY) - self_pay, 0) FULAMT_OWNPAY_AMT," +
+            "   sum(if(ACCT_PAY - self_pay > 0, ACCT_PAY - self_pay, 0)) FULAMT_OWNPAY_AMT," +
             "   count(*) T_COUNT " +
             "from ( " +
             "   select INSU_ADMDVS, " +
