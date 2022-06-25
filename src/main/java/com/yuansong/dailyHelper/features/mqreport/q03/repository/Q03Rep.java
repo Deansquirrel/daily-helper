@@ -31,6 +31,7 @@ public class Q03Rep {
 //            "   AND a.psn_no = b.psn_no " +
             "   AND a.PSN_INSU_RLTS_ID = b.PSN_INSU_RLTS_ID " +
             "   AND b.INSU_ADMDVS LIKE '1311%' " +
+            "   and a.POOLAREA_NO like '1311%' " +
             "GROUP BY b.INSU_ADMDVS " +
             "ORDER BY b.INSU_ADMDVS;";
 
