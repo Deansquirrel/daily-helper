@@ -61,6 +61,13 @@ public class MQReportController {
         return Response.makeOKResp();
     }
 
+    @ApiOperation(value="HI4普通门诊-普通门诊医疗级别")
+    @RequestMapping(value="/q05",method = RequestMethod.GET)
+    public ResponseResult<?> getQ05Data() {
+        mqReportService.getQ05File(null);
+        return Response.makeOKResp();
+    }
+
     @ApiOperation(value="职工参保")
     @RequestMapping(value="/m01",method = RequestMethod.GET)
     public ResponseResult<?> getM01Data() {
