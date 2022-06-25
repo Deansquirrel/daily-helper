@@ -20,14 +20,15 @@ public class Q03Rep {
 
     private static final String SQL_QUERY = "" +
             "SELECT b.INSU_ADMDVS, sum( CLCT_SUMAMT ) CLCT_SUMAMT " +
-            "FROM staf_psn_clct_detl_d a force INDEX (psn_no), psn_insu_d b " +
+//            "FROM staf_psn_clct_detl_d a force INDEX (psn_no), psn_insu_d b " +
+            "FROM staf_psn_clct_detl_d a, psn_insu_d b " +
             "WHERE a.insutype = '310' " +
             "   AND revs_flag = 'Z' " +
             "   AND clct_flag = '1' " +
             "   AND ( CLCT_TIME >= ? AND CLCT_TIME < ? ) " +
             "   AND CLCT_TYPE IN ( '32', '33' ) " +
             "   AND b.INSUTYPE = '310' " +
-            "   AND a.psn_no = b.psn_no " +
+//            "   AND a.psn_no = b.psn_no " +
             "   AND a.PSN_INSU_RLTS_ID = b.PSN_INSU_RLTS_ID " +
             "   AND b.INSU_ADMDVS LIKE '1311%' " +
             "GROUP BY b.INSU_ADMDVS " +
