@@ -28,6 +28,8 @@ import com.yuansong.dailyHelper.features.mqreport.q02.repository.Q02Do;
 import com.yuansong.dailyHelper.features.mqreport.q02.service.Q02Service;
 import com.yuansong.dailyHelper.features.mqreport.q03.repository.Q03Do;
 import com.yuansong.dailyHelper.features.mqreport.q03.service.Q03Service;
+import com.yuansong.dailyHelper.features.mqreport.q04.repository.Q04Do;
+import com.yuansong.dailyHelper.features.mqreport.q04.service.Q04Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.io.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -59,11 +61,12 @@ public class MQReportService {
     private final Q01Service q01Service;        //HI2参保人数
     private final Q02Service q02Service;        //HI3保险费征缴情况
     private final Q03Service q03Service;        //HI3一次性缴费
+    private final Q04Service q04Service;        //HI4普通门诊-普通门诊在职退休
 
     public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service,
                            M04Service m04Service, M05Service m05Service, M06Service m06Service,
                            M07Service m07Service, M08Service m08Service, M09Service m09Service,
-                           Q01Service q01Service, Q02Service q02Service, Q03Service q03Service) {
+                           Q01Service q01Service, Q02Service q02Service, Q03Service q03Service, Q04Service q04Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
@@ -76,6 +79,7 @@ public class MQReportService {
         this.q01Service = q01Service;
         this.q02Service = q02Service;
         this.q03Service = q03Service;
+        this.q04Service = q04Service;
     }
 
     private String getMExportFileName() {
@@ -176,6 +180,25 @@ public class MQReportService {
             }
         }
         this.saveFile(q03Service.getExportFileName(), q03Service.getQDataTable(q03Data),"Q03");
+        flag = false;
+        List<Q04Do> q04Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询Q04数据");
+                q04Data = q04Service.getQData(queryMonth);
+                list.add(q04Service.getQDataTable(q04Data));
+                logger.debug(taskId + " 查询Q04数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q04Service.getExportFileName(), q04Service.getQDataTable(q04Data),"Q04");
         this.saveFile(this.getQExportFileName(), list, "AllQ季报");
     }
 
@@ -424,6 +447,29 @@ public class MQReportService {
             }
         }
         this.saveFile(q03Service.getExportFileName(), q03Service.getQDataTable(qData), "Q03");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getQ04File(Date queryMonth) {
+        boolean flag = false;
+        List<Q04Do> qData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出Q04数据");
+                logger.debug(taskId + " 开始查询Q04数据");
+                qData =  q04Service.getQData(queryMonth);
+                logger.debug(taskId + " 查询Q04数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q04Service.getExportFileName(), q04Service.getQDataTable(qData), "Q04");
     }
 
     /**

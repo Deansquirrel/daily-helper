@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class Q03Service {
 
-    private final com.yuansong.dailyHelper.features.mqreport.q03.service.Q03RepService Q03RepService;
+    private final Q03RepService Q03RepService;
 
     public Q03Service(com.yuansong.dailyHelper.features.mqreport.q03.service.Q03RepService Q03RepService) {
         this.Q03RepService = Q03RepService;
