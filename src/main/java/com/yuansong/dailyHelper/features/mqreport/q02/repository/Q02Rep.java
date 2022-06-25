@@ -61,7 +61,6 @@ public class Q02Rep {
         String maxClctTime = DateTool.GetDateTimeStr(cal.getTime());
         cal.set(Calendar.MONTH, Calendar.JANUARY);
         String minClctTime = DateTool.GetDateTimeStr(cal.getTime());
-
         logger.debug(MessageFormat.format("Q02 SQL {0} {1} {2}",SQL_QUERY, minClctTime,maxClctTime));
         return jdbcTemplate.query(SQL_QUERY,
                 new Q02RowMapper(),

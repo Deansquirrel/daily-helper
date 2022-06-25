@@ -47,6 +47,13 @@ public class MQReportController {
         return Response.makeOKResp();
     }
 
+    @ApiOperation(value="HI3一次性缴费")
+    @RequestMapping(value="/q03",method = RequestMethod.GET)
+    public ResponseResult<?> getQ03Data() {
+        mqReportService.getQ03File(null);
+        return Response.makeOKResp();
+    }
+
     @ApiOperation(value="职工参保")
     @RequestMapping(value="/m01",method = RequestMethod.GET)
     public ResponseResult<?> getM01Data() {
