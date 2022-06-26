@@ -38,7 +38,7 @@ public class Q13Rep {
             "ORDER BY INSU_ADMDVS,(" +
             "   case " +
             "       when left(PSN_TYPE,2)='11' then '在职'" +
-            "       when left(PSN_TYPE,2)='13' then '退休'" +
+            "       when left(PSN_TYPE,2)='12' then '退休'" +
             "       else '在职' " +
             "   end) ;";
     private static final String SQL_QUERY_SIGNAL = "" +
