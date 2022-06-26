@@ -2,7 +2,7 @@ package com.yuansong.dailyHelper.features.mqreport.q12.repository;
 
 import java.math.BigDecimal;
 
-public class Q12Do {
+public class Q12Do implements Comparable<Q12Do> {
 
 //    INSU_ADMDVS,PSN_TYPE,MDTRT_ID,SETL_ID,药品目录内,药品目录外,项目目录内,项目目录外,服务设施目录内,服务设施目录外
 
@@ -83,5 +83,11 @@ public class Q12Do {
 
         this.a01 = this.a01.add(d.a01);
         return this;
+    }
+
+
+    @Override
+    public int compareTo(Q12Do o) {
+        return (this.getInsuAdmdvs() + "-" + this.getPsnType()).compareTo(o.getInsuAdmdvs() + "-" + o.getPsnType());
     }
 }
