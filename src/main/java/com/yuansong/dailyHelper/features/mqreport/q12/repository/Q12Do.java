@@ -84,8 +84,7 @@ public class Q12Do implements Comparable<Q12Do> {
         this.a01 = this.a01.add(d.a01);
         return this;
     }
-
-
+    
     @Override
     public int compareTo(Q12Do o) {
         return (this.getInsuAdmdvs() + "-" + this.getPsnType()).compareTo(o.getInsuAdmdvs() + "-" + o.getPsnType());

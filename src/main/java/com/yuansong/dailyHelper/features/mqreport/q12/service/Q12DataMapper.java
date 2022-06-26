@@ -3,6 +3,7 @@ package com.yuansong.dailyHelper.features.mqreport.q12.service;
 import com.github.deansquirrel.tools.poi.IDataMapper;
 import com.yuansong.dailyHelper.features.mqreport.q12.repository.Q12Do;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +28,12 @@ public class Q12DataMapper implements IDataMapper<Q12Do> {
         List<Object> list = new ArrayList<>();
         list.add(data.getInsuAdmdvs());
         list.add(data.getPsnType());
-        list.add(data.getA01());
-        list.add(data.getA02());
-        list.add(data.getB01());
-        list.add(data.getB02());
-        list.add(data.getC01());
-        list.add(data.getC02());
+        list.add(data.getA01().compareTo(BigDecimal.ZERO) == 0 ? "" : data.getA01());
+        list.add(data.getA02().compareTo(BigDecimal.ZERO) == 0 ? "" : data.getA02());
+        list.add(data.getB01().compareTo(BigDecimal.ZERO) == 0 ? "" : data.getB01());
+        list.add(data.getB01().compareTo(BigDecimal.ZERO) == 0 ? "" : data.getB02());
+        list.add(data.getC01().compareTo(BigDecimal.ZERO) == 0 ? "" : data.getC01());
+        list.add(data.getC02().compareTo(BigDecimal.ZERO) == 0 ? "" : data.getC02());
         return list;
     }
 }

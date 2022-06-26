@@ -96,7 +96,9 @@ public class Q12Rep {
                 }
             }
         }, minSetlTime, maxSetlTime);
-        return new ArrayList<>(map.values());
+        List<Q12Do> list = new ArrayList<>(map.values());
+        Collections.sort(list);
+        return list;
     }
 
     private Q12Do getCurr(String mdtrtId, String setlId) {
