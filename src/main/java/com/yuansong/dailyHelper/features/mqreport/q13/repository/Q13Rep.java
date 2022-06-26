@@ -35,12 +35,11 @@ public class Q13Rep {
             "   AND INSUTYPE = '310' " +
             "   AND REFD_SETL_FLAG = '0' " +
             "   AND MED_TYPE IN ('52','21','13','24','23','22','92','9104','9105','9203','9202','9203','9105','9204','9104','9204','9106','9104','9202','9201','9104','9110','9106','9206','9201','9205','9109') " +
-            "ORDER BY INSU_ADMDVS,(" +
-            "   case " +
-            "       when left(PSN_TYPE,2)='11' then '在职'" +
-            "       when left(PSN_TYPE,2)='12' then '退休'" +
-            "       else '在职' " +
-            "   end) ;";
+            "ORDER BY INSU_ADMDVS, " +
+            "       (case " +
+            "           when DEDC_HOSP_LV in ('1','2','3','9') then DEDC_HOSP_LV " +
+            "           else '3' " +
+            "       end) ;";
     private static final String SQL_QUERY_SIGNAL = "" +
             "SELECT " +
             "   SUM(CASE WHEN SELFPAY_PROP <>1 and left(LIST_TYPE,1)='1' THEN DET_ITEM_FEE_SUMAMT ELSE 0 END) `A01`, " +
@@ -86,7 +85,7 @@ public class Q13Rep {
                     return;
                 }
                 nd.setInsuAdmdvs(SQLTool.getString(rs, "INSU_ADMDVS"));
-                nd.setDedcHospLv(SQLTool.getString(rs, "PSN_TYPE"));
+                nd.setDedcHospLv(SQLTool.getString(rs, "DEDC_HOSP_LV"));
                 String k = MessageFormat.format("{0}-{1}",nd.getInsuAdmdvs(),nd.getDedcHospLv());
                 if(map.containsKey(k)) {
                     Q13Do d = map.get(k);
