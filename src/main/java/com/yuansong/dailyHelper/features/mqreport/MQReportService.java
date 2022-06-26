@@ -34,6 +34,8 @@ import com.yuansong.dailyHelper.features.mqreport.q05.repository.Q05Do;
 import com.yuansong.dailyHelper.features.mqreport.q05.service.Q05Service;
 import com.yuansong.dailyHelper.features.mqreport.q06.repository.Q06Do;
 import com.yuansong.dailyHelper.features.mqreport.q06.service.Q06Service;
+import com.yuansong.dailyHelper.features.mqreport.q07.repository.Q07Do;
+import com.yuansong.dailyHelper.features.mqreport.q07.service.Q07Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.io.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -68,11 +70,14 @@ public class MQReportService {
     private final Q04Service q04Service;        //HI4普通门诊-普通门诊在职退休
     private final Q05Service q05Service;        //HI4普通门诊-普通门诊医疗级别
     private final Q06Service q06Service;        //HI4门诊大病-门诊大病在职退休
+    private final Q07Service q07Service;        //HI4门诊大病-门诊大病医疗级别
 
     public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service,
                            M04Service m04Service, M05Service m05Service, M06Service m06Service,
                            M07Service m07Service, M08Service m08Service, M09Service m09Service,
-                           Q01Service q01Service, Q02Service q02Service, Q03Service q03Service, Q04Service q04Service, Q05Service q05Service, Q06Service q06Service) {
+                           Q01Service q01Service, Q02Service q02Service, Q03Service q03Service,
+                           Q04Service q04Service, Q05Service q05Service, Q06Service q06Service,
+                           Q07Service q07Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
@@ -88,6 +93,7 @@ public class MQReportService {
         this.q04Service = q04Service;
         this.q05Service = q05Service;
         this.q06Service = q06Service;
+        this.q07Service = q07Service;
     }
 
     private String getMExportFileName() {
@@ -245,6 +251,25 @@ public class MQReportService {
             }
         }
         this.saveFile(q06Service.getExportFileName(), q06Service.getQDataTable(q06Data),"Q06");
+        flag = false;
+        List<Q07Do> q07Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询Q07数据");
+                q07Data = q07Service.getQData(queryMonth);
+                list.add(q07Service.getQDataTable(q07Data));
+                logger.debug(taskId + " 查询Q07数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q07Service.getExportFileName(), q07Service.getQDataTable(q07Data),"Q07");
         this.saveFile(this.getQExportFileName(), list, "AllQ季报");
     }
 
@@ -562,6 +587,29 @@ public class MQReportService {
             }
         }
         this.saveFile(q06Service.getExportFileName(), q06Service.getQDataTable(qData), "Q06");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getQ07File(Date queryMonth) {
+        boolean flag = false;
+        List<Q07Do> qData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出Q07数据");
+                logger.debug(taskId + " 开始查询Q07数据");
+                qData =  q07Service.getQData(queryMonth);
+                logger.debug(taskId + " 查询Q07数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q07Service.getExportFileName(), q07Service.getQDataTable(qData), "Q07");
     }
 
     /**
