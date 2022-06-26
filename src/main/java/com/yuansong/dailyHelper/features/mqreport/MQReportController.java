@@ -109,6 +109,13 @@ public class MQReportController {
         return Response.makeOKResp();
     }
 
+    @ApiOperation(value="HI4.1住院按照支出类别-在职退休")
+    @RequestMapping(value="/q12",method = RequestMethod.GET)
+    public ResponseResult<?> getQ12Data() {
+        mqReportService.getQ12File(null);
+        return Response.makeOKResp();
+    }
+
     @ApiOperation(value="职工参保")
     @RequestMapping(value="/m01",method = RequestMethod.GET)
     public ResponseResult<?> getM01Data() {

@@ -44,6 +44,8 @@ import com.yuansong.dailyHelper.features.mqreport.q10.repository.Q10Do;
 import com.yuansong.dailyHelper.features.mqreport.q10.service.Q10Service;
 import com.yuansong.dailyHelper.features.mqreport.q11.repository.Q11Do;
 import com.yuansong.dailyHelper.features.mqreport.q11.service.Q11Service;
+import com.yuansong.dailyHelper.features.mqreport.q12.repository.Q12Do;
+import com.yuansong.dailyHelper.features.mqreport.q12.service.Q12Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.io.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -83,6 +85,7 @@ public class MQReportService {
     private final Q10Service q10Service;        //HI4享受待遇人数
     private final Q09Service q09Service;        //HI4.1住院按照支出构成-在职退休
     private final Q11Service q11Service;        //HI4.1住院按照支出构成-医疗级别
+    private final Q12Service q12Service;        //HI4.1住院按照支出类别-在职退休
 
     public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service,
                            M04Service m04Service, M05Service m05Service, M06Service m06Service,
@@ -90,7 +93,7 @@ public class MQReportService {
                            Q01Service q01Service, Q02Service q02Service, Q03Service q03Service,
                            Q04Service q04Service, Q05Service q05Service, Q06Service q06Service,
                            Q07Service q07Service, Q08Service q08Service, Q10Service q10Service,
-                           Q09Service q09Service, Q11Service q11Service) {
+                           Q09Service q09Service, Q11Service q11Service, Q12Service q12Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
@@ -111,6 +114,7 @@ public class MQReportService {
         this.q10Service = q10Service;
         this.q09Service = q09Service;
         this.q11Service = q11Service;
+        this.q12Service = q12Service;
     }
 
     private String getMExportFileName() {
@@ -363,6 +367,25 @@ public class MQReportService {
             }
         }
         this.saveFile(q11Service.getExportFileName(), q11Service.getQDataTable(q11Data),"Q11");
+        flag = false;
+        List<Q12Do> q12Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询Q12数据");
+                q12Data = q12Service.getQData(queryMonth);
+                list.add(q12Service.getQDataTable(q12Data));
+                logger.debug(taskId + " 查询Q12数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q12Service.getExportFileName(), q12Service.getQDataTable(q12Data),"Q12");
         this.saveFile(this.getQExportFileName(), list, "AllQ季报");
     }
 
@@ -772,6 +795,29 @@ public class MQReportService {
             }
         }
         this.saveFile(q10Service.getExportFileName(), q10Service.getQDataTable(qData), "Q10");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getQ12File(Date queryMonth) {
+        boolean flag = false;
+        List<Q12Do> qData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出Q12数据");
+                logger.debug(taskId + " 开始查询Q12数据");
+                qData =  q12Service.getQData(queryMonth);
+                logger.debug(taskId + " 查询Q12数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1200L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q12Service.getExportFileName(), q12Service.getQDataTable(qData), "Q12");
     }
 
     @Async(DHConstant.TASK_EXECUTOR)
