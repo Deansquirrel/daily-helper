@@ -21,7 +21,7 @@ public class Q13Rep {
     private static final Logger logger = LoggerFactory.getLogger(Q13Rep.class);
 
     private static final String SQL_QUERY = "" +
-            "SELECT INSU_ADMDVS,(" +
+            "SELECT INSU_ADMDVS, " +
             "       (case " +
             "           when DEDC_HOSP_LV in ('1','2','3','9') then DEDC_HOSP_LV " +
             "           else '3' " +
