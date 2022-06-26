@@ -88,6 +88,20 @@ public class MQReportController {
         return Response.makeOKResp();
     }
 
+    @ApiOperation(value="HI4享受待遇人数")
+    @RequestMapping(value="/q10",method = RequestMethod.GET)
+    public ResponseResult<?> getQ10Data() {
+        mqReportService.getQ10File(null);
+        return Response.makeOKResp();
+    }
+
+    @ApiOperation(value="HI4.1住院按照支出构成-在职退休")
+    @RequestMapping(value="/q09",method = RequestMethod.GET)
+    public ResponseResult<?> getQ09Data() {
+        mqReportService.getQ09File(null);
+        return Response.makeOKResp();
+    }
+
     @ApiOperation(value="职工参保")
     @RequestMapping(value="/m01",method = RequestMethod.GET)
     public ResponseResult<?> getM01Data() {
