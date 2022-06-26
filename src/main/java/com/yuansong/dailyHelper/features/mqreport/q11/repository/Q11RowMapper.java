@@ -13,7 +13,7 @@ public class Q11RowMapper implements RowMapper<Q11Do> {
     public Q11Do mapRow(ResultSet rs, int rowNum) throws SQLException {
         Q11Do d = new Q11Do();
         d.setInsuAdmdvs(SQLTool.getString(rs,"INSU_ADMDVS"));
-        d.setDedcHospLv(SQLTool.getString(rs,"DEDC_HOST_LV"));
+        d.setDedcHospLv(SQLTool.getString(rs,"DEDC_HOSP_LV"));
         d.setMedfeeSumamt(SQLTool.getBigDecimal(rs,"MEDFEE_SUMAMT"));
         d.setHifpPay(SQLTool.getBigDecimal(rs,"hifp_pay"));
         d.setOtherPay(SQLTool.getBigDecimal(rs,"other_pay"));
