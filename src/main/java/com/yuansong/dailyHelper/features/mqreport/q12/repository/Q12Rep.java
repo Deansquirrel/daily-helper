@@ -76,10 +76,10 @@ public class Q12Rep {
             long c = 0L;
             @Override
             public void processRow(ResultSet rs) throws SQLException {
-                if(c % 100 == 0) {
-                    logger.debug(MessageFormat.format("Q12 RowCallbackHandler {}", c));
-                }
                 c = c + 1;
+                if(c % 2000 == 0) {
+                    logger.debug(MessageFormat.format("Q12 RowCallbackHandler {0}", c));
+                }
                 nd = getCurr(SQLTool.getString(rs, "MDTRT_ID"),
                         SQLTool.getString(rs,"SETL_ID"));
                 if(nd == null) {
