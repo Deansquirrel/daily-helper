@@ -76,17 +76,17 @@ public class Q12Rep {
             long c = 0L;
             @Override
             public void processRow(ResultSet rs) throws SQLException {
-                c = c + 1;
                 if(c % 100 == 0) {
                     logger.debug(MessageFormat.format("Q12 RowCallbackHandler {}", c));
                 }
-                nd = getCurr(SQLTool.getString(rs, ""),
-                        SQLTool.getString(rs,""));
+                c = c + 1;
+                nd = getCurr(SQLTool.getString(rs, "MDTRT_ID"),
+                        SQLTool.getString(rs,"SETL_ID"));
                 if(nd == null) {
                     return;
                 }
-                nd.setInsuAdmdvs(SQLTool.getString(rs, ""));
-                nd.setPsnType(SQLTool.getString(rs, ""));
+                nd.setInsuAdmdvs(SQLTool.getString(rs, "INSU_ADMDVS"));
+                nd.setPsnType(SQLTool.getString(rs, "PSN_TYPE"));
                 String k = MessageFormat.format("{0}-{1}",nd.getInsuAdmdvs(),nd.getPsnType());
                 if(map.containsKey(k)) {
                     Q12Do d = map.get(k);
