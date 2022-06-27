@@ -20,9 +20,9 @@ public class Q11Rep {
     private static final String SQL_QUERY = "" +
             "select INSU_ADMDVS, DEDC_HOSP_LV, " +
             "   sum(MEDFEE_SUMAMT) MEDFEE_SUMAMT, sum(hifp_pay) hifp_pay," +
-            "   sum(other_pay) other_pay, sum(self_pay) self_pay, sum(ACCT_PAY) ACCT_PAY," +
-            "   (sum(MEDFEE_SUMAMT) - sum(hifp_pay) - sum(other_pay) - sum(self_pay)) zifu," +
-            "   sum(if(ACCT_PAY - self_pay > 0, ACCT_PAY - self_pay, 0)) FULAMT_OWNPAY_AMT," +
+            "   sum(other_pay) other_pay, sum(ACCT_PAY) ACCT_PAY," +
+            "   sum(ziFu) zifu, sum(ziFei) zifei, " +
+            "   sum(if(ACCT_PAY - zifu > 0, ACCT_PAY - zifu, 0)) muluwai," +
             "   count(*) T_COUNT, SUM(IN_HOST_DAY) IN_HOST_DAY " +
             "from ( " +
             "   select INSU_ADMDVS, " +
@@ -31,9 +31,8 @@ public class Q11Rep {
             "           else '3' " +
             "       end) DEDC_HOSP_LV, " +
             "       MEDFEE_SUMAMT,hifp_pay, (CVLSERV_PAY+HIFOB_PAY) other_pay," +
-            "       (OVERLMT_SELFPAY+PRESELFPAY_AMT+ACT_PAY_DEDC) 自付, " +
-            "       (MEDFEE_SUMAMT-hifp_pay-CVLSERV_PAY-HIFOB_PAY-OVERLMT_SELFPAY-PRESELFPAY_AMT-ACT_PAY_DEDC) self_pay, " +
-            "       FULAMT_OWNPAY_AMT ,ACCT_PAY,(DATEDIFF(enddate,BEGNDATE)+1) IN_HOST_DAY " +
+            "       (MEDFEE_SUMAMT - hifp_pay - (CVLSERV_PAY+HIFOB_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
+            "       FULAMT_OWNPAY_AMT zifei,ACCT_PAY,(DATEDIFF(enddate,BEGNDATE)+1) IN_HOST_DAY " +
             "   from setl_d a " +
             "   where INSU_ADMDVS like '1311%' " +
             "       and setl_time >= ? " +

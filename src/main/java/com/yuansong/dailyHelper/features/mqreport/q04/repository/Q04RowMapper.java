@@ -18,9 +18,9 @@ public class Q04RowMapper implements RowMapper<Q04Do> {
         d.setHifpPay(SQLTool.getBigDecimal(rs,"hifp_pay"));
         d.setOtherPay(SQLTool.getBigDecimal(rs,"other_pay"));
         d.setZiFu(SQLTool.getBigDecimal(rs,"zifu"));
-        d.setSelfPay(SQLTool.getBigDecimal(rs,"self_pay"));
+        d.setZiFei(SQLTool.getBigDecimal(rs, "zifei"));
         d.setAcctPay(SQLTool.getBigDecimal(rs,"ACCT_PAY"));
-        d.setFulamtOwnpayAmt(SQLTool.getBigDecimal(rs,"FULAMT_OWNPAY_AMT"));
+        d.setMuLuWai(SQLTool.getBigDecimal(rs, "muluwai"));
         d.settCount(SQLTool.getLong(rs,"T_COUNT"));
         return d;
     }

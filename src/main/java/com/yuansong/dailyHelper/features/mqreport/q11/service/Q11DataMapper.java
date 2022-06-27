@@ -33,9 +33,9 @@ public class Q11DataMapper implements IDataMapper<Q11Do> {
         list.add(data.getHifpPay());
         list.add(data.getOtherPay());
         list.add(data.getZiFu());
-        list.add(data.getSelfPay());
+        list.add(data.getZiFei());
         list.add(data.getAcctPay());
-        list.add(data.getFulamtOwnpayAmt());
+        list.add(data.getMuLuWai());
         list.add(data.gettCount());
         list.add(data.getInHostDay());
         return list;

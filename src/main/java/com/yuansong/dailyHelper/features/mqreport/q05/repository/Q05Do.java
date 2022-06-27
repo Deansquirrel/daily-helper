@@ -10,9 +10,9 @@ public class Q05Do {
     private BigDecimal hifpPay;
     private BigDecimal otherPay;
     private BigDecimal ziFu;
-    private BigDecimal selfPay;
+    private BigDecimal ziFei;
     private BigDecimal acctPay;
-    private BigDecimal fulamtOwnpayAmt;
+    private BigDecimal muLuWai;
     private Long tCount;
 
     public String getInsuAdmdvs() {
@@ -63,12 +63,12 @@ public class Q05Do {
         this.ziFu = ziFu;
     }
 
-    public BigDecimal getSelfPay() {
-        return selfPay;
+    public BigDecimal getZiFei() {
+        return ziFei;
     }
 
-    public void setSelfPay(BigDecimal selfPay) {
-        this.selfPay = selfPay;
+    public void setZiFei(BigDecimal ziFei) {
+        this.ziFei = ziFei;
     }
 
     public BigDecimal getAcctPay() {
@@ -79,12 +79,12 @@ public class Q05Do {
         this.acctPay = acctPay;
     }
 
-    public BigDecimal getFulamtOwnpayAmt() {
-        return fulamtOwnpayAmt;
+    public BigDecimal getMuLuWai() {
+        return muLuWai;
     }
 
-    public void setFulamtOwnpayAmt(BigDecimal fulamtOwnpayAmt) {
-        this.fulamtOwnpayAmt = fulamtOwnpayAmt;
+    public void setMuLuWai(BigDecimal muLuWai) {
+        this.muLuWai = muLuWai;
     }
 
     public Long gettCount() {

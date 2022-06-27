@@ -32,9 +32,9 @@ public class Q06DataMapper implements IDataMapper<Q06Do> {
         list.add(data.getHifpPay());
         list.add(data.getOtherPay());
         list.add(data.getZiFu());
-        list.add(data.getSelfPay());
+        list.add(data.getZiFei());
         list.add(data.getAcctPay());
-        list.add(data.getFulamtOwnpayAmt());
+        list.add(data.getMuLuWai());
         list.add(data.gettCount());
         return list;
     }

@@ -10,13 +10,10 @@ public class Q08Do {
     private BigDecimal hifpPay;
     private BigDecimal otherPay;
     private BigDecimal ziFu;
-    private BigDecimal selfPay;
+    private BigDecimal ziFei;
     private BigDecimal acctPay;
-    private BigDecimal fulamtOwnpayAmt;
+    private BigDecimal muLuWai;
     private Long tCount;
-
-    public Q08Do() {
-    }
 
     public String getInsuAdmdvs() {
         return insuAdmdvs;
@@ -58,14 +55,6 @@ public class Q08Do {
         this.otherPay = otherPay;
     }
 
-    public BigDecimal getSelfPay() {
-        return selfPay;
-    }
-
-    public void setSelfPay(BigDecimal selfPay) {
-        this.selfPay = selfPay;
-    }
-
     public BigDecimal getZiFu() {
         return ziFu;
     }
@@ -74,20 +63,12 @@ public class Q08Do {
         this.ziFu = ziFu;
     }
 
-    public BigDecimal getFulamtOwnpayAmt() {
-        return fulamtOwnpayAmt;
+    public BigDecimal getZiFei() {
+        return ziFei;
     }
 
-    public void setFulamtOwnpayAmt(BigDecimal fulamtOwnpayAmt) {
-        this.fulamtOwnpayAmt = fulamtOwnpayAmt;
-    }
-
-    public Long gettCount() {
-        return tCount;
-    }
-
-    public void settCount(Long tCount) {
-        this.tCount = tCount;
+    public void setZiFei(BigDecimal ziFei) {
+        this.ziFei = ziFei;
     }
 
     public BigDecimal getAcctPay() {
@@ -96,5 +77,21 @@ public class Q08Do {
 
     public void setAcctPay(BigDecimal acctPay) {
         this.acctPay = acctPay;
+    }
+
+    public BigDecimal getMuLuWai() {
+        return muLuWai;
+    }
+
+    public void setMuLuWai(BigDecimal muLuWai) {
+        this.muLuWai = muLuWai;
+    }
+
+    public Long gettCount() {
+        return tCount;
+    }
+
+    public void settCount(Long tCount) {
+        this.tCount = tCount;
     }
 }
