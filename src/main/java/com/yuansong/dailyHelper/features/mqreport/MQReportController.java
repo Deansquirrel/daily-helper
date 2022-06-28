@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Calendar;
+
 @RestController
 @Api(tags={"MQReport"})
 @RequestMapping(value = "/feature/mqreport")
@@ -22,6 +24,9 @@ public class MQReportController {
     @ApiOperation(value="全部月报")
     @RequestMapping(value="/allm",method = RequestMethod.GET)
     public ResponseResult<?> getAllMData() {
+//        Calendar cal = Calendar.getInstance();
+//        cal.set(cal.get(Calendar.YEAR), Calendar.JUNE, 1,0,0,0);
+//        mqReportService.getAllMFile(cal.getTime());
         mqReportService.getAllMFile(null);
         return Response.makeOKResp();
     }
@@ -29,6 +34,9 @@ public class MQReportController {
     @ApiOperation(value="全部季报")
     @RequestMapping(value="/allq",method = RequestMethod.GET)
     public ResponseResult<?> getAllQData() {
+//        Calendar cal = Calendar.getInstance();
+//        cal.set(cal.get(Calendar.YEAR), Calendar.JUNE, 1,0,0,0);
+//        mqReportService.getAllQFile(cal.getTime());
         mqReportService.getAllQFile(null);
         return Response.makeOKResp();
     }
