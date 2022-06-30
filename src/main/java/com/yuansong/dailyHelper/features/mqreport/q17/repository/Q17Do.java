@@ -7,6 +7,7 @@ public class Q17Do {
     private String insuAdmdvs;
     private BigDecimal medfeeSumamt;
     private BigDecimal hifpPay;
+    private BigDecimal hifmiPay;
     private BigDecimal otherPay;
     private BigDecimal ziFu;
     private BigDecimal ziFei;
@@ -37,6 +38,14 @@ public class Q17Do {
 
     public void setHifpPay(BigDecimal hifpPay) {
         this.hifpPay = hifpPay;
+    }
+
+    public BigDecimal getHifmiPay() {
+        return hifmiPay;
+    }
+
+    public void setHifmiPay(BigDecimal hifmiPay) {
+        this.hifmiPay = hifmiPay;
     }
 
     public BigDecimal getOtherPay() {

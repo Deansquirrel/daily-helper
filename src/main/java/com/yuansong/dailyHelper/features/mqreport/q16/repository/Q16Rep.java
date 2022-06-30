@@ -19,14 +19,14 @@ public class Q16Rep {
 
     private static final String SQL_QUERY = "" +
             "select INSU_ADMDVS, " +
-            "   sum(MEDFEE_SUMAMT) MEDFEE_SUMAMT, sum(hifp_pay) hifp_pay," +
+            "   sum(MEDFEE_SUMAMT) MEDFEE_SUMAMT, sum(hifp_pay) hifp_pay, sum(HIFMI_PAY) HIFMI_PAY, " +
             "   sum(other_pay) other_pay, sum(ACCT_PAY) ACCT_PAY," +
             "   sum(ziFu) zifu, sum(ziFei) zifei, " +
             "   sum(if(ACCT_PAY - zifu > 0, ACCT_PAY - zifu, 0)) muluwai," +
             "   count(*) T_COUNT " +
             "from ( " +
             "   select INSU_ADMDVS, " +
-            "       MEDFEE_SUMAMT,hifp_pay, (CVLSERV_PAY+HIFOB_PAY) other_pay," +
+            "       MEDFEE_SUMAMT,hifp_pay,HIFMI_PAY, (CVLSERV_PAY+HIFOB_PAY) other_pay," +
             "       (MEDFEE_SUMAMT - hifp_pay - (CVLSERV_PAY+HIFOB_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
             "       FULAMT_OWNPAY_AMT zifei,ACCT_PAY " +
             "   from setl_d a " +

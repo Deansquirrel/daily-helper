@@ -19,14 +19,14 @@ public class Q17Rep {
 
     private static final String SQL_QUERY = "" +
             "select INSU_ADMDVS, " +
-            "   sum(MEDFEE_SUMAMT) MEDFEE_SUMAMT, sum(hifp_pay) hifp_pay," +
+            "   sum(MEDFEE_SUMAMT) MEDFEE_SUMAMT, sum(hifp_pay) hifp_pay, sum(HIFMI_PAY) HIFMI_PAY, " +
             "   sum(other_pay) other_pay, sum(ACCT_PAY) ACCT_PAY," +
             "   sum(ziFu) zifu, sum(ziFei) zifei, " +
             "   sum(if(ACCT_PAY - zifu > 0, ACCT_PAY - zifu, 0)) muluwai," +
             "   count(*) T_COUNT, SUM(IN_HOST_DAY) IN_HOST_DAY " +
             "from ( " +
             "   select INSU_ADMDVS, " +
-            "       MEDFEE_SUMAMT,hifp_pay, (CVLSERV_PAY+HIFOB_PAY) other_pay," +
+            "       MEDFEE_SUMAMT,hifp_pay,HIFMI_PAY, (CVLSERV_PAY+HIFOB_PAY) other_pay," +
             "       (MEDFEE_SUMAMT - hifp_pay - (CVLSERV_PAY+HIFOB_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
             "       FULAMT_OWNPAY_AMT zifei,ACCT_PAY,(DATEDIFF(enddate,BEGNDATE)+1) IN_HOST_DAY" +
             "   from setl_d a " +
@@ -36,7 +36,7 @@ public class Q17Rep {
             "       and VALI_FLAG='1' " +
             "       and INSUTYPE='390' " +
             "       and a.REFD_SETL_FLAG='0' " +
-            "       and med_type  in ('14') " +
+            "       and med_type  in ('52','21','13','24','23','22','92','9104','9105','9203','9202','9203','9105','9204','9104','9204','9106','9104','9202','9201','9104','9110','9106','9206','9201','9205','9109') " +
             "       and MAF_PAY <> 0  " +
             ") a " +
             "group by INSU_ADMDVS " +
