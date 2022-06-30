@@ -145,6 +145,13 @@ public class MQReportController {
         return Response.makeOKResp();
     }
 
+    @ApiOperation(value="HI7其中建档立卡贫困人员-门诊大病")
+    @RequestMapping(value="/q16",method = RequestMethod.GET)
+    public ResponseResult<?> getQ16Data() {
+        mqReportService.getQ16File(null);
+        return Response.makeOKResp();
+    }
+
     @ApiOperation(value="职工参保")
     @RequestMapping(value="/m01",method = RequestMethod.GET)
     public ResponseResult<?> getM01Data() {
