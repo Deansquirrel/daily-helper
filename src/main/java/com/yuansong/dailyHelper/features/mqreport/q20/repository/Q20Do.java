@@ -8,6 +8,7 @@ public class Q20Do {
     private String psnType;
     private BigDecimal medfeeSumamt;
     private BigDecimal hifpPay;
+    private BigDecimal hifmiPay;
     private BigDecimal otherPay;
     private BigDecimal ziFu;
     private BigDecimal ziFei;
@@ -45,6 +46,14 @@ public class Q20Do {
 
     public void setHifpPay(BigDecimal hifpPay) {
         this.hifpPay = hifpPay;
+    }
+
+    public BigDecimal getHifmiPay() {
+        return hifmiPay;
+    }
+
+    public void setHifmiPay(BigDecimal hifmiPay) {
+        this.hifmiPay = hifmiPay;
     }
 
     public BigDecimal getOtherPay() {

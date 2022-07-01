@@ -16,6 +16,7 @@ public class Q20RowMapper implements RowMapper<Q20Do> {
         d.setPsnType(SQLTool.getString(rs,"PSN_TYPE"));
         d.setMedfeeSumamt(SQLTool.getBigDecimal(rs,"MEDFEE_SUMAMT"));
         d.setHifpPay(SQLTool.getBigDecimal(rs,"hifp_pay"));
+        d.setHifmiPay(SQLTool.getBigDecimal(rs, " HIFMI_PAY"));
         d.setOtherPay(SQLTool.getBigDecimal(rs,"other_pay"));
         d.setZiFu(SQLTool.getBigDecimal(rs,"zifu"));
         d.setZiFei(SQLTool.getBigDecimal(rs, "zifei"));

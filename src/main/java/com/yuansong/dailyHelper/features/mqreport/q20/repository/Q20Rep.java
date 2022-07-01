@@ -19,7 +19,7 @@ public class Q20Rep {
 
     private static final String SQL_QUERY = "" +
             "select INSU_ADMDVS, PSN_TYPE, " +
-            "   sum(MEDFEE_SUMAMT) MEDFEE_SUMAMT, sum(hifp_pay) hifp_pay," +
+            "   sum(MEDFEE_SUMAMT) MEDFEE_SUMAMT, sum(hifp_pay) hifp_pay, sum(HIFMI_PAY)  HIFMI_PAY, " +
             "   sum(other_pay) other_pay, sum(ACCT_PAY) ACCT_PAY," +
             "   sum(ziFu) zifu, sum(ziFei) zifei, " +
             "   sum(if(ACCT_PAY - zifu > 0, ACCT_PAY - zifu, 0)) muluwai," +
@@ -31,7 +31,7 @@ public class Q20Rep {
             "           when PSN_TYPE in ('1403','1404') then '学生' " +
             "           else '' " +
             "       end) PSN_TYPE, " +
-            "       MEDFEE_SUMAMT,hifp_pay, (CVLSERV_PAY+HIFOB_PAY) other_pay," +
+            "       MEDFEE_SUMAMT,hifp_pay,  HIFMI_PAY, (CVLSERV_PAY+HIFOB_PAY) other_pay," +
             "       (MEDFEE_SUMAMT - hifp_pay - (CVLSERV_PAY+HIFOB_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
             "       FULAMT_OWNPAY_AMT zifei,ACCT_PAY " +
             "   from setl_d a " +
@@ -41,7 +41,7 @@ public class Q20Rep {
             "       and VALI_FLAG = '1' " +
             "       and INSUTYPE = '390' " +
             "       and a.REFD_SETL_FLAG='0' " +
-            "       and med_type  in ('51','12','11') " +
+            "       and med_type  in ('14') " +
             "       and (age>=60 or PSN_TYPE in ('1403','1404'))  " +
             ") a " +
             "group by INSU_ADMDVS,PSN_TYPE " +

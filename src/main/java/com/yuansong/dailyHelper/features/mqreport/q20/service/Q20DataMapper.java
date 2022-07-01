@@ -14,6 +14,7 @@ public class Q20DataMapper implements IDataMapper<Q20Do> {
         list.add("人员类型");
         list.add("总金额");
         list.add("统筹支付");
+        list.add("大病支付");
         list.add("其他支付");
         list.add("自付");
         list.add("自费");
@@ -30,6 +31,7 @@ public class Q20DataMapper implements IDataMapper<Q20Do> {
         list.add(data.getPsnType());
         list.add(data.getMedfeeSumamt());
         list.add(data.getHifpPay());
+        list.add(data.getHifmiPay());
         list.add(data.getOtherPay());
         list.add(data.getZiFu());
         list.add(data.getZiFei());

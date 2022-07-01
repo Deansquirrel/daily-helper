@@ -29,14 +29,14 @@ public class Q20Service {
     }
 
     public String getExportFileName() {
-        return FileUtil.getNextStr() + "HI7其中60岁以上老人，学生-门诊.xlsx";
+        return FileUtil.getNextStr() + "HI7其中60岁以上老人，学生-慢病.xlsx";
     }
 
     public XSSFWorkTable getQDataTable(List<Q20Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI7其中60岁以上老人，学生-门诊", list, new Q20DataMapper());
+        return XSSFWorkBookTool.getXSSFWorkTable("HI7其中60岁以上老人，学生-慢病", list, new Q20DataMapper());
     }
 
     private Date getDefaultQueryMonth() {
