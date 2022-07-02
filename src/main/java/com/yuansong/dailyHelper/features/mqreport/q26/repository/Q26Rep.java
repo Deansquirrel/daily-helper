@@ -1,9 +1,11 @@
 package com.yuansong.dailyHelper.features.mqreport.q26.repository;
 
 import com.github.deansquirrel.tools.common.DateTool;
+import com.github.deansquirrel.tools.common.ExceptionTool;
 import com.github.deansquirrel.tools.common.SQLTool;
 import com.github.deansquirrel.tools.db.Constant;
 import com.github.deansquirrel.tools.db.TargetSource;
+import com.google.gson.Gson;
 import com.yuansong.dailyHelper.global.DHConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,11 +45,7 @@ public class Q26Rep {
             "   AND INSUTYPE = '390' " +
             "   AND REFD_SETL_FLAG = '0' " +
             "   AND MED_TYPE IN ('52','21','13','24','23','22','92','9104','9105','9203','9202','9203','9105','9204','9104','9204','9106','9104','9202','9201','9104','9110','9106','9206','9201','9205','9109') " +
-            "ORDER BY INSU_ADMDVS, " +
-            "       (case " +
-            "           when DEDC_HOSP_LV in ('1','2','3','9') then DEDC_HOSP_LV " +
-            "           else '3' " +
-            "       end) ;";
+            "limit 100 ;";
     private static final String SQL_QUERY_SIGNAL = "" +
             "SELECT " +
             "   SUM(CASE WHEN SELFPAY_PROP <>1 and left(LIST_TYPE,1)='1' THEN DET_ITEM_FEE_SUMAMT ELSE 0 END) `A01`, " +
@@ -97,6 +95,7 @@ public class Q26Rep {
             return;
         }
         String k = MessageFormat.format("{0}-{1}", nd.getInsuAdmdvs(), nd.getDedcHospLv());
+        logger.debug(k);
         if(map.containsKey(k)) {
             Q26Do d = map.get(k);
             map.put(k, d.add(nd));
@@ -130,18 +129,16 @@ public class Q26Rep {
                 public void processRow(ResultSet rs) throws SQLException {
                     c = c +1;
                     if(c % 2000 == 0) {
-                        logger.debug(String.valueOf(c) + "-" + String.valueOf(tCount));
+                        logger.debug(String.valueOf(c) + "-" + String.valueOf(tCount) + "-" + String.valueOf(map.keySet().size()));
                     }
                     String insuAdmdvs = SQLTool.getString(rs, "INSU_ADMDVS");
                     String dedcHospLv = SQLTool.getString(rs, "DEDC_HOSP_LV");
                     String mdtrtId = SQLTool.getString(rs, "MDTRT_ID");
                     String setlId = SQLTool.getString(rs,"SETL_ID");
                     addCount();
-
-//                        logger.debug(MessageFormat.format("{0}-{1}-{2}-{3}-{4}",c,tCount,insuAdmdvs, dedcHospLv, mdtrtId, setlId));
                     while(tCount > cpuCount * 3L) {
                         try {
-                            Thread.sleep(100);
+                            Thread.sleep(10);
                         } catch (InterruptedException ignored) {
                         }
                     }
@@ -150,10 +147,21 @@ public class Q26Rep {
                             if (insuAdmdvs == null || dedcHospLv == null || mdtrtId == null || setlId == null) {
                                 return;
                             }
-                            Q26Do d = jdbcTemplate.queryForObject(SQL_QUERY_SIGNAL, new Q26SignalRowMapper(), mdtrtId, setlId);
+                            logger.debug("2"+ "-" + mdtrtId + "-" + setlId);
+                            Q26Do d = null;
+                            try{
+                                 d = jdbcTemplate.queryForObject(SQL_QUERY_SIGNAL, new Q26SignalRowMapper(), mdtrtId, setlId);
+                            } catch (Exception e) {
+                                logger.debug(ExceptionTool.getStackTrace(e));
+                            }
+
+                            Gson gson = new Gson();
+                            logger.debug(gson.toJson(d));
                             if (d == null) {
                                 return;
                             }
+                            logger.debug("3");
+                            logger.debug(MessageFormat.format("{0}-{1}-{2}-{3}-{4}-{5}",c,tCount,insuAdmdvs, dedcHospLv, mdtrtId, setlId));
                             d.setInsuAdmdvs(insuAdmdvs);
                             d.setDedcHospLv(dedcHospLv);
                             updateMap(d);
