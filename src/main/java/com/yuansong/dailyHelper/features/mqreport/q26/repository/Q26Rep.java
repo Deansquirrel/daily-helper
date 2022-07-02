@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
+import javax.mail.Message;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
@@ -129,42 +130,47 @@ public class Q26Rep {
                 public void processRow(ResultSet rs) throws SQLException {
                     c = c +1;
                     if(c % 2000 == 0) {
-                        logger.debug(String.valueOf(c));
+                        logger.debug(String.valueOf(c) + "-" + String.valueOf(tCount));
                     }
                     String insuAdmdvs = SQLTool.getString(rs, "INSU_ADMDVS");
                     String dedcHospLv = SQLTool.getString(rs, "DEDC_HOSP_LV");
                     String mdtrtId = SQLTool.getString(rs, "MDTRT_ID");
                     String setlId = SQLTool.getString(rs,"SETL_ID");
-                    while(tCount < cpuCount * 3L) {
-                        threadPool.submit(() -> {
-                            addCount();
-                            try {
-                                if (insuAdmdvs == null || dedcHospLv == null || mdtrtId == null || setlId == null) {
-                                    return;
-                                }
-                                Q26Do d = jdbcTemplate.queryForObject(SQL_QUERY_SIGNAL, new Q26SignalRowMapper(), mdtrtId, setlId);
-                                if (d == null) {
-                                    return;
-                                }
-                                d.setInsuAdmdvs(insuAdmdvs);
-                                d.setDedcHospLv(dedcHospLv);
-                                updateMap(d);
-                            }finally {
-                                minusCount();
-                            }
-                        });
+                    addCount();
+
+//                        logger.debug(MessageFormat.format("{0}-{1}-{2}-{3}-{4}",c,tCount,insuAdmdvs, dedcHospLv, mdtrtId, setlId));
+                    while(tCount > cpuCount * 3L) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException ignored) {
+                        }
                     }
+                    threadPool.submit(() -> {
+                        try {
+                            if (insuAdmdvs == null || dedcHospLv == null || mdtrtId == null || setlId == null) {
+                                return;
+                            }
+                            Q26Do d = jdbcTemplate.queryForObject(SQL_QUERY_SIGNAL, new Q26SignalRowMapper(), mdtrtId, setlId);
+                            if (d == null) {
+                                return;
+                            }
+                            d.setInsuAdmdvs(insuAdmdvs);
+                            d.setDedcHospLv(dedcHospLv);
+                            updateMap(d);
+                        }finally {
+                            minusCount();
+                        }
+                    });
                 }
             }, minSetlTime, maxSetlTime);
             threadPool.shutdown();
             while(!threadPool.isTerminated()) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (InterruptedException ignored) {
                 }
             }
             List<Q26Do> list = new ArrayList<>(map.values());
-            this.stop();
             Collections.sort(list);
             return list;
         }finally {
