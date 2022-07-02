@@ -1,13 +1,13 @@
-package com.yuansong.dailyHelper.features.mqreport.q13.repository;
+package com.yuansong.dailyHelper.features.mqreport.q22.repository;
 
 import java.math.BigDecimal;
 
-public class Q13Do implements Comparable<Q13Do> {
+public class Q22Do implements Comparable<Q22Do> {
 
 //    INSU_ADMDVS,PSN_TYPE,MDTRT_ID,SETL_ID,药品目录内,药品目录外,项目目录内,项目目录外,服务设施目录内,服务设施目录外
 
     private String insuAdmdvs;
-    private String dedcHospLv;
+    private String psnType;
     private BigDecimal a01;
     private BigDecimal a02;
     private BigDecimal b01;
@@ -23,12 +23,12 @@ public class Q13Do implements Comparable<Q13Do> {
         this.insuAdmdvs = insuAdmdvs;
     }
 
-    public String getDedcHospLv() {
-        return dedcHospLv;
+    public String getPsnType() {
+        return psnType;
     }
 
-    public void setDedcHospLv(String dedcHospLv) {
-        this.dedcHospLv = dedcHospLv;
+    public void setPsnType(String psnType) {
+        this.psnType = psnType;
     }
 
     public BigDecimal getA01() {
@@ -79,8 +79,7 @@ public class Q13Do implements Comparable<Q13Do> {
         this.c02 = c02;
     }
 
-    public Q13Do add(Q13Do d) {
-
+    public Q22Do add(Q22Do d) {
         this.a01 = this.a01.add(d.a01);
         this.a02 = this.a02.add(d.a02);
         this.b01 = this.b01.add(d.b01);
@@ -89,9 +88,9 @@ public class Q13Do implements Comparable<Q13Do> {
         this.c02 = this.c02.add(d.c02);
         return this;
     }
-    
+
     @Override
-    public int compareTo(Q13Do o) {
-        return (this.getInsuAdmdvs() + "-" + this.getDedcHospLv()).compareTo(o.getInsuAdmdvs() + "-" + o.getDedcHospLv());
+    public int compareTo(Q22Do o) {
+        return (this.getInsuAdmdvs() + "-" + this.getPsnType()).compareTo(o.getInsuAdmdvs() + "-" + o.getPsnType());
     }
 }
