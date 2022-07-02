@@ -68,6 +68,8 @@ import com.yuansong.dailyHelper.features.mqreport.q22.repository.Q22Do;
 import com.yuansong.dailyHelper.features.mqreport.q22.service.Q22Service;
 import com.yuansong.dailyHelper.features.mqreport.q23.repository.Q23Do;
 import com.yuansong.dailyHelper.features.mqreport.q23.service.Q23Service;
+import com.yuansong.dailyHelper.features.mqreport.q24.repository.Q24Do;
+import com.yuansong.dailyHelper.features.mqreport.q24.service.Q24Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.io.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -119,6 +121,7 @@ public class MQReportService {
     private final Q21Service q21Service;        //HI7其中60岁以上老人，学生-住院按照支出构成
     private final Q22Service q22Service;        //HI7其中60岁以上老人，学生-住院按照支出类别
     private final Q23Service q23Service;        //HI7按照医疗级别-门诊
+    private final Q24Service q24Service;        //HI7按照医疗级别-慢特病
 
     public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service,
                            M04Service m04Service, M05Service m05Service, M06Service m06Service,
@@ -129,7 +132,8 @@ public class MQReportService {
                            Q09Service q09Service, Q11Service q11Service, Q12Service q12Service,
                            Q13Service q13Service, Q14Service q14Service, Q15Service q15Service,
                            Q16Service q16Service, Q17Service q17Service, Q18Service q18Service,
-                           Q19Service q19Service, Q20Service q20Service, Q21Service q21Service, Q22Service q22Service, Q23Service q23Service) {
+                           Q19Service q19Service, Q20Service q20Service, Q21Service q21Service,
+                           Q22Service q22Service, Q23Service q23Service, Q24Service q24Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
@@ -162,6 +166,7 @@ public class MQReportService {
         this.q21Service = q21Service;
         this.q22Service = q22Service;
         this.q23Service = q23Service;
+        this.q24Service = q24Service;
     }
 
     private String getMExportFileName() {
@@ -642,6 +647,25 @@ public class MQReportService {
             }
         }
         this.saveFile(q23Service.getExportFileName(), q23Service.getQDataTable(q23Data),"Q23");
+        flag = false;
+        List<Q24Do> q24Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询Q24数据");
+                q24Data = q24Service.getQData(queryMonth);
+                list.add(q24Service.getQDataTable(q24Data));
+                logger.debug(taskId + " 查询Q24数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q24Service.getExportFileName(), q24Service.getQDataTable(q24Data),"Q24");
         this.saveFile(this.getQExportFileName(), list, "AllQ季报");
     }
 
@@ -1350,6 +1374,29 @@ public class MQReportService {
             }
         }
         this.saveFile(q23Service.getExportFileName(), q23Service.getQDataTable(qData), "Q23");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getQ24File(Date queryMonth) {
+        boolean flag = false;
+        List<Q24Do> qData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出Q24数据");
+                logger.debug(taskId + " 开始查询Q24数据");
+                qData =  q24Service.getQData(queryMonth);
+                logger.debug(taskId + " 查询Q24数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q24Service.getExportFileName(), q24Service.getQDataTable(qData), "Q24");
     }
 
     /**
