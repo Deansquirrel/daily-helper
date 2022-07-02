@@ -1,9 +1,9 @@
 package com.yuansong.dailyHelper.features.mqreport.q26.repository;
 
 import com.github.deansquirrel.tools.common.DateTool;
-import com.github.deansquirrel.tools.common.ExceptionTool;
 import com.github.deansquirrel.tools.common.SQLTool;
 import com.github.deansquirrel.tools.db.Constant;
+import com.github.deansquirrel.tools.db.IToolsDbHelper;
 import com.github.deansquirrel.tools.db.TargetSource;
 import com.google.gson.Gson;
 import com.yuansong.dailyHelper.global.DHConstant;
@@ -12,16 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
-import javax.mail.Message;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -45,7 +41,7 @@ public class Q26Rep {
             "   AND INSUTYPE = '390' " +
             "   AND REFD_SETL_FLAG = '0' " +
             "   AND MED_TYPE IN ('52','21','13','24','23','22','92','9104','9105','9203','9202','9203','9105','9204','9104','9204','9106','9104','9202','9201','9104','9110','9106','9206','9201','9205','9109') " +
-            "limit 100 ;";
+            " ;";
     private static final String SQL_QUERY_SIGNAL = "" +
             "SELECT " +
             "   SUM(CASE WHEN SELFPAY_PROP <>1 and left(LIST_TYPE,1)='1' THEN DET_ITEM_FEE_SUMAMT ELSE 0 END) `A01`, " +
@@ -59,6 +55,7 @@ public class Q26Rep {
             "   AND SETL_ID = ? ;";
 
     private final JdbcTemplate jdbcTemplate;
+    private final IToolsDbHelper toolsDbHelper;
 
     private Map<String, Q26Do> map = null;
     private boolean isRunning = false;
@@ -95,7 +92,6 @@ public class Q26Rep {
             return;
         }
         String k = MessageFormat.format("{0}-{1}", nd.getInsuAdmdvs(), nd.getDedcHospLv());
-        logger.debug(k);
         if(map.containsKey(k)) {
             Q26Do d = map.get(k);
             map.put(k, d.add(nd));
@@ -104,8 +100,9 @@ public class Q26Rep {
         }
     }
 
-    public Q26Rep(@Qualifier(Constant.BEAN_JDBC_TEMPLATE) JdbcTemplate jdbcTemplate) {
+    public Q26Rep(@Qualifier(Constant.BEAN_JDBC_TEMPLATE) JdbcTemplate jdbcTemplate, IToolsDbHelper toolsDbHelper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.toolsDbHelper = toolsDbHelper;
     }
 
     public List<Q26Do> getList(Q26Query query) {
@@ -129,7 +126,7 @@ public class Q26Rep {
                 public void processRow(ResultSet rs) throws SQLException {
                     c = c +1;
                     if(c % 2000 == 0) {
-                        logger.debug(String.valueOf(c) + "-" + String.valueOf(tCount) + "-" + String.valueOf(map.keySet().size()));
+                        logger.debug(String.valueOf(c) + "-" + String.valueOf(tCount));
                     }
                     String insuAdmdvs = SQLTool.getString(rs, "INSU_ADMDVS");
                     String dedcHospLv = SQLTool.getString(rs, "DEDC_HOSP_LV");
@@ -143,30 +140,21 @@ public class Q26Rep {
                         }
                     }
                     threadPool.submit(() -> {
+                        toolsDbHelper.setDataSourceKey(DHConstant.DB_CONN_STR_TIDB_ONE);
                         try {
                             if (insuAdmdvs == null || dedcHospLv == null || mdtrtId == null || setlId == null) {
                                 return;
                             }
-                            logger.debug("2"+ "-" + mdtrtId + "-" + setlId);
-                            Q26Do d = null;
-                            try{
-                                 d = jdbcTemplate.queryForObject(SQL_QUERY_SIGNAL, new Q26SignalRowMapper(), mdtrtId, setlId);
-                            } catch (Exception e) {
-                                logger.debug(ExceptionTool.getStackTrace(e));
-                            }
-
-                            Gson gson = new Gson();
-                            logger.debug(gson.toJson(d));
+                            Q26Do d = jdbcTemplate.queryForObject(SQL_QUERY_SIGNAL, new Q26SignalRowMapper(), mdtrtId, setlId);
                             if (d == null) {
                                 return;
                             }
-                            logger.debug("3");
-                            logger.debug(MessageFormat.format("{0}-{1}-{2}-{3}-{4}-{5}",c,tCount,insuAdmdvs, dedcHospLv, mdtrtId, setlId));
                             d.setInsuAdmdvs(insuAdmdvs);
                             d.setDedcHospLv(dedcHospLv);
                             updateMap(d);
                         }finally {
                             minusCount();
+                            toolsDbHelper.remove();
                         }
                     });
                 }
