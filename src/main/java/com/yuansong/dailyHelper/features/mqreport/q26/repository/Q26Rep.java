@@ -3,11 +3,14 @@ package com.yuansong.dailyHelper.features.mqreport.q26.repository;
 import com.github.deansquirrel.tools.common.DateTool;
 import com.github.deansquirrel.tools.common.SQLTool;
 import com.github.deansquirrel.tools.db.Constant;
+import com.github.deansquirrel.tools.db.TargetSource;
+import com.yuansong.dailyHelper.global.DHConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -54,57 +57,104 @@ public class Q26Rep {
 
     private final JdbcTemplate jdbcTemplate;
 
+    private Map<String, Q26Do> map = null;
+    private volatile boolean isRunning = false;
+    private long tCount = 0L;
+
     public Q26Rep(@Qualifier(Constant.BEAN_JDBC_TEMPLATE) JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<Q26Do> getList(Q26Query query) {
+        while(this.isRunning) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ignored) {
+            }
+        }
+        this.start();
+
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(query.getMonth().getTime());
-        cal.set(
-                cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
                 0,0,0);
         cal.add(Calendar.MONTH, 1);
         String maxSetlTime = DateTool.GetDateTimeStr(cal.getTime());
         cal.set(Calendar.MONTH, Calendar.JANUARY);
         String minSetlTime = DateTool.GetDateTimeStr(cal.getTime());
         logger.debug(MessageFormat.format("Q26 SQL {0} {1} {2}",SQL_QUERY, minSetlTime,maxSetlTime));
-        Map<String, Q26Do> map = new HashMap<>();
         jdbcTemplate.query(SQL_QUERY, new RowCallbackHandler() {
-            Q26Do nd = null;
-            long c = 0L;
             @Override
             public void processRow(ResultSet rs) throws SQLException {
-                c = c + 1;
-                if(c % 2000 == 0) {
-                    logger.debug(MessageFormat.format("Q26 RowCallbackHandler {0}", c));
-                }
-                nd = getCurr(SQLTool.getString(rs, "MDTRT_ID"),
+                addCount();
+                getCurr(SQLTool.getString(rs, "INSU_ADMDVS"),
+                        SQLTool.getString(rs, "DEDC_HOSP_LV"),
+                        SQLTool.getString(rs, "MDTRT_ID"),
                         SQLTool.getString(rs,"SETL_ID"));
-                if(nd == null) {
-                    return;
-                }
-                nd.setInsuAdmdvs(SQLTool.getString(rs, "INSU_ADMDVS"));
-                nd.setDedcHospLv(SQLTool.getString(rs, "DEDC_HOSP_LV"));
-                String k = MessageFormat.format("{0}-{1}",nd.getInsuAdmdvs(),nd.getDedcHospLv());
-                if(map.containsKey(k)) {
-                    Q26Do d = map.get(k);
-                    map.put(k, d.add(nd));
-                } else {
-                    map.put(k, nd);
-                }
             }
         }, minSetlTime, maxSetlTime);
+        while(this.tCount > 0) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ignored) {
+            }
+        }
         List<Q26Do> list = new ArrayList<>(map.values());
+        this.stop();
         Collections.sort(list);
         return list;
     }
 
-    private Q26Do getCurr(String mdtrtId, String setlId) {
-        if(mdtrtId == null || setlId == null || "".equals(mdtrtId) || "".equals(setlId)) {
-            return null;
+    @Async(DHConstant.TASK_EXECUTOR)
+    @TargetSource(DHConstant.DB_CONN_STR_TIDB_ONE)
+    protected void getCurr(String insuAdmdvs, String dedcHospLv, String mdtrtId, String setlId) {
+        try{
+            if(insuAdmdvs == null || dedcHospLv == null || mdtrtId == null || setlId == null) {
+                return ;
+            }
+            Q26Do d = jdbcTemplate.queryForObject(SQL_QUERY_SIGNAL, new Q26SignalRowMapper(), mdtrtId, setlId);
+            if(d == null) {
+                return;
+            }
+            d.setInsuAdmdvs(insuAdmdvs);
+            d.setDedcHospLv(dedcHospLv);
+            updateMap(d);
+        }finally {
+            minusCount();
         }
-        return jdbcTemplate.queryForObject(SQL_QUERY_SIGNAL, new Q26SignalRowMapper(), mdtrtId, setlId);
+    }
+
+    private synchronized void start() {
+        this.isRunning = true;
+        this.map = new HashMap<>();
+        this.tCount = 0L;
+    }
+
+    private synchronized void stop() {
+        this.isRunning = false;
+        this.map = null;
+        this.tCount = 0L;
+    }
+
+    private synchronized void addCount() {
+        this.tCount = this.tCount + 1;
+    }
+
+    private synchronized void minusCount() {
+        this.tCount = this.tCount - 1;
+    }
+
+    private synchronized void updateMap(Q26Do nd) {
+        if(this.map == null) {
+            return;
+        }
+        String k = MessageFormat.format("{0}-{1}", nd.getInsuAdmdvs(), nd.getDedcHospLv());
+        if(map.containsKey(k)) {
+            Q26Do d = map.get(k);
+            map.put(k, d.add(nd));
+        } else {
+            map.put(k, nd);
+        }
     }
 
 }
