@@ -3,7 +3,7 @@ package com.yuansong.dailyHelper.global.runner;
 import com.github.deansquirrel.tools.db.IToolsDbHelper;
 import com.yuansong.dailyHelper.config.AppConfig;
 import com.yuansong.dailyHelper.repository.IRepTiDbOne;
-import com.yuansong.dailyHelper.util.io.FileUtil;
+import com.yuansong.dailyHelper.util.tool.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

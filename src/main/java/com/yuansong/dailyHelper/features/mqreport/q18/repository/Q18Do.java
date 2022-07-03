@@ -1,5 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q18.repository;
 
+import com.yuansong.dailyHelper.util.tool.CommonUtil;
+
 import java.math.BigDecimal;
 
 public class Q18Do implements Comparable<Q18Do> {
@@ -72,12 +74,12 @@ public class Q18Do implements Comparable<Q18Do> {
 
     public Q18Do add(Q18Do d) {
         if(d != null) {
-            this.a01 = this.a01.add(d.a01==null? BigDecimal.valueOf(0) :d.a01);
-            this.a02 = this.a02.add(d.a02==null? BigDecimal.valueOf(0) :d.a02);
-            this.b01 = this.b01.add(d.b01==null? BigDecimal.valueOf(0) :d.b01);
-            this.b02 = this.b02.add(d.b02==null? BigDecimal.valueOf(0) :d.b02);
-            this.c01 = this.c01.add(d.c01==null? BigDecimal.valueOf(0) :d.c01);
-            this.c02 = this.c02.add(d.c02==null? BigDecimal.valueOf(0) :d.c02);
+            this.a01 = CommonUtil.addBigDecimal(this.a01, d.a01);
+            this.a02 = CommonUtil.addBigDecimal(this.a02, d.a02);
+            this.b01 = CommonUtil.addBigDecimal(this.b01, d.b01);
+            this.b02 = CommonUtil.addBigDecimal(this.b02, d.b02);
+            this.c01 = CommonUtil.addBigDecimal(this.c01, d.c01);
+            this.c02 = CommonUtil.addBigDecimal(this.c02, d.c02);
         }
         return this;
     }

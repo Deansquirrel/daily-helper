@@ -1,4 +1,4 @@
-package com.yuansong.dailyHelper.util.io;
+package com.yuansong.dailyHelper.util.tool;
 
 import com.github.deansquirrel.tools.common.DateTool;
 import com.github.deansquirrel.tools.common.ExceptionTool;
