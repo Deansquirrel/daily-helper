@@ -19,7 +19,7 @@ public class Q33Rep {
 
     private static final String SQL_QUERY = "" +
             "select INSU_ADMDVS, SETL_TYPE, count(DISTINCT PSN_NO) REN_SHU, count(*) REN_CI, " +
-            "   sum(MEDFEE_SUMAMT) MEDFEE_SUMAMT, sum(hifp_pay) hifp_pay," +
+            "   sum(MEDFEE_SUMAMT) MEDFEE_SUMAMT, sum(hifp_pay) hifp_pay, sum(HIFMI_PAY) HIFMI_PAY, " +
             "   sum(other_pay) other_pay, " +
             "   sum(ziFu) zifu, sum(ziFei) zifei, SUM(IN_HOST_DAY) IN_HOST_DAY " +
             "from ( " +
