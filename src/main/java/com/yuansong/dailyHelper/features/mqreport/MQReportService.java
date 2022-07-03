@@ -94,6 +94,8 @@ import com.yuansong.dailyHelper.features.mqreport.q35.repository.Q35Do;
 import com.yuansong.dailyHelper.features.mqreport.q35.service.Q35Service;
 import com.yuansong.dailyHelper.features.mqreport.q36.repository.Q36Do;
 import com.yuansong.dailyHelper.features.mqreport.q36.service.Q36Service;
+import com.yuansong.dailyHelper.features.mqreport.q37.repository.Q37Do;
+import com.yuansong.dailyHelper.features.mqreport.q37.service.Q37Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -158,6 +160,7 @@ public class MQReportService {
     private final Q34Service q34Service;        //HI8.1-异地结算总人数
     private final Q35Service q35Service;        //HI9-城乡居民大病保险情况
     private final Q36Service q36Service;        //HI10-转移相关查询
+    private final Q37Service q37Service;        //MI3-生育相关报表
 
     public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service,
                            M04Service m04Service, M05Service m05Service, M06Service m06Service,
@@ -173,7 +176,8 @@ public class MQReportService {
                            Q25Service q25Service, Q26Service q26Service, Q27Service q27Service,
                            Q28Service q28Service, Q29Service q29Service, Q30Service q30Service,
                            Q31Service q31Service, Q32Service q32Service, Q33Service q33Service,
-                           Q34Service q34Service, Q35Service q35Service, Q36Service q36Service) {
+                           Q34Service q34Service, Q35Service q35Service, Q36Service q36Service,
+                           Q37Service q37Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
@@ -219,6 +223,7 @@ public class MQReportService {
         this.q34Service = q34Service;
         this.q35Service = q35Service;
         this.q36Service = q36Service;
+        this.q37Service = q37Service;
     }
 
     private String getMExportFileName() {
@@ -946,6 +951,25 @@ public class MQReportService {
             }
         }
         this.saveFile(q36Service.getExportFileName(), q36Service.getQDataTable(q36Data),"Q36");
+        flag = false;
+        List<Q37Do> q37Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询Q37数据");
+                q37Data = q37Service.getQData(queryMonth);
+                list.add(q37Service.getQDataTable(q37Data));
+                logger.debug(taskId + " 查询Q37数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q37Service.getExportFileName(), q37Service.getQDataTable(q37Data),"Q37");
         this.saveFile(this.getQExportFileName(), list, "AllQ季报");
     }
 
@@ -1953,6 +1977,29 @@ public class MQReportService {
             }
         }
         this.saveFile(q36Service.getExportFileName(), q36Service.getQDataTable(qData), "Q36");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getQ37File(Date queryMonth) {
+        boolean flag = false;
+        List<Q37Do> qData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出Q37数据");
+                logger.debug(taskId + " 开始查询Q37数据");
+                qData =  q37Service.getQData(queryMonth);
+                logger.debug(taskId + " 查询Q37数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q37Service.getExportFileName(), q37Service.getQDataTable(qData), "Q37");
     }
 
     /**
