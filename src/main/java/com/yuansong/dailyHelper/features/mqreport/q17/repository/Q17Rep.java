@@ -26,8 +26,8 @@ public class Q17Rep {
             "   count(*) T_COUNT, SUM(IN_HOST_DAY) IN_HOST_DAY " +
             "from ( " +
             "   select INSU_ADMDVS, " +
-            "       MEDFEE_SUMAMT,hifp_pay,HIFMI_PAY, (CVLSERV_PAY+HIFOB_PAY) other_pay," +
-            "       (MEDFEE_SUMAMT - hifp_pay - (CVLSERV_PAY+HIFOB_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
+            "       MEDFEE_SUMAMT,hifp_pay,HIFMI_PAY, (MAF_PAY) other_pay," +
+            "       (MEDFEE_SUMAMT - hifp_pay - (MAF_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
             "       FULAMT_OWNPAY_AMT zifei,ACCT_PAY,(DATEDIFF(enddate,BEGNDATE)+1) IN_HOST_DAY" +
             "   from setl_d a " +
             "   where INSU_ADMDVS like '1311%' " +

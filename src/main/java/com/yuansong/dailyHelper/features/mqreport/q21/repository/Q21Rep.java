@@ -31,8 +31,8 @@ public class Q21Rep {
             "           when PSN_TYPE in ('1403','1404') then '学生' " +
             "           else '' " +
             "       end) PSN_TYPE, " +
-            "       MEDFEE_SUMAMT,hifp_pay,HIFMI_PAY, (CVLSERV_PAY+HIFOB_PAY) other_pay," +
-            "       (MEDFEE_SUMAMT - hifp_pay - (CVLSERV_PAY+HIFOB_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
+            "       MEDFEE_SUMAMT,hifp_pay,HIFMI_PAY, (MAF_PAY) other_pay," +
+            "       (MEDFEE_SUMAMT - hifp_pay - (MAF_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
             "       FULAMT_OWNPAY_AMT zifei,ACCT_PAY,(DATEDIFF(enddate,BEGNDATE)+1) IN_HOST_DAY" +
             "   from setl_d a " +
             "   where INSU_ADMDVS like '1311%' " +
