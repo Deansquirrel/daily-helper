@@ -74,6 +74,8 @@ import com.yuansong.dailyHelper.features.mqreport.q25.repository.Q25Do;
 import com.yuansong.dailyHelper.features.mqreport.q25.service.Q25Service;
 import com.yuansong.dailyHelper.features.mqreport.q26.repository.Q26Do;
 import com.yuansong.dailyHelper.features.mqreport.q26.service.Q26Service;
+import com.yuansong.dailyHelper.features.mqreport.q27.repository.Q27Do;
+import com.yuansong.dailyHelper.features.mqreport.q27.service.Q27Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.io.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -128,6 +130,7 @@ public class MQReportService {
     private final Q24Service q24Service;        //HI7按照医疗级别-慢特病
     private final Q25Service q25Service;        //HI7按照医疗级别-住院按照支出构成
     private final Q26Service q26Service;        //HI7按照支出类别-住院按照支出类别
+    private final Q27Service q27Service;        //HI7.1、HI7.2慢病、两病用药
 
     public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service,
                            M04Service m04Service, M05Service m05Service, M06Service m06Service,
@@ -140,7 +143,7 @@ public class MQReportService {
                            Q16Service q16Service, Q17Service q17Service, Q18Service q18Service,
                            Q19Service q19Service, Q20Service q20Service, Q21Service q21Service,
                            Q22Service q22Service, Q23Service q23Service, Q24Service q24Service,
-                           Q25Service q25Service, Q26Service q26Service) {
+                           Q25Service q25Service, Q26Service q26Service, Q27Service q27Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
@@ -176,6 +179,7 @@ public class MQReportService {
         this.q24Service = q24Service;
         this.q25Service = q25Service;
         this.q26Service = q26Service;
+        this.q27Service = q27Service;
     }
 
     private String getMExportFileName() {
@@ -713,6 +717,25 @@ public class MQReportService {
             }
         }
         this.saveFile(q26Service.getExportFileName(), q26Service.getQDataTable(q26Data),"Q26");
+        flag = false;
+        List<Q27Do> q27Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询Q27数据");
+                q27Data = q27Service.getQData(queryMonth);
+                list.add(q27Service.getQDataTable(q27Data));
+                logger.debug(taskId + " 查询Q27数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q27Service.getExportFileName(), q27Service.getQDataTable(q27Data),"Q27");
         this.saveFile(this.getQExportFileName(), list, "AllQ季报");
     }
 
@@ -1490,6 +1513,29 @@ public class MQReportService {
             }
         }
         this.saveFile(q26Service.getExportFileName(), q26Service.getQDataTable(qData), "Q26");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getQ27File(Date queryMonth) {
+        boolean flag = false;
+        List<Q27Do> qData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出Q27数据");
+                logger.debug(taskId + " 开始查询Q27数据");
+                qData =  q27Service.getQData(queryMonth);
+                logger.debug(taskId + " 查询Q27数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q27Service.getExportFileName(), q27Service.getQDataTable(qData), "Q27");
     }
 
     /**

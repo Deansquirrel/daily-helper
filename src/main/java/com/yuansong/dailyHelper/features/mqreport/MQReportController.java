@@ -222,6 +222,13 @@ public class MQReportController {
         return Response.makeOKResp();
     }
 
+    @ApiOperation(value="HI7.1、HI7.2慢病、两病用药")
+    @RequestMapping(value="/q27",method = RequestMethod.GET)
+    public ResponseResult<?> getQ27Data() {
+        mqReportService.getQ27File(null);
+        return Response.makeOKResp();
+    }
+
     @ApiOperation(value="职工参保")
     @RequestMapping(value="/m01",method = RequestMethod.GET)
     public ResponseResult<?> getM01Data() {
