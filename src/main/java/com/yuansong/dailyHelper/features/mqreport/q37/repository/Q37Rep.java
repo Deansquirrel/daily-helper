@@ -283,7 +283,7 @@ public class Q37Rep {
     }
 
     private List<Q37Do> getListF(String minSetlTime, String maxSetlTime, String minYm, String maxYm) {
-        logger.debug(MessageFormat.format("Q37 SQL F {0} {1} {2} {3} {4}",SQL_QUERY_E, minSetlTime,maxSetlTime,minYm,maxYm));
+        logger.debug(MessageFormat.format("Q37 SQL F {0} {1} {2} {3} {4}",SQL_QUERY_F, minSetlTime,maxSetlTime,minYm,maxYm));
         return jdbcTemplate.query(SQL_QUERY_F, new Q37RowMapper(), minSetlTime,maxSetlTime,minYm,maxYm);
     }
 
