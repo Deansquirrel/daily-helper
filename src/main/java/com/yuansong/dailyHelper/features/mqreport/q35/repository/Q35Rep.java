@@ -39,7 +39,7 @@ public class Q35Rep {
             "order by INSU_ADMDVS;";
 
     private static final String SQL_QUERY_MAF = "" +
-            "select '全部' PSN_RANGE,INSU_ADMDVS, " +
+            "select '贫困' PSN_RANGE,INSU_ADMDVS, " +
             "   sum(hifp_pay) hifp_pay, sum(HIFMI_PAY) HIFMI_PAY, sum(MAF_PAY) MAF_PAY, " +
             "   sum(ziFu) zifu, sum(ziFei) zifei, " +
             "   count(DISTINCT PSN_NO) REN_SHU, count(*) REN_CI " +
