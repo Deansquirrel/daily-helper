@@ -136,7 +136,7 @@ public class Q37Rep {
             "       select 1 " +
             "       from mdtrt_d " +
             "       where MDTRT_ID=setl_d.MDTRT_ID " +
-            "           and BIRCTRL_TYPE in ('1')" +
+            "           and MATN_TYPE in ('1')" +
             "   ) " +
             "group by INSU_ADMDVS, " +
             "   CASE " +
