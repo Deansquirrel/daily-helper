@@ -21,10 +21,10 @@ public class Q37Rep {
     private static final String SQL_QUERY_A = "" +
             "select INSU_ADMDVS, " +
             "   CASE " +
-            "       WHEN a.EMP_TYPE IN ('10','99','9008') THEN '企业' " +
-            "       WHEN a.EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
-            "       WHEN a.EMP_TYPE IN ('30') THEN '机关' " +
-            "       WHEN a.EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "       WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "       WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "       WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "       WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
             "       ELSE '企业' " +
             "   END EMP_TYPE, sum( MEDFEE_SUMAMT ) `A01`, count(*) `A02` " +
             "from setl_d " +
@@ -44,10 +44,10 @@ public class Q37Rep {
             "   ) " +
             "group by INSU_ADMDVS, " +
             "   CASE " +
-            "       WHEN a.EMP_TYPE IN ('10','99','9008') THEN '企业' " +
-            "       WHEN a.EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
-            "       WHEN a.EMP_TYPE IN ('30') THEN '机关' " +
-            "       WHEN a.EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "       WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "       WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "       WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "       WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
             "       ELSE '企业' " +
             "   END;";
 
@@ -55,10 +55,10 @@ public class Q37Rep {
     private static final String SQL_QUERY_B = "" +
             "select INSU_ADMDVS, " +
             "   CASE " +
-            "       WHEN a.EMP_TYPE IN ('10','99','9008') THEN '企业' " +
-            "       WHEN a.EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
-            "       WHEN a.EMP_TYPE IN ('30') THEN '机关' " +
-            "       WHEN a.EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "       WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "       WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "       WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "       WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
             "       ELSE '企业' " +
             "   END EMP_TYPE, sum( MEDFEE_SUMAMT ) `B01`, count(*) `B02` " +
             "from setl_d " +
@@ -78,10 +78,10 @@ public class Q37Rep {
             "   ) " +
             "group by INSU_ADMDVS, " +
             "   CASE " +
-            "       WHEN a.EMP_TYPE IN ('10','99','9008') THEN '企业' " +
-            "       WHEN a.EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
-            "       WHEN a.EMP_TYPE IN ('30') THEN '机关' " +
-            "       WHEN a.EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "       WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "       WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "       WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "       WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
             "       ELSE '企业' " +
             "   END;";
 
@@ -89,10 +89,10 @@ public class Q37Rep {
     private static final String SQL_QUERY_C = "" +
             "select INSU_ADMDVS, " +
             "   CASE " +
-            "       WHEN a.EMP_TYPE IN ('10','99','9008') THEN '企业' " +
-            "       WHEN a.EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
-            "       WHEN a.EMP_TYPE IN ('30') THEN '机关' " +
-            "       WHEN a.EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "       WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "       WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "       WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "       WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
             "       ELSE '企业' " +
             "   END EMP_TYPE, sum( MEDFEE_SUMAMT ) `C01`, count(*) `C02` " +
             "from setl_d " +
@@ -106,10 +106,10 @@ public class Q37Rep {
             "   and SETL_TIME < ? " +
             "group by INSU_ADMDVS, " +
             "   CASE " +
-            "       WHEN a.EMP_TYPE IN ('10','99','9008') THEN '企业' " +
-            "       WHEN a.EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
-            "       WHEN a.EMP_TYPE IN ('30') THEN '机关' " +
-            "       WHEN a.EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "       WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "       WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "       WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "       WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
             "       ELSE '企业' " +
             "   END;";
 
@@ -117,10 +117,10 @@ public class Q37Rep {
     private static final String SQL_QUERY_D = "" +
             "select INSU_ADMDVS, " +
             "   CASE " +
-            "       WHEN a.EMP_TYPE IN ('10','99','9008') THEN '企业' " +
-            "       WHEN a.EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
-            "       WHEN a.EMP_TYPE IN ('30') THEN '机关' " +
-            "       WHEN a.EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "       WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "       WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "       WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "       WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
             "       ELSE '企业' " +
             "   END EMP_TYPE, sum( MEDFEE_SUMAMT ) `D01`, count(*) `D02` " +
             "from setl_d " +
@@ -140,10 +140,10 @@ public class Q37Rep {
             "   ) " +
             "group by INSU_ADMDVS, " +
             "   CASE " +
-            "       WHEN a.EMP_TYPE IN ('10','99','9008') THEN '企业' " +
-            "       WHEN a.EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
-            "       WHEN a.EMP_TYPE IN ('30') THEN '机关' " +
-            "       WHEN a.EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "       WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "       WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "       WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "       WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
             "       ELSE '企业' " +
             "   END;";
 
@@ -154,10 +154,10 @@ public class Q37Rep {
             "from ( " +
             "   select a.PSN_NO, " +
             "       CASE " +
-            "           WHEN a.EMP_TYPE IN ('10','99','9008') THEN '企业' " +
-            "           WHEN a.EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
-            "           WHEN a.EMP_TYPE IN ('30') THEN '机关' " +
-            "           WHEN a.EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "           WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "           WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "           WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "           WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
             "           ELSE '企业' " +
             "       END EMP_TYPE,b.INSU_ADMDVS,MATN_ALWN_SUMAMT " +
             "   from matn_alwn_crtf_d a,psn_insu_d b " +
@@ -175,7 +175,13 @@ public class Q37Rep {
     private static final String SQL_QUERY_F = "" +
             "select INSU_ADMDVS, EMP_TYPE,count(*) `F01`, count(DISTINCT PSN_NO) `F02` " +
             "from ( " +
-            "   select PSN_NO,EMP_TYPE,INSU_ADMDVS " +
+            "   select PSN_NO, CASE " +
+            "           WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "           WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "           WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "           WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "           ELSE '企业' " +
+            "       END EMP_TYPE,INSU_ADMDVS " +
             "   from setl_d " +
             "   where 1=1 " +
             "       and INSU_ADMDVS like '1311%' " +
@@ -191,7 +197,13 @@ public class Q37Rep {
             "           where GEND='2' and PSN_NO=setl_d.PSN_NO " +
             "       ) " +
             "   UNION ALL " +
-            "   select a.PSN_NO,EMP_TYPE,b.INSU_ADMDVS " +
+            "   select a.PSN_NO, CASE " +
+            "           WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "           WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "           WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "           WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "           ELSE '企业' " +
+            "       END EMP_TYPE,b.INSU_ADMDVS " +
             "   from matn_alwn_crtf_d a,psn_insu_d b " +
             "   left join insu_emp_info_b c on c.EMP_NO = b.EMP_NO " +
             "   where 1=1 " +
