@@ -92,6 +92,8 @@ import com.yuansong.dailyHelper.features.mqreport.q34.repository.Q34Do;
 import com.yuansong.dailyHelper.features.mqreport.q34.service.Q34Service;
 import com.yuansong.dailyHelper.features.mqreport.q35.repository.Q35Do;
 import com.yuansong.dailyHelper.features.mqreport.q35.service.Q35Service;
+import com.yuansong.dailyHelper.features.mqreport.q36.repository.Q36Do;
+import com.yuansong.dailyHelper.features.mqreport.q36.service.Q36Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -155,6 +157,7 @@ public class MQReportService {
     private final Q33Service q33Service;        //HI8.1-住院
     private final Q34Service q34Service;        //HI8.1-异地结算总人数
     private final Q35Service q35Service;        //HI9-城乡居民大病保险情况
+    private final Q36Service q36Service;        //HI10-转移相关查询
 
     public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service,
                            M04Service m04Service, M05Service m05Service, M06Service m06Service,
@@ -170,7 +173,7 @@ public class MQReportService {
                            Q25Service q25Service, Q26Service q26Service, Q27Service q27Service,
                            Q28Service q28Service, Q29Service q29Service, Q30Service q30Service,
                            Q31Service q31Service, Q32Service q32Service, Q33Service q33Service,
-                           Q34Service q34Service, Q35Service q35Service) {
+                           Q34Service q34Service, Q35Service q35Service, Q36Service q36Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
@@ -215,6 +218,7 @@ public class MQReportService {
         this.q33Service = q33Service;
         this.q34Service = q34Service;
         this.q35Service = q35Service;
+        this.q36Service = q36Service;
     }
 
     private String getMExportFileName() {
@@ -923,6 +927,25 @@ public class MQReportService {
             }
         }
         this.saveFile(q35Service.getExportFileName(), q35Service.getQDataTable(q35Data),"Q35");
+        flag = false;
+        List<Q36Do> q36Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询Q36数据");
+                q36Data = q36Service.getQData(queryMonth);
+                list.add(q36Service.getQDataTable(q36Data));
+                logger.debug(taskId + " 查询Q36数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q36Service.getExportFileName(), q36Service.getQDataTable(q36Data),"Q36");
         this.saveFile(this.getQExportFileName(), list, "AllQ季报");
     }
 
@@ -1907,6 +1930,29 @@ public class MQReportService {
             }
         }
         this.saveFile(q35Service.getExportFileName(), q35Service.getQDataTable(qData), "Q35");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getQ36File(Date queryMonth) {
+        boolean flag = false;
+        List<Q36Do> qData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出Q36数据");
+                logger.debug(taskId + " 开始查询Q36数据");
+                qData =  q36Service.getQData(queryMonth);
+                logger.debug(taskId + " 查询Q36数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q36Service.getExportFileName(), q36Service.getQDataTable(qData), "Q36");
     }
 
     /**
