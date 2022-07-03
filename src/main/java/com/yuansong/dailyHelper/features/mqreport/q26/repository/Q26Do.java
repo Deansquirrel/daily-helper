@@ -80,13 +80,14 @@ public class Q26Do implements Comparable<Q26Do> {
     }
 
     public Q26Do add(Q26Do d) {
-
-        this.a01 = this.a01.add(d.a01);
-        this.a02 = this.a02.add(d.a02);
-        this.b01 = this.b01.add(d.b01);
-        this.b02 = this.b02.add(d.b02);
-        this.c01 = this.c01.add(d.c01);
-        this.c02 = this.c02.add(d.c02);
+        if(d != null) {
+            this.a01 = this.a01.add(d.a01);
+            this.a02 = this.a02.add(d.a02);
+            this.b01 = this.b01.add(d.b01);
+            this.b02 = this.b02.add(d.b02);
+            this.c01 = this.c01.add(d.c01);
+            this.c02 = this.c02.add(d.c02);
+        }
         return this;
     }
     
