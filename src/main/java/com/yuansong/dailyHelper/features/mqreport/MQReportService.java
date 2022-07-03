@@ -80,6 +80,8 @@ import com.yuansong.dailyHelper.features.mqreport.q28.repository.Q28Do;
 import com.yuansong.dailyHelper.features.mqreport.q28.service.Q28Service;
 import com.yuansong.dailyHelper.features.mqreport.q29.repository.Q29Do;
 import com.yuansong.dailyHelper.features.mqreport.q29.service.Q29Service;
+import com.yuansong.dailyHelper.features.mqreport.q30.repository.Q30Do;
+import com.yuansong.dailyHelper.features.mqreport.q30.service.Q30Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -137,6 +139,7 @@ public class MQReportService {
     private final Q27Service q27Service;        //HI7.1、HI7.2慢病、两病用药
     private final Q28Service q28Service;        //HI8-普通门诊
     private final Q29Service q29Service;        //HI8-慢特病
+    private final Q30Service q30Service;        //HI8-住院
 
     public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service,
                            M04Service m04Service, M05Service m05Service, M06Service m06Service,
@@ -150,7 +153,7 @@ public class MQReportService {
                            Q19Service q19Service, Q20Service q20Service, Q21Service q21Service,
                            Q22Service q22Service, Q23Service q23Service, Q24Service q24Service,
                            Q25Service q25Service, Q26Service q26Service, Q27Service q27Service,
-                           Q28Service q28Service, Q29Service q29Service) {
+                           Q28Service q28Service, Q29Service q29Service, Q30Service q30Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
@@ -189,6 +192,7 @@ public class MQReportService {
         this.q27Service = q27Service;
         this.q28Service = q28Service;
         this.q29Service = q29Service;
+        this.q30Service = q30Service;
     }
 
     private String getMExportFileName() {
@@ -783,6 +787,25 @@ public class MQReportService {
             }
         }
         this.saveFile(q29Service.getExportFileName(), q29Service.getQDataTable(q29Data),"Q29");
+        flag = false;
+        List<Q30Do> q30Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询Q30数据");
+                q30Data = q30Service.getQData(queryMonth);
+                list.add(q30Service.getQDataTable(q30Data));
+                logger.debug(taskId + " 查询Q30数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q30Service.getExportFileName(), q30Service.getQDataTable(q30Data),"Q30");
         this.saveFile(this.getQExportFileName(), list, "AllQ季报");
     }
 
@@ -1629,6 +1652,29 @@ public class MQReportService {
             }
         }
         this.saveFile(q29Service.getExportFileName(), q29Service.getQDataTable(qData), "Q29");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getQ30File(Date queryMonth) {
+        boolean flag = false;
+        List<Q30Do> qData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出Q30数据");
+                logger.debug(taskId + " 开始查询Q30数据");
+                qData =  q30Service.getQData(queryMonth);
+                logger.debug(taskId + " 查询Q30数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q30Service.getExportFileName(), q30Service.getQDataTable(qData), "Q30");
     }
 
     /**
