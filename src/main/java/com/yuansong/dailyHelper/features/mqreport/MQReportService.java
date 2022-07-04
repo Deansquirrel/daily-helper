@@ -98,6 +98,8 @@ import com.yuansong.dailyHelper.features.mqreport.q37.repository.Q37Do;
 import com.yuansong.dailyHelper.features.mqreport.q37.service.Q37Service;
 import com.yuansong.dailyHelper.features.mqreport.q38.repository.Q38Do;
 import com.yuansong.dailyHelper.features.mqreport.q38.service.Q38Service;
+import com.yuansong.dailyHelper.features.mqreport.q39.repository.Q39Do;
+import com.yuansong.dailyHelper.features.mqreport.q39.service.Q39Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -164,6 +166,7 @@ public class MQReportService {
     private final Q36Service q36Service;        //HI10-转移相关查询
     private final Q37Service q37Service;        //MI3-生育相关报表
     private final Q38Service q38Service;        //SI2大额报销人数
+    private final Q39Service q39Service;        //SI2大额+公务员补助
 
     public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service,
                            M04Service m04Service, M05Service m05Service, M06Service m06Service,
@@ -180,7 +183,7 @@ public class MQReportService {
                            Q28Service q28Service, Q29Service q29Service, Q30Service q30Service,
                            Q31Service q31Service, Q32Service q32Service, Q33Service q33Service,
                            Q34Service q34Service, Q35Service q35Service, Q36Service q36Service,
-                           Q37Service q37Service, Q38Service q38Service) {
+                           Q37Service q37Service, Q38Service q38Service, Q39Service q39Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
@@ -228,6 +231,7 @@ public class MQReportService {
         this.q36Service = q36Service;
         this.q37Service = q37Service;
         this.q38Service = q38Service;
+        this.q39Service = q39Service;
     }
 
     private String getMExportFileName() {
@@ -993,6 +997,25 @@ public class MQReportService {
             }
         }
         this.saveFile(q38Service.getExportFileName(), q38Service.getQDataTable(q38Data),"Q38");
+        flag = false;
+        List<Q39Do> q39Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询Q39数据");
+                q39Data = q39Service.getQData(queryMonth);
+                list.add(q39Service.getQDataTable(q39Data));
+                logger.debug(taskId + " 查询Q39数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q39Service.getExportFileName(), q39Service.getQDataTable(q39Data),"Q39");
         this.saveFile(this.getQExportFileName(), list, "AllQ季报");
     }
 
@@ -2046,6 +2069,29 @@ public class MQReportService {
             }
         }
         this.saveFile(q38Service.getExportFileName(), q38Service.getQDataTable(qData), "Q38");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getQ39File(Date queryMonth) {
+        boolean flag = false;
+        List<Q39Do> qData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出Q39数据");
+                logger.debug(taskId + " 开始查询Q39数据");
+                qData =  q39Service.getQData(queryMonth);
+                logger.debug(taskId + " 查询Q39数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q39Service.getExportFileName(), q39Service.getQDataTable(qData), "Q39");
     }
 
     /**
