@@ -34,9 +34,9 @@ public class Q39Rep {
             "   where r.INSUTYPE in ('330','320') " +
             "       and ACCRYM_END >= ? " +
             "       and ACCRYM_END < ? " +
-            "       AND P.INSUTYPE IN ('320') " +
-            "       AND P.INSU_ADMDVS LIKE '1311%' " +
-            "       and P.INSU_ADMDVS = '131199' " +
+            "       AND p.INSUTYPE IN ('320') " +
+            "       AND p.INSU_ADMDVS LIKE '1311%' " +
+            "       and p.INSU_ADMDVS = '131199' " +
             "       and r.CLCT_TYPE = 10 and r.CLCT_FLAG = 1 " +
             ") a " +
             "group by INSUTYPE, INSU_ADMDVS, EMP_TYPE " +
