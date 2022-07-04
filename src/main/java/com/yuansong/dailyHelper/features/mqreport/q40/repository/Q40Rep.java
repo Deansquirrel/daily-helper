@@ -51,6 +51,8 @@ public class Q40Rep {
     public List<Q40Do> getList(Q40Query query) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(query.getMonth().getTime());
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 1,
+                0,0,0);
         cal.add(Calendar.MONTH, 1);
         String clctTime = DateTool.GetDateTimeStr(cal.getTime());
         cal.set(Calendar.MONTH, Calendar.JANUARY);
