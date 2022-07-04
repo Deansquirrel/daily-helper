@@ -299,6 +299,13 @@ public class MQReportController {
         return Response.makeOKResp();
     }
 
+    @ApiOperation(value="SI2大额报销人数")
+    @RequestMapping(value="/q38",method = RequestMethod.GET)
+    public ResponseResult<?> getQ38Data() {
+        mqReportService.getQ38File(null);
+        return Response.makeOKResp();
+    }
+
     @ApiOperation(value="职工参保")
     @RequestMapping(value="/m01",method = RequestMethod.GET)
     public ResponseResult<?> getM01Data() {
