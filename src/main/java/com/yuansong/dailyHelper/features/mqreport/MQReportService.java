@@ -100,6 +100,8 @@ import com.yuansong.dailyHelper.features.mqreport.q38.repository.Q38Do;
 import com.yuansong.dailyHelper.features.mqreport.q38.service.Q38Service;
 import com.yuansong.dailyHelper.features.mqreport.q39.repository.Q39Do;
 import com.yuansong.dailyHelper.features.mqreport.q39.service.Q39Service;
+import com.yuansong.dailyHelper.features.mqreport.q40.repository.Q40Do;
+import com.yuansong.dailyHelper.features.mqreport.q40.service.Q40Service;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -167,6 +169,7 @@ public class MQReportService {
     private final Q37Service q37Service;        //MI3-生育相关报表
     private final Q38Service q38Service;        //SI2大额报销人数
     private final Q39Service q39Service;        //SI2大额+公务员补助
+    private final Q40Service q40Service;        //SI大额参保人数
 
     public MQReportService(M01Service m01Service, M02Service m02Service, M03Service m03Service,
                            M04Service m04Service, M05Service m05Service, M06Service m06Service,
@@ -183,7 +186,8 @@ public class MQReportService {
                            Q28Service q28Service, Q29Service q29Service, Q30Service q30Service,
                            Q31Service q31Service, Q32Service q32Service, Q33Service q33Service,
                            Q34Service q34Service, Q35Service q35Service, Q36Service q36Service,
-                           Q37Service q37Service, Q38Service q38Service, Q39Service q39Service) {
+                           Q37Service q37Service, Q38Service q38Service, Q39Service q39Service,
+                           Q40Service q40Service) {
         this.m01Service = m01Service;
         this.m02Service = m02Service;
         this.m03Service = m03Service;
@@ -232,6 +236,7 @@ public class MQReportService {
         this.q37Service = q37Service;
         this.q38Service = q38Service;
         this.q39Service = q39Service;
+        this.q40Service = q40Service;
     }
 
     private String getMExportFileName() {
@@ -1016,6 +1021,25 @@ public class MQReportService {
             }
         }
         this.saveFile(q39Service.getExportFileName(), q39Service.getQDataTable(q39Data),"Q39");
+        flag = false;
+        List<Q40Do> q40Data = null;
+        while(!flag) {
+            taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始查询Q40数据");
+                q40Data = q40Service.getQData(queryMonth);
+                list.add(q40Service.getQDataTable(q40Data));
+                logger.debug(taskId + " 查询Q40数据完成");
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q40Service.getExportFileName(), q40Service.getQDataTable(q40Data),"Q40");
         this.saveFile(this.getQExportFileName(), list, "AllQ季报");
     }
 
@@ -2092,6 +2116,29 @@ public class MQReportService {
             }
         }
         this.saveFile(q39Service.getExportFileName(), q39Service.getQDataTable(qData), "Q39");
+    }
+
+    @Async(DHConstant.TASK_EXECUTOR)
+    public void getQ40File(Date queryMonth) {
+        boolean flag = false;
+        List<Q40Do> qData = null;
+        while(!flag) {
+            String taskId = CommonTool.UUID().replace("-", "");
+            try {
+                logger.debug(taskId + " 开始导出Q40数据");
+                logger.debug(taskId + " 开始查询Q40数据");
+                qData =  q40Service.getQData(queryMonth);
+                logger.debug(taskId + " 查询Q40数据完成");
+                flag = true;
+            } catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        this.saveFile(q40Service.getExportFileName(), q40Service.getQDataTable(qData), "Q40");
     }
 
     /**
