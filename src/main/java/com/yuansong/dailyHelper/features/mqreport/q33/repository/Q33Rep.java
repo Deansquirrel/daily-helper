@@ -26,7 +26,6 @@ public class Q33Rep {
             "   select INSU_ADMDVS, " +
             "       CASE " +
             "           WHEN substr( FIX_BLNG_ADMDVS, 1, 2 ) = '13' THEN '省内' " +
-            "           WHEN substr( FIX_BLNG_ADMDVS, 1, 2 ) = '13' AND PAY_LOC <> '1' THEN '省内直接结算' " +
             "           WHEN substr( FIX_BLNG_ADMDVS, 1, 2 ) <> '13' THEN '省外' " +
             "           ELSE '其他人员' " +
             "       END SETL_TYPE, PSN_NO, " +
@@ -42,6 +41,21 @@ public class Q33Rep {
             "       and a.REFD_SETL_FLAG='0' " +
             "       and med_type  in ('21','13','24','23','22','92','9104','9105','9203','9202','9203','9105','9204','9104','9204','9106','9104','9202','9201','9104','9110','9106','9206','9201','9205','9109') " +
             "       and FIX_BLNG_ADMDVS NOT LIKE '1311%' " +
+            "   UNION ALL " +
+            "   select INSU_ADMDVS, '省内直接结算' SETL_TYPE, PSN_NO, " +
+            "       MEDFEE_SUMAMT,hifp_pay, HIFMI_PAY, MAF_PAY other_pay," +
+            "       (MEDFEE_SUMAMT - hifp_pay - (HIFMI_PAY+MAF_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
+            "       FULAMT_OWNPAY_AMT zifei, (DATEDIFF(enddate,BEGNDATE)+1) IN_HOST_DAY " +
+            "   from setl_d a " +
+            "   where INSU_ADMDVS like '1311%' " +
+            "       and setl_time >= ? " +
+            "       and SETL_TIME < ? " +
+            "       and VALI_FLAG='1' " +
+            "       and INSUTYPE='390' " +
+            "       and a.REFD_SETL_FLAG='0' " +
+            "       and med_type  in ('21','13','24','23','22','92','9104','9105','9203','9202','9203','9105','9204','9104','9204','9106','9104','9202','9201','9104','9110','9106','9206','9201','9205','9109') " +
+            "       and FIX_BLNG_ADMDVS NOT LIKE '1311%'" +
+            "       AND substr( FIX_BLNG_ADMDVS, 1, 2 ) = '13' AND PAY_LOC <> '1' " +
             ") a " +
             "group by INSU_ADMDVS, SETL_TYPE " +
             "order by INSU_ADMDVS, SETL_TYPE;";
