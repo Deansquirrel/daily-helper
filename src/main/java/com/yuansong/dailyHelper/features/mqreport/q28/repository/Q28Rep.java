@@ -89,7 +89,7 @@ public class Q28Rep {
         logger.debug(MessageFormat.format("Q28 SQL {0} {1} {2}",SQL_QUERY, minSetlTime,maxSetlTime));
         return jdbcTemplate.query(SQL_QUERY,
                 new Q28RowMapper(),
-                minSetlTime,maxSetlTime);
+                minSetlTime,maxSetlTime,minSetlTime,maxSetlTime);
     }
 
 }

@@ -79,7 +79,7 @@ public class Q33Rep {
         logger.debug(MessageFormat.format("Q33 SQL {0} {1} {2}",SQL_QUERY, minSetlTime,maxSetlTime));
         return jdbcTemplate.query(SQL_QUERY,
                 new Q33RowMapper(),
-                minSetlTime,maxSetlTime);
+                minSetlTime,maxSetlTime,minSetlTime,maxSetlTime);
     }
 
 }
