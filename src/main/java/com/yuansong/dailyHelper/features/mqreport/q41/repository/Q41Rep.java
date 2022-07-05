@@ -74,7 +74,7 @@ public class Q41Rep {
         List<Q41Do> listA = jdbcTemplate.query(SQL_QUERY_A,new Q41RowMapper(), minSetlTime, maxSetlTime);
         logger.debug(MessageFormat.format("Q41 SQL B {0} {1} {2}",SQL_QUERY_B, minSetlTime, maxSetlTime));
         List<Q41Do> listB = jdbcTemplate.query(SQL_QUERY_B,new Q41RowMapper(), minSetlTime, maxSetlTime);
-        logger.debug(MessageFormat.format("Q41 SQL B {0} {1} {2}",SQL_QUERY_C, minSetlTime, maxSetlTime));
+        logger.debug(MessageFormat.format("Q41 SQL C {0} {1} {2}",SQL_QUERY_C, minSetlTime, maxSetlTime));
         List<Q41Do> listC = jdbcTemplate.query(SQL_QUERY_C,new Q41RowMapper(), minSetlTime, maxSetlTime);
         listA.addAll(listB);
         listA.addAll(listC);
