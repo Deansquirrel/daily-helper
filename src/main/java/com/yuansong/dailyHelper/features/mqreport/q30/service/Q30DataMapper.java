@@ -20,6 +20,7 @@ public class Q30DataMapper implements IDataMapper<Q30Do> {
         list.add("其他支付");
         list.add("自付");
         list.add("自费");
+        list.add("住院床日");
         return list;
     }
 
@@ -36,6 +37,7 @@ public class Q30DataMapper implements IDataMapper<Q30Do> {
         list.add(data.getOtherPay());
         list.add(data.getZiFu());
         list.add(data.getZiFei());
+        list.add(data.getInHostDay());
         return list;
     }
 }

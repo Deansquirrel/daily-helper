@@ -22,6 +22,7 @@ public class Q30RowMapper implements RowMapper<Q30Do> {
         d.setOtherPay(SQLTool.getBigDecimal(rs,"other_pay"));
         d.setZiFu(SQLTool.getBigDecimal(rs,"zifu"));
         d.setZiFei(SQLTool.getBigDecimal(rs, "zifei"));
+        d.setInHostDay(SQLTool.getLong(rs, "IN_HOST_DAY"));
         return d;
     }
 }

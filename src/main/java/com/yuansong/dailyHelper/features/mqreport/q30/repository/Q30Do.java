@@ -14,6 +14,7 @@ public class Q30Do {
     private BigDecimal otherPay;
     private BigDecimal ziFu;
     private BigDecimal ziFei;
+    private Long inHostDay;
 
     public String getInsuAdmdvs() {
         return insuAdmdvs;
@@ -93,5 +94,13 @@ public class Q30Do {
 
     public void setZiFei(BigDecimal ziFei) {
         this.ziFei = ziFei;
+    }
+
+    public Long getInHostDay() {
+        return inHostDay;
+    }
+
+    public void setInHostDay(Long inHostDay) {
+        this.inHostDay = inHostDay;
     }
 }

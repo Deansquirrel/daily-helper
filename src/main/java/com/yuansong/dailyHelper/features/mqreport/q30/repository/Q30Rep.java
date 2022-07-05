@@ -21,7 +21,7 @@ public class Q30Rep {
             "select INSU_ADMDVS, PSN_TYPE, SETL_TYPE, count(DISTINCT PSN_NO) REN_SHU, count(*) REN_CI, " +
             "   sum(MEDFEE_SUMAMT) MEDFEE_SUMAMT, sum(hifp_pay) hifp_pay," +
             "   sum(other_pay) other_pay, " +
-            "   sum(ziFu) zifu, sum(ziFei) zifei " +
+            "   sum(ziFu) zifu, sum(ziFei) zifei, SUM(IN_HOST_DAY) IN_HOST_DAY " +
             "from ( " +
             "   select INSU_ADMDVS, " +
             "       (case " +
@@ -37,7 +37,7 @@ public class Q30Rep {
             "       END SETL_TYPE, PSN_NO, " +
             "       MEDFEE_SUMAMT,hifp_pay, (CVLSERV_PAY+HIFOB_PAY) other_pay," +
             "       (MEDFEE_SUMAMT - hifp_pay - (CVLSERV_PAY+HIFOB_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
-            "       FULAMT_OWNPAY_AMT zifei " +
+            "       FULAMT_OWNPAY_AMT zifei, (DATEDIFF(enddate,BEGNDATE)+1) IN_HOST_DAY " +
             "   from setl_d a " +
             "   where INSU_ADMDVS like '1311%' " +
             "       and setl_time >= ? " +
