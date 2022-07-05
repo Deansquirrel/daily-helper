@@ -26,7 +26,7 @@ public class Q16Rep {
             "   count(*) T_COUNT " +
             "from ( " +
             "   select INSU_ADMDVS, " +
-            "       MEDFEE_SUMAMT,hifp_pay,HIFMI_PAY, (HIFMI_PAY+MAF_PAY) other_pay," +
+            "       MEDFEE_SUMAMT,hifp_pay,HIFMI_PAY, (MAF_PAY) other_pay," +
             "       (MEDFEE_SUMAMT - hifp_pay - (HIFMI_PAY+MAF_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
             "       FULAMT_OWNPAY_AMT zifei,ACCT_PAY " +
             "   from setl_d a " +
