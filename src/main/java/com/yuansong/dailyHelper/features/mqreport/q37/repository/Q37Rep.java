@@ -99,7 +99,7 @@ public class Q37Rep {
             "where 1=1 " +
             "   and INSU_ADMDVS like '1311%' " +
             "   and INSUTYPE='310' " +
-            "   and MED_TYPE IN ( '52', '53' ) " +
+            "   and MED_TYPE IN ( '51','52', '53' ) " +
             "   and VALI_FLAG = '1' " +
             "   and REFD_SETL_FLAG = '0' " +
             "   and SETL_TIME >= ? " +
@@ -172,8 +172,8 @@ public class Q37Rep {
             "group by INSU_ADMDVS,EMP_TYPE;";
 
     //本期享受待遇女性
-    private static final String SQL_QUERY_F = "" +
-            "select INSU_ADMDVS, EMP_TYPE,count(*) `F01`, count(DISTINCT PSN_NO) `F02` " +
+    private static final String SQL_QUERY_F1 = "" +
+            "select INSU_ADMDVS, EMP_TYPE,count(*) `F01` " +
             "from ( " +
             "   select PSN_NO, CASE " +
             "           WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
@@ -191,11 +191,6 @@ public class Q37Rep {
             "       and REFD_SETL_FLAG = '0' " +
             "       and SETL_TIME >= ? " +
             "       and SETL_TIME < ? " +
-            "       and EXISTS ( " +
-            "           select 1 " +
-            "           from psn_info_b " +
-            "           where GEND='2' and PSN_NO=setl_d.PSN_NO " +
-            "       ) " +
             "   UNION ALL " +
             "   select a.PSN_NO, CASE " +
             "           WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
@@ -212,11 +207,33 @@ public class Q37Rep {
             "       AND a.YM >= ? " +
             "       AND a.YM < ? " +
             "       and a.PSN_INSU_RLTS_ID = b.PSN_INSU_RLTS_ID " +
-            "       and EXISTS ( " +
-            "           select 1 " +
-            "           from psn_info_b " +
-            "           where GEND='2' and PSN_NO=a.PSN_NO " +
-            "       ) " +
+            ") t " +
+            "group by INSU_ADMDVS,EMP_TYPE;";
+
+    private static final String SQL_QUERY_F2 = "" +
+            "select INSU_ADMDVS, EMP_TYPE, count(DISTINCT PSN_NO) `F02` " +
+            "from ( " +
+            "   select PSN_NO, CASE " +
+            "           WHEN EMP_TYPE IN ('10','99','9008') THEN '企业' " +
+            "           WHEN EMP_TYPE IN ('50','55','56','57','70','9001','9002','9003','9004','9005','91','82','90','9009') THEN '事业' " +
+            "           WHEN EMP_TYPE IN ('30') THEN '机关' " +
+            "           WHEN EMP_TYPE IN ('80','81','9006','9007','9901','9939') THEN '其他' " +
+            "           ELSE '企业' " +
+            "       END EMP_TYPE,INSU_ADMDVS " +
+            "   from setl_d " +
+            "   where 1=1 " +
+            "       and INSU_ADMDVS like '1311%' " +
+            "       and INSUTYPE='310'" +
+            "       and MED_TYPE in('51','52','53') " +
+            "       and VALI_FLAG = '1' " +
+            "       and REFD_SETL_FLAG = '0' " +
+            "       and SETL_TIME >= ? " +
+            "       and SETL_TIME < ? " +
+            "       and EXISTS (" +
+            "               select 1 " +
+            "               from psn_info_b " +
+            "               where GEND='2' and PSN_NO=setl_d.PSN_NO" +
+            "           ) " +
             ") t " +
             "group by INSU_ADMDVS,EMP_TYPE;";
 
@@ -249,7 +266,9 @@ public class Q37Rep {
         handleList(list, map);
         list = getListE(minYm, maxYm);
         handleList(list, map);
-        list = getListF(minSetlTime, maxSetlTime, minYm, maxYm);
+        list = getListF1(minSetlTime, maxSetlTime, minYm, maxYm);
+        handleList(list, map);
+        list = getListF2(minSetlTime, maxSetlTime);
         handleList(list, map);
 
         list = new ArrayList<>(map.values());
@@ -282,9 +301,14 @@ public class Q37Rep {
         return jdbcTemplate.query(SQL_QUERY_E, new Q37RowMapper(), minYm,maxYm);
     }
 
-    private List<Q37Do> getListF(String minSetlTime, String maxSetlTime, String minYm, String maxYm) {
-        logger.debug(MessageFormat.format("Q37 SQL F {0} {1} {2} {3} {4}",SQL_QUERY_F, minSetlTime,maxSetlTime,minYm,maxYm));
-        return jdbcTemplate.query(SQL_QUERY_F, new Q37RowMapper(), minSetlTime,maxSetlTime,minYm,maxYm);
+    private List<Q37Do> getListF1(String minSetlTime, String maxSetlTime, String minYm, String maxYm) {
+        logger.debug(MessageFormat.format("Q37 SQL F1 {0} {1} {2} {3} {4}",SQL_QUERY_F1, minSetlTime,maxSetlTime,minYm,maxYm));
+        return jdbcTemplate.query(SQL_QUERY_F1, new Q37RowMapper(), minSetlTime,maxSetlTime,minYm,maxYm);
+    }
+
+    private List<Q37Do> getListF2(String minSetlTime, String maxSetlTime) {
+        logger.debug(MessageFormat.format("Q37 SQL F2 {0} {1} {2}",SQL_QUERY_F2, minSetlTime,maxSetlTime));
+        return jdbcTemplate.query(SQL_QUERY_F2, new Q37RowMapper(), minSetlTime,maxSetlTime);
     }
 
     private void handleList(List<Q37Do> list, Map<String, Q37Do> map) {

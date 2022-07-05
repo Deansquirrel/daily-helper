@@ -320,6 +320,13 @@ public class MQReportController {
         return Response.makeOKResp();
     }
 
+    @ApiOperation(value="居民普通门诊、慢特病、和住院人数")
+    @RequestMapping(value="/q41",method = RequestMethod.GET)
+    public ResponseResult<?> getQ41Data() {
+        mqReportService.getQ41File(null);
+        return Response.makeOKResp();
+    }
+
     @ApiOperation(value="职工参保")
     @RequestMapping(value="/m01",method = RequestMethod.GET)
     public ResponseResult<?> getM01Data() {
