@@ -31,7 +31,7 @@ public class Q25Rep {
             "           else '3' " +
             "       end) DEDC_HOSP_LV, " +
             "       MEDFEE_SUMAMT,hifp_pay,HIFMI_PAY, (MAF_PAY) other_pay," +
-            "       (MEDFEE_SUMAMT - hifp_pay - (MAF_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
+            "       (MEDFEE_SUMAMT - hifp_pay - HIFMI_PAY - (MAF_PAY) - FULAMT_OWNPAY_AMT) zifu, " +
             "       FULAMT_OWNPAY_AMT zifei,ACCT_PAY,(DATEDIFF(enddate,BEGNDATE)+1) IN_HOST_DAY" +
             "   from setl_d a " +
             "   where INSU_ADMDVS like '1311%' " +

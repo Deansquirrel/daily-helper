@@ -31,7 +31,7 @@ public class Q27Rep {
             "           else '' " +
             "       end DISE_TYPE, PSN_NO, " +
             "       MEDFEE_SUMAMT ,hifp_pay , HIFMI_PAY , MAF_PAY , FULAMT_OWNPAY_AMT ziFei, " +
-            "       (MEDFEE_SUMAMT - hifp_pay - (MAF_PAY) - FULAMT_OWNPAY_AMT) ziFu " +
+            "       (MEDFEE_SUMAMT - hifp_pay - HIFMI_PAY - (MAF_PAY) - FULAMT_OWNPAY_AMT) ziFu " +
             "   from setl_d " +
             "   where MED_TYPE = '14' " +
             "       and INSUTYPE = '390' " +
