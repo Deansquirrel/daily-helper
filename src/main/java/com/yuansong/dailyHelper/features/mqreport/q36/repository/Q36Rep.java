@@ -118,7 +118,7 @@ public class Q36Rep {
             "   AND LEFT ( TRAFOUT_ADMDVS, 4 )= '1311' " +
             "   AND a.CRTE_TIME >= ? " +
             "   AND a.CRTE_TIME < ? " +
-            "   AND LEFT ( TRAFOUT_ADMDVS, 2 ) != '13' " +
+            "   AND LEFT ( TRAFIN_ADMDVS, 2 ) != '13' " +
             "GROUP BY TRAFOUT_ADMDVS;";
 
     //转出农民工合计
