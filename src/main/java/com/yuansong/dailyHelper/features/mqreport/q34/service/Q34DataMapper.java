@@ -11,6 +11,7 @@ public class Q34DataMapper implements IDataMapper<Q34Do> {
     public List<String> getTitleList() {
         List<String> list = new ArrayList<>();
         list.add("区划");
+        list.add("类型");
         list.add("人数");
         return list;
     }
@@ -18,8 +19,9 @@ public class Q34DataMapper implements IDataMapper<Q34Do> {
     @Override
     public List<Object> getRowData(Q34Do data) {
         List<Object> list = new ArrayList<>();
-        list.add(data.getInsuAdmdvs() == null ? "" : data.getInsuAdmdvs());
-        list.add(data.getUrrInsu()  == null ? "" : String.valueOf(data.getUrrInsu()));
+        list.add(data.getInsuAdmdvs());
+        list.add(data.getSetlType());
+        list.add(data.getUrrInsu());
         return list;
     }
 }

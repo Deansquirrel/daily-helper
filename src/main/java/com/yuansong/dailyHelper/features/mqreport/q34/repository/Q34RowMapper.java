@@ -12,6 +12,7 @@ public class Q34RowMapper implements RowMapper<Q34Do> {
     public Q34Do mapRow(ResultSet rs, int rowNum) throws SQLException {
         Q34Do d = new Q34Do();
         d.setInsuAdmdvs(SQLTool.getString(rs,"INSU_ADMDVS"));
+        d.setSetlType(SQLTool.getString(rs, "SETL_TYPE"));
         d.setUrrInsu(SQLTool.getLong(rs,"URR_INSU"));
         return d;
     }
