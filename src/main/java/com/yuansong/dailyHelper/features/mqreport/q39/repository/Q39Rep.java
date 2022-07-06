@@ -31,7 +31,7 @@ public class Q39Rep {
             "   from staf_psn_clct_detl_d r " +
             "   LEFT JOIN psn_insu_d p ON r.PSN_NO = p.PSN_NO " +
             "   left join insu_emp_info_b d on r.EMP_NO = d.EMP_NO " +
-            "   where r.INSUTYPE in ('330','320') " +
+            "   where r.INSUTYPE in ('320') " +
             "       and ACCRYM_END >= ? " +
             "       and ACCRYM_END < ? " +
             "       AND p.INSUTYPE IN ('320') " +

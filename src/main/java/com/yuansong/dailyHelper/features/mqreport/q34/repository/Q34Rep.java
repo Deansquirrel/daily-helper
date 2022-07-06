@@ -37,7 +37,8 @@ public class Q34Rep {
             "           WHEN INSUTYPE = '310' and INSUTYPE_RETR_FLAG <> '0' and TYPE = 0 THEN '异地安置居住退休人员' " +
             "           WHEN INSUTYPE = '310' and INSUTYPE_RETR_FLAG = '0' and TYPE = 0 THEN '异地工作' " +
             "           WHEN INSUTYPE = '390' and TYPE = 0 THEN '异地居住' " +
-            "           ELSE '异地转诊' " +
+            "           WHEN INSUTYPE = '310' and TYPE = 0 THEN '异地转诊(职工)' " +
+            "           ELSE '异地转诊(居民)' " +
             "       END SETL_TYPE, PSN_NO " +
             "   from ( " +
             "       SELECT a.INSU_ADMDVS, a.PSN_NO, a.INSUTYPE, b.INSUTYPE_RETR_FLAG,c.type " +
@@ -48,8 +49,8 @@ public class Q34Rep {
             "               AND FIX_BLNG_ADMDVS NOT LIKE '1311%' " +
             "               AND VALI_FLAG = '1' " +
             "               AND REFD_SETL_FLAG = '0' " +
-            "               AND SETL_TIME >= '2022-01-01 00:00:00' " +
-            "               AND SETL_TIME < '2022-07-01 00:00:00' " +
+            "               AND SETL_TIME >= ? " +
+            "               AND SETL_TIME < ? " +
             "           GROUP BY INSU_ADMDVS,PSN_NO,INSUTYPE " +
             "       ) a " +
             "       LEFT JOIN ( " +
@@ -98,10 +99,10 @@ public class Q34Rep {
         String maxSetlTime = DateTool.GetDateTimeStr(cal.getTime());
         cal.set(Calendar.MONTH, Calendar.JANUARY);
         String minSetlTime = DateTool.GetDateTimeStr(cal.getTime());
-        logger.debug(MessageFormat.format("Q34 SQL {0} {1} {2}",SQL_QUERY, minSetlTime,maxSetlTime));
+        logger.debug(MessageFormat.format("Q34 SQL {0} {1} {2} {3} {4}",SQL_QUERY, minSetlTime,maxSetlTime,minSetlTime,maxSetlTime));
         return jdbcTemplate.query(SQL_QUERY,
                 new Q34RowMapper(),
-                minSetlTime,maxSetlTime);
+                minSetlTime,maxSetlTime,minSetlTime,maxSetlTime);
     }
 
 }
