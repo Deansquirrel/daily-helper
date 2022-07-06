@@ -17,23 +17,58 @@ import java.util.List;
 public class Q42Rep {
 
     private static final Logger logger = LoggerFactory.getLogger(Q42Rep.class);
+//    private static final String SQL_QUERY = "" +
+//            "select INSU_ADMDVS, " +
+//            "   CASE " +
+//            "       WHEN INSUTYPE = '310' THEN '职工' " +
+//            "       WHEN INSUTYPE = '390' THEN '居民' " +
+//            "       WHEN INSUTYPE = '340' THEN '离休' " +
+//            "       ELSE INSUTYPE " +
+//            "   END INSUTYPE, count(distinct PSN_NO) `A01`, count(*) `A02` " +
+//            "from out_appy_d " +
+//            "where 1=1 " +
+//            "   and INSU_ADMDVS like '1311%' " +
+//            "   and CRTE_TIME >= ? " +
+//            "   and CRTE_TIME < ? " +
+//            "   and left(RLOC_ADMDVS,2) <> '13' " +
+//            "   and VALI_FLAG = '1' " +
+//            "group by INSU_ADMDVS,INSUTYPE " +
+//            "order by INSU_ADMDVS,INSUTYPE;";
+
     private static final String SQL_QUERY = "" +
-            "select INSU_ADMDVS, " +
+            "select a.INSU_ADMDVS, " +
             "   CASE " +
-            "       WHEN INSUTYPE = '310' THEN '职工' " +
-            "       WHEN INSUTYPE = '390' THEN '居民' " +
-            "       WHEN INSUTYPE = '340' THEN '离休' " +
-            "       ELSE INSUTYPE " +
-            "   END INSUTYPE, count(distinct PSN_NO) `A01`, count(*) `A02` " +
-            "from out_appy_d " +
+            "       WHEN a.INSUTYPE = '310' and b.INSUTYPE_RETR_FLAG = '0' THEN '职工在职' " +
+            "       WHEN a.INSUTYPE = '310' and b.INSUTYPE_RETR_FLAG <> '0' THEN '职工退休' " +
+            "       WHEN a.INSUTYPE = '340' THEN '离休' " +
+            "       WHEN a.INSUTYPE = '390' THEN '居民' " +
+            "       ELSE a.INSUTYPE " +
+            "   END INSUTYPE, count(distinct a.PSN_NO) `A01`, count(*) `A02` " +
+            "from out_appy_d a " +
+            "LEFT JOIN PSN_INSU_D b on a.psn_no = b.psn_no and a.PSN_INSU_RLTS_ID = b.PSN_INSU_RLTS_ID " +
             "where 1=1 " +
-            "   and INSU_ADMDVS like '1311%' " +
-            "   and CRTE_TIME >= ? " +
-            "   and CRTE_TIME < ? " +
-            "   and left(RLOC_ADMDVS,2) <> '13' " +
-            "   and VALI_FLAG = '1' " +
-            "group by INSU_ADMDVS,INSUTYPE " +
-            "order by INSU_ADMDVS,INSUTYPE;";
+            "   and a.psn_no = b.psn_no " +
+            "   and a.INSU_ADMDVS like '1311%' " +
+            "   and a.CRTE_TIME >= ? " +
+            "   and a.CRTE_TIME < ? " +
+            "   and left(a.RLOC_ADMDVS,2) <> '13' " +
+            "   and a.VALI_FLAG = '1' " +
+            "group by a.INSU_ADMDVS, " +
+            "   CASE " +
+            "       WHEN a.INSUTYPE = '310' and b.INSUTYPE_RETR_FLAG = '0' THEN '职工在职' " +
+            "       WHEN a.INSUTYPE = '310' and b.INSUTYPE_RETR_FLAG <> '0' THEN '职工退休' " +
+            "       WHEN a.INSUTYPE = '340' THEN '离休' " +
+            "       WHEN a.INSUTYPE = '390' THEN '居民' " +
+            "       ELSE a.INSUTYPE " +
+            "   END " +
+            "order by a.INSU_ADMDVS, " +
+            "   CASE " +
+            "       WHEN a.INSUTYPE = '310' and b.INSUTYPE_RETR_FLAG = '0' THEN '职工在职' " +
+            "       WHEN a.INSUTYPE = '310' and b.INSUTYPE_RETR_FLAG <> '0' THEN '职工退休' " +
+            "       WHEN a.INSUTYPE = '340' THEN '离休' " +
+            "       WHEN a.INSUTYPE = '390' THEN '居民' " +
+            "       ELSE a.INSUTYPE " +
+            "   END; ";
     
     private final JdbcTemplate jdbcTemplate;
 
