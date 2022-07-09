@@ -34,10 +34,11 @@ public class Q34Rep {
             "FROM ( " +
             "   select INSU_ADMDVS, " +
             "       CASE " +
-            "           WHEN INSUTYPE = '310' and INSUTYPE_RETR_FLAG IS NULL AND TYPE = 0 THEN '异地转诊(职工)' " +
             "           WHEN INSUTYPE = '310' and INSUTYPE_RETR_FLAG <> '0' and TYPE = 0 THEN '异地安置居住退休人员' " +
             "           WHEN INSUTYPE = '310' and INSUTYPE_RETR_FLAG = '0' and TYPE = 0 THEN '异地工作' " +
             "           WHEN INSUTYPE = '390' and TYPE = 0 THEN '异地居住' " +
+            "           WHEN INSUTYPE = '310' THEN '异地转诊(职工)' " +
+            "           WHEN INSUTYPE = '390' THEN '异地转诊(居民)' " +
             "           ELSE '异地转诊(居民)' " +
             "       END SETL_TYPE, PSN_NO " +
             "   from ( " +
