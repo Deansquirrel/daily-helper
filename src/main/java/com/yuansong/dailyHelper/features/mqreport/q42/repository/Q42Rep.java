@@ -47,7 +47,6 @@ public class Q42Rep {
             "from out_appy_d a " +
             "LEFT JOIN PSN_INSU_D b on a.psn_no = b.psn_no and a.PSN_INSU_RLTS_ID = b.PSN_INSU_RLTS_ID " +
             "where 1=1 " +
-            "   and a.psn_no = b.psn_no " +
             "   and a.INSU_ADMDVS like '1311%' " +
             "   and a.CRTE_TIME >= ? " +
             "   and a.CRTE_TIME < ? " +
