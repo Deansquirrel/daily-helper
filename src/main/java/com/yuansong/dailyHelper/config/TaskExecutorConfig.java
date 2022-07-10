@@ -15,15 +15,16 @@ public class TaskExecutorConfig {
 
     @Bean(DHConstant.TASK_EXECUTOR)
     public ThreadPoolTaskExecutor taskExecutor() {
+        int maxThreads = Runtime.getRuntime().availableProcessors() * 2 + 1;
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-        threadPoolTaskExecutor.setCorePoolSize(5);
-        threadPoolTaskExecutor.setMaxPoolSize(10);
+        threadPoolTaskExecutor.setCorePoolSize(maxThreads);
+        threadPoolTaskExecutor.setMaxPoolSize(maxThreads);
         threadPoolTaskExecutor.setQueueCapacity(200);
         threadPoolTaskExecutor.setThreadNamePrefix(DHConstant.TASK_EXECUTOR+"-");
-        threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
         threadPoolTaskExecutor.initialize();
         threadPoolTaskExecutor.setAllowCoreThreadTimeOut(true);
-        threadPoolTaskExecutor.setKeepAliveSeconds(5*60);
+        threadPoolTaskExecutor.setKeepAliveSeconds(60);
         return threadPoolTaskExecutor;
     }
 }
