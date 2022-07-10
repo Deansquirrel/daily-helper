@@ -75,13 +75,13 @@ public class Q26Rep {
         cal.set(Calendar.MONTH, Calendar.JANUARY);
         String minSetlTime = DateTool.GetDateTimeStr(cal.getTime());
         logger.debug(MessageFormat.format("Q26 SQL {0} {1} {2}",SQL_QUERY, minSetlTime,maxSetlTime));
-
-        int maxThreads =Runtime.getRuntime().availableProcessors() * 2;
-
+        //最大线程数量
+        int maxThreads =Runtime.getRuntime().availableProcessors() * 4;
+        //结果数据
         Map<String, Q26Do> map = new HashMap<>();
-
+        //缓冲队列
         BlockingQueue<Q26DetailQueryInfo> queue = new ArrayBlockingQueue<>(maxThreads * 2);
-
+        //线程池
         ThreadPoolTaskExecutor pool = getPool(maxThreads);
         //消费线程
         Thread handleThread = new Thread(()->{
@@ -94,15 +94,19 @@ public class Q26Rep {
                         }
                     });
                 }
-                if(Thread.interrupted()) {
+
+                if(Thread.currentThread().isInterrupted()) {
                     logger.debug("消费线程退出");
+                    return;
                 }
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(1);
                 } catch (InterruptedException ignored) {
                 }
             }
         });
+        //启动消费线程
+        handleThread.start();
 
         jdbcTemplate.query(SQL_QUERY, new RowCallbackHandler() {
             long c = 0L;
@@ -125,6 +129,7 @@ public class Q26Rep {
             }
         }, minSetlTime, maxSetlTime);
         logger.debug("processRow over");
+        //等待线程执行完成
         while(pool.getActiveCount() > 0 || !queue.isEmpty()) {
             try {
                 Thread.sleep(10);
@@ -133,14 +138,16 @@ public class Q26Rep {
         }
         //停止消费线程
         handleThread.interrupt();
+        //关闭线程池
         pool.shutdown();
+        //等待线程池关闭
         while(!pool.getThreadPoolExecutor().isTerminated()) {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ignored) {
             }
         }
-
+        //返回数据
         List<Q26Do> list = new ArrayList<>(map.values());
         Collections.sort(list);
         return list;
@@ -161,6 +168,8 @@ public class Q26Rep {
                     if(map.containsKey(k)) {
                         map.put(k, map.get(k).add(nd));
                     } else {
+                        nd.setInsuAdmdvs(info.insuAdmdvs);
+                        nd.setDedcHospLv(info.dedcHospLv);
                         map.put(k, nd);
                     }
                 }
@@ -193,7 +202,7 @@ public class Q26Rep {
         pool.setMaxPoolSize(count);
         pool.setQueueCapacity(count);
         pool.setKeepAliveSeconds(10);
-        pool.setThreadNamePrefix("Q26RowCallbackHandler-");
+        pool.setThreadNamePrefix("Q26RowDataHandler-");
         pool.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
         pool.initialize();
         pool.setAllowCoreThreadTimeOut(true);
