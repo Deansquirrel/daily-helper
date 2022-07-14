@@ -42,6 +42,7 @@ public class DbInitRunner implements CommandLineRunner {
         logger.debug("========================= TRunner Begin =================================");
         addMySQLConn(DHConstant.DB_CONN_STR_TIDB_ONE, connConfig.getTidbOne());
         addMySQLConn(DHConstant.DB_CONN_STR_TIDB_TWO, connConfig.getTidbTwo());
+        addMySQLConn(DHConstant.DB_CONN_STR_HL_HS, connConfig.getHlHs());
         logger.debug("========================= TRunner End ===================================");
     }
 

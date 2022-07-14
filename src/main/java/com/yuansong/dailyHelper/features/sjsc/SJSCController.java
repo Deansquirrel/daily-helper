@@ -22,8 +22,8 @@ public class SJSCController {
 
     @ApiOperation(value="三级四从")
     @RequestMapping(value="/sjsc",method = RequestMethod.GET)
-    public ResponseResult<?> getSJSCData() {
-        sjscService.getFile("2022-06-01","2022-06-10");
+    public ResponseResult<?> getSJSCData(String begDate, String endDate) {
+        sjscService.getFile(begDate,endDate);
         return Response.makeOKResp();
     }
 

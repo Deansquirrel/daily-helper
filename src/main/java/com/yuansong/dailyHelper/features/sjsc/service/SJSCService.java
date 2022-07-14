@@ -79,7 +79,8 @@ public class SJSCService {
         boolean flag = false;
         while (!flag) {
             try{
-                List<SJSCDo> list = sjscRepService.getList(query);
+                List<SJSCDo> list = sjscRepService.getList01(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
                 result.addAll(list);
                 flag = true;
             }catch (Exception e) {
@@ -91,6 +92,276 @@ public class SJSCService {
             }
         }
         flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList02(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList03(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList04(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList05(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList06(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList07(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList08(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList09(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList10(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList11(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList12(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList13(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList14(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList15(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList16(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList17(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList18(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        flag = false;
+        while (!flag) {
+            try{
+                List<SJSCDo> list = sjscRepService.getList19(query);
+                logger.debug(MessageFormat.format("data row count: {0}", list.size()));
+                result.addAll(list);
+                flag = true;
+            }catch (Exception e) {
+                logger.debug(ExceptionTool.getStackTrace(e));
+                try {
+                    Thread.sleep(60 * 1000L);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+
         this.saveFile(this.getExportFileName(),this.getDataTable(result),taskId);
     }
 

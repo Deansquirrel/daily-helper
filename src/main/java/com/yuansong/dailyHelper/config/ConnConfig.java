@@ -9,7 +9,7 @@ public class ConnConfig {
 
     private String tidbOne;
     private String tidbTwo;
-
+    private String hlHs;
 
     public String getTidbOne() {
         return tidbOne;
@@ -25,5 +25,13 @@ public class ConnConfig {
 
     public void setTidbTwo(String tidbTwo) {
         this.tidbTwo = tidbTwo;
+    }
+
+    public String getHlHs() {
+        return hlHs;
+    }
+
+    public void setHlHs(String hlHs) {
+        this.hlHs = hlHs;
     }
 }

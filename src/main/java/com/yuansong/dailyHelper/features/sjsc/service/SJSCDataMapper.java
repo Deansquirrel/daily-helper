@@ -12,7 +12,7 @@ public class SJSCDataMapper implements IDataMapper<SJSCDo> {
     public List<String> getTitleList() {
         List<String> list = new ArrayList<>();
         list.add("办件编号");
-        list.add("三级四通事项实施编码");
+        list.add("三级四从事项实施编码");
         list.add("事项名称");
         list.add("申请人证件类型");
         list.add("申请人证件号码");
