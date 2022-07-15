@@ -118,6 +118,8 @@ public class M05Rep {
     public List<M05Do> getAList(M05Query query) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(query.getMonth().getTime());
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
+                0,0,0);
         cal.add(Calendar.MONTH, 1);
         String clctTime = DateTool.GetDateStr(cal.getTime());
         cal.add(Calendar.MONTH,-6);
