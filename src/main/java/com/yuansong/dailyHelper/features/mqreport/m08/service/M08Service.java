@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.m08.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.m08.repository.M08Do;
 import com.yuansong.dailyHelper.features.mqreport.m08.repository.M08Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class M08Service {
         return FileUtil.getNextStr() + "农民工（进城务工人员参加职工基本医疗保险的人数）.xlsx";
     }
 
-    public XSSFWorkTable getMDataTable(List<M08Do> list) {
+    public WorkTableData getMDataTable(List<M08Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("农民工（进城务工人员参加职工基本医疗保险的人数）",
+        return WorkBookTool.getXSSFWorkTable("农民工（进城务工人员参加职工基本医疗保险的人数）",
                 list, new M08DataMapper());
     }
 

@@ -2,13 +2,13 @@ package com.yuansong.dailyHelper.features.sjsc.service;
 
 import com.github.deansquirrel.tools.common.CommonTool;
 import com.github.deansquirrel.tools.common.ExceptionTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.sjsc.repository.SJSCDo;
 import com.yuansong.dailyHelper.features.sjsc.repository.SJSCQuery;
 import com.yuansong.dailyHelper.global.DHConstant;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,30 +33,31 @@ public class SJSCService {
         return FileUtil.getNextStr() + "三级四从.xlsx";
     }
 
-    public XSSFWorkTable getDataTable(List<SJSCDo> list) {
+    public WorkTableData getDataTable(List<SJSCDo> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("三级四从", list, new SJSCDataMapper());
+        return WorkBookTool.getXSSFWorkTable("三级四从", list, new SJSCDataMapper());
     }
 
 
-    private void saveFile(String fileName, XSSFWorkTable table, String logKey) {
-        List<XSSFWorkTable> list = new ArrayList<>();
+    private void saveFile(String fileName, WorkTableData table, String logKey) {
+        List<WorkTableData> list = new ArrayList<>();
         list.add(table);
         this.saveFile(fileName, list, logKey);
     }
 
     //保存文件
-    private void saveFile(String fileName, List<XSSFWorkTable> list, String taskId) {
+    private void saveFile(String fileName, List<WorkTableData> list, String taskId) {
         boolean flag = false;
         while (!flag) {
             try {
                 logger.debug(MessageFormat.format("{0} 开始生成{1}数据文件", taskId, "三级四从"));
-                XSSFWorkbook f = XSSFWorkBookTool.getXSSFWorkBook(list);
+                SXSSFWorkbook f = WorkBookTool.getSXSSFWorkBook(list);
                 logger.debug(MessageFormat.format("{0} 生成{1}数据文件完成", taskId, "三级四从"));
                 logger.debug(MessageFormat.format("{0} 开始{1}保存数据文件", taskId, "三级四从"));
-                FileUtil.saveXSSFWorkbook(fileName, f);
+//                FileUtil.saveXSSFWorkbook(fileName, f);
+                FileUtil.saveSXSSFWorkbook(fileName, f);
                 logger.debug(MessageFormat.format("{0} 保存{1}数据文件完成", taskId, "三级四从"));
                 flag = true;
             } catch (Exception e) {

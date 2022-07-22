@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q08.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q08.repository.Q08Do;
 import com.yuansong.dailyHelper.features.mqreport.q08.repository.Q08Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q08Service {
         return FileUtil.getNextStr() + "HI4药店-药店在职退休.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q08Do> list) {
+    public WorkTableData getQDataTable(List<Q08Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI4药店-药店在职退休", list, new Q08DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI4药店-药店在职退休", list, new Q08DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q37.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q37.repository.Q37Do;
 import com.yuansong.dailyHelper.features.mqreport.q37.repository.Q37Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q37Service {
         return FileUtil.getNextStr() + "MI3-生育相关报表.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q37Do> list) {
+    public WorkTableData getQDataTable(List<Q37Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("MI3-生育相关报表", list, new Q37DataMapper());
+        return WorkBookTool.getXSSFWorkTable("MI3-生育相关报表", list, new Q37DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

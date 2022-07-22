@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q24.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q24.repository.Q24Do;
 import com.yuansong.dailyHelper.features.mqreport.q24.repository.Q24Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q24Service {
         return FileUtil.getNextStr() + "HI7按照医疗级别-慢特病.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q24Do> list) {
+    public WorkTableData getQDataTable(List<Q24Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI7按照医疗级别-慢特病", list, new Q24DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI7按照医疗级别-慢特病", list, new Q24DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

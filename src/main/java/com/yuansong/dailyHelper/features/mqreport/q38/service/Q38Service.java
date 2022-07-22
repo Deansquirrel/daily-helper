@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q38.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q38.repository.Q38Do;
 import com.yuansong.dailyHelper.features.mqreport.q38.repository.Q38Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q38Service {
         return FileUtil.getNextStr() + "SI2大额报销人数.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q38Do> list) {
+    public WorkTableData getQDataTable(List<Q38Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("SI2大额报销人数", list, new Q38DataMapper());
+        return WorkBookTool.getXSSFWorkTable("SI2大额报销人数", list, new Q38DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

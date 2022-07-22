@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q41.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q41.repository.Q41Do;
 import com.yuansong.dailyHelper.features.mqreport.q41.repository.Q41Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q41Service {
         return FileUtil.getNextStr() + "居民普通门诊、慢特病、和住院人数.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q41Do> list) {
+    public WorkTableData getQDataTable(List<Q41Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("居民普通门诊、慢特病、和住院人数", list, new Q41DataMapper());
+        return WorkBookTool.getXSSFWorkTable("居民普通门诊、慢特病、和住院人数", list, new Q41DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

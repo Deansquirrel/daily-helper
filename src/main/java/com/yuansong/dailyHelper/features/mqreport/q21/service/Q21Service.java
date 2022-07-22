@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q21.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q21.repository.Q21Do;
 import com.yuansong.dailyHelper.features.mqreport.q21.repository.Q21Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q21Service {
         return FileUtil.getNextStr() + "HI7其中60岁以上老人，学生-住院按照支出构成.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q21Do> list) {
+    public WorkTableData getQDataTable(List<Q21Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI7其中60岁以上老人，学生-住院按照支出构成", list, new Q21DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI7其中60岁以上老人，学生-住院按照支出构成", list, new Q21DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

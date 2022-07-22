@@ -2,6 +2,7 @@ package com.yuansong.dailyHelper.util.tool;
 
 import com.github.deansquirrel.tools.common.DateTool;
 import com.github.deansquirrel.tools.common.ExceptionTool;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,16 @@ public class FileUtil {
     }
 
     public static void saveXSSFWorkbook(String fileName,XSSFWorkbook f) throws IOException {
+        String path = getCurrPath() + "/export";
+        String fullPath = path + "/" + fileName;
+        createNewFile(fullPath);
+        try (FileOutputStream fs = new FileOutputStream(fullPath)) {
+            f.write(fs);
+            fs.flush();
+        }
+    }
+
+    public static void saveSXSSFWorkbook(String fileName, SXSSFWorkbook f) throws IOException {
         String path = getCurrPath() + "/export";
         String fullPath = path + "/" + fileName;
         createNewFile(fullPath);

@@ -2,8 +2,8 @@ package com.yuansong.dailyHelper.features.mqreport;
 
 import com.github.deansquirrel.tools.common.CommonTool;
 import com.github.deansquirrel.tools.common.ExceptionTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.m01.repository.M01Do;
 import com.yuansong.dailyHelper.features.mqreport.m01.service.M01Service;
 import com.yuansong.dailyHelper.features.mqreport.m02.repository.M02Do;
@@ -133,7 +133,6 @@ public class MQReportService {
     private final M07Service m07Service;        //职工实施统账退休
     private final M08Service m08Service;        //农民工（进城务工人员参加职工基本医疗保险的人数）
     private final M09Service m09Service;        //一次性缴费
-
     private final Q01Service q01Service;        //HI2参保人数
     private final Q02Service q02Service;        //HI3保险费征缴情况
     private final Q03Service q03Service;        //HI3一次性缴费
@@ -254,20 +253,20 @@ public class MQReportService {
         return FileUtil.getNextStr() + "季报.xlsx";
     }
 
-    private void saveFile(String fileName, XSSFWorkTable table, String logKey) {
-        List<XSSFWorkTable> list = new ArrayList<>();
+    private void saveFile(String fileName, WorkTableData table, String logKey) {
+        List<WorkTableData> list = new ArrayList<>();
         list.add(table);
         this.saveFile(fileName, list, logKey);
     }
 
     //保存文件
-    private void saveFile(String fileName, List<XSSFWorkTable> list, String logKey) {
+    private void saveFile(String fileName, List<WorkTableData> list, String logKey) {
         String taskId = CommonTool.UUID().replace("-", "");
         boolean flag = false;
         while (!flag) {
             try {
                 logger.debug(MessageFormat.format("{0} 开始生成{1}数据文件", taskId, logKey));
-                XSSFWorkbook f = XSSFWorkBookTool.getXSSFWorkBook(list);
+                XSSFWorkbook f = WorkBookTool.getXSSFWorkBook(list);
                 logger.debug(MessageFormat.format("{0} 生成{1}数据文件完成", taskId, logKey));
                 logger.debug(MessageFormat.format("{0} 开始{1}保存数据文件", taskId, logKey));
                 FileUtil.saveXSSFWorkbook(fileName, f);
@@ -288,7 +287,7 @@ public class MQReportService {
         String taskId = "";
         logger.debug(taskId + "开始导出全部季报数据");
         boolean flag = false;
-        List<XSSFWorkTable> list = new ArrayList<>();
+        List<WorkTableData> list = new ArrayList<>();
         List<Q01Do> q01Data = null;
         while(!flag) {
             taskId = CommonTool.UUID().replace("-", "");
@@ -1094,7 +1093,7 @@ public class MQReportService {
         String taskId = "";
         logger.debug(taskId + "开始导出全部月报数据");
         boolean flag = false;
-        List<XSSFWorkTable> list = new ArrayList<>();
+        List<WorkTableData> list = new ArrayList<>();
         List<M01Do> m01Data = null;
         while(!flag) {
             taskId = CommonTool.UUID().replace("-", "");

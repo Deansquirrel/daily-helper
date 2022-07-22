@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q03.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q03.repository.Q03Do;
 import com.yuansong.dailyHelper.features.mqreport.q03.repository.Q03Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q03Service {
         return FileUtil.getNextStr() + "HI3一次性缴费.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q03Do> list) {
+    public WorkTableData getQDataTable(List<Q03Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI3一次性缴费", list, new Q03DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI3一次性缴费", list, new Q03DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

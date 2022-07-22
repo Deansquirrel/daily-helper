@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q34.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q34.repository.Q34Do;
 import com.yuansong.dailyHelper.features.mqreport.q34.repository.Q34Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q34Service {
         return FileUtil.getNextStr() + "HI8.1-异地结算总人数.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q34Do> list) {
+    public WorkTableData getQDataTable(List<Q34Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI8.1-异地结算总人数", list, new Q34DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI8.1-异地结算总人数", list, new Q34DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

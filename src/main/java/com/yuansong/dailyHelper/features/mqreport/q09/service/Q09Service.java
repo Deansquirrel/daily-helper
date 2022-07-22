@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q09.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q09.repository.Q09Do;
 import com.yuansong.dailyHelper.features.mqreport.q09.repository.Q09Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q09Service {
         return FileUtil.getNextStr() + "HI4.1住院按照支出构成-在职退休.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q09Do> list) {
+    public WorkTableData getQDataTable(List<Q09Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI4.1住院按照支出构成-在职退休", list, new Q09DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI4.1住院按照支出构成-在职退休", list, new Q09DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

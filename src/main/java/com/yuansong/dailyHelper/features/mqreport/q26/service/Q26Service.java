@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q26.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q26.repository.Q26Do;
 import com.yuansong.dailyHelper.features.mqreport.q26.repository.Q26Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q26Service {
         return FileUtil.getNextStr() + "HI7按照支出类别-住院按照支出类别.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q26Do> list) {
+    public WorkTableData getQDataTable(List<Q26Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI7按照支出类别-住院按照支出类别", list, new Q26DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI7按照支出类别-住院按照支出类别", list, new Q26DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q31.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q31.repository.Q31Do;
 import com.yuansong.dailyHelper.features.mqreport.q31.repository.Q31Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q31Service {
         return FileUtil.getNextStr() + "HI8.1-普通门诊.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q31Do> list) {
+    public WorkTableData getQDataTable(List<Q31Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI8.1-普通门诊", list, new Q31DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI8.1-普通门诊", list, new Q31DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q15.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q15.repository.Q15Do;
 import com.yuansong.dailyHelper.features.mqreport.q15.repository.Q15Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q15Service {
         return FileUtil.getNextStr() + "HI7其中建档立卡贫困人员-普通门急诊.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q15Do> list) {
+    public WorkTableData getQDataTable(List<Q15Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI7其中建档立卡贫困人员-普通门急诊", list, new Q15DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI7其中建档立卡贫困人员-普通门急诊", list, new Q15DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

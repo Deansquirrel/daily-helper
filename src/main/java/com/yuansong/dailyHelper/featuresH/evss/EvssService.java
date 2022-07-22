@@ -1,8 +1,8 @@
 package com.yuansong.dailyHelper.featuresH.evss;
 
 import com.github.deansquirrel.tools.common.DateTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
@@ -47,10 +47,10 @@ public class EvssService {
     }
 
     public XSSFWorkbook getWorkBook(List<EvssDO> list, Date endDate) {
-        XSSFWorkTable table = XSSFWorkBookTool.getXSSFWorkTable(DateTool.GetDateStr(),list, new EvssDODataMapper());
-        List<XSSFWorkTable> tableList = new ArrayList<>();
+        WorkTableData table = WorkBookTool.getXSSFWorkTable(DateTool.GetDateStr(),list, new EvssDODataMapper());
+        List<WorkTableData> tableList = new ArrayList<>();
         tableList.add(table);
-        return XSSFWorkBookTool.getXSSFWorkBook(tableList);
+        return WorkBookTool.getXSSFWorkBook(tableList);
     }
 
 }

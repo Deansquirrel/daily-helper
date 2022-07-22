@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.m05.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.m05.repository.M05Do;
 import com.yuansong.dailyHelper.features.mqreport.m05.repository.M05Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class M05Service {
         return FileUtil.getNextStr() + "生育.xlsx";
     }
 
-    public XSSFWorkTable getMDataTable(List<M05Do> list) {
+    public WorkTableData getMDataTable(List<M05Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("生育", list, new M05DataMapper());
+        return WorkBookTool.getXSSFWorkTable("生育", list, new M05DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

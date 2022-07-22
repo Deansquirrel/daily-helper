@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q35.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q35.repository.Q35Do;
 import com.yuansong.dailyHelper.features.mqreport.q35.repository.Q35Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q35Service {
         return FileUtil.getNextStr() + "HI9-城乡居民大病保险情况.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q35Do> list) {
+    public WorkTableData getQDataTable(List<Q35Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI9-城乡居民大病保险情况", list, new Q35DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI9-城乡居民大病保险情况", list, new Q35DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

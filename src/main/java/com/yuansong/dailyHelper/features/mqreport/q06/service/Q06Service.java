@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q06.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q06.repository.Q06Do;
 import com.yuansong.dailyHelper.features.mqreport.q06.repository.Q06Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q06Service {
         return FileUtil.getNextStr() + "HI4门诊大病-门诊大病在职退休.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q06Do> list) {
+    public WorkTableData getQDataTable(List<Q06Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI4门诊大病-门诊大病在职退休", list, new Q06DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI4门诊大病-门诊大病在职退休", list, new Q06DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

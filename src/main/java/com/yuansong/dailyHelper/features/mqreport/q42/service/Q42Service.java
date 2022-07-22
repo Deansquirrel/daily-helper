@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q42.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q42.repository.Q42Do;
 import com.yuansong.dailyHelper.features.mqreport.q42.repository.Q42Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q42Service {
         return FileUtil.getNextStr() + "异地备案人次.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q42Do> list) {
+    public WorkTableData getQDataTable(List<Q42Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("异地备案人次", list, new Q42DataMapper());
+        return WorkBookTool.getXSSFWorkTable("异地备案人次", list, new Q42DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

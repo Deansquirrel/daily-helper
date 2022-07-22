@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q18.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q18.repository.Q18Do;
 import com.yuansong.dailyHelper.features.mqreport.q18.repository.Q18Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q18Service {
         return FileUtil.getNextStr() + "HI7其中建档立卡贫困人员-住院按照支出类别.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q18Do> list) {
+    public WorkTableData getQDataTable(List<Q18Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI7其中建档立卡贫困人员-住院按照支出类别", list, new Q18DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI7其中建档立卡贫困人员-住院按照支出类别", list, new Q18DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

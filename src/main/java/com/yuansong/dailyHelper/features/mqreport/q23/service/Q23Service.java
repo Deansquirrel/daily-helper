@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q23.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q23.repository.Q23Do;
 import com.yuansong.dailyHelper.features.mqreport.q23.repository.Q23Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q23Service {
         return FileUtil.getNextStr() + "HI7按照医疗级别-门诊.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q23Do> list) {
+    public WorkTableData getQDataTable(List<Q23Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI7按照医疗级别-门诊", list, new Q23DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI7按照医疗级别-门诊", list, new Q23DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

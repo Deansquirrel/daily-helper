@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q12.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q12.repository.Q12Do;
 import com.yuansong.dailyHelper.features.mqreport.q12.repository.Q12Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q12Service {
         return FileUtil.getNextStr() + "HI4.1住院按照支出类别-在职退休.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q12Do> list) {
+    public WorkTableData getQDataTable(List<Q12Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI4.1住院按照支出类别-在职退休", list, new Q12DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI4.1住院按照支出类别-在职退休", list, new Q12DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

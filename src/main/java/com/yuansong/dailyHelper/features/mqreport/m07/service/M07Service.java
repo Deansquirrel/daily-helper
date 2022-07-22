@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.m07.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.m07.repository.M07Do;
 import com.yuansong.dailyHelper.features.mqreport.m07.repository.M07Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class M07Service {
         return FileUtil.getNextStr() + "职工实施统账退休.xlsx";
     }
 
-    public XSSFWorkTable getMDataTable(List<M07Do> list) {
+    public WorkTableData getMDataTable(List<M07Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("职工实施统账退休", list, new M07DataMapper());
+        return WorkBookTool.getXSSFWorkTable("职工实施统账退休", list, new M07DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

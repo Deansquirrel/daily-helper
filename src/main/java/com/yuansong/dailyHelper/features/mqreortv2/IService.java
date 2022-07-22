@@ -1,8 +1,8 @@
 package com.yuansong.dailyHelper.features.mqreortv2;
 
 import com.github.deansquirrel.tools.poi.IDataMapper;
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
 
 import java.util.ArrayList;
@@ -28,11 +28,11 @@ public interface IService<T, S extends IRepService<T>> {
         return FileUtil.getNextStr() + getFileName() + ".xlsx";
     }
 
-    default XSSFWorkTable getDataTable(List<T> list) {
+    default WorkTableData getDataTable(List<T> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable(getFileName(), list, getDataMapper());
+        return WorkBookTool.getXSSFWorkTable(getFileName(), list, getDataMapper());
     }
 
 }

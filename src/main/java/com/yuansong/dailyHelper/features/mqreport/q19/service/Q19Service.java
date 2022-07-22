@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q19.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q19.repository.Q19Do;
 import com.yuansong.dailyHelper.features.mqreport.q19.repository.Q19Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q19Service {
         return FileUtil.getNextStr() + "HI7其中60岁以上老人，学生-门诊.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q19Do> list) {
+    public WorkTableData getQDataTable(List<Q19Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI7其中60岁以上老人，学生-门诊", list, new Q19DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI7其中60岁以上老人，学生-门诊", list, new Q19DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

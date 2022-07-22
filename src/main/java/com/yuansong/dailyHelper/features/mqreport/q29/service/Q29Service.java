@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q29.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q29.repository.Q29Do;
 import com.yuansong.dailyHelper.features.mqreport.q29.repository.Q29Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q29Service {
         return FileUtil.getNextStr() + "HI8-慢特病.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q29Do> list) {
+    public WorkTableData getQDataTable(List<Q29Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI8-慢特病", list, new Q29DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI8-慢特病", list, new Q29DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

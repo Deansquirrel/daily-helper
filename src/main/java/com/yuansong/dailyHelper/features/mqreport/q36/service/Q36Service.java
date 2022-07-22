@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q36.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q36.repository.Q36Do;
 import com.yuansong.dailyHelper.features.mqreport.q36.repository.Q36Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q36Service {
         return FileUtil.getNextStr() + "HI10-转移相关查询.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q36Do> list) {
+    public WorkTableData getQDataTable(List<Q36Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI10-转移相关查询", list, new Q36DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI10-转移相关查询", list, new Q36DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

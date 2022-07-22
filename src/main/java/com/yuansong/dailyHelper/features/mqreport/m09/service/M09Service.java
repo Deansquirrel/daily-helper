@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.m09.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.m09.repository.M09Do;
 import com.yuansong.dailyHelper.features.mqreport.m09.repository.M09Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class M09Service {
         return FileUtil.getNextStr() + "一次性缴费.xlsx";
     }
 
-    public XSSFWorkTable getMDataTable(List<M09Do> list) {
+    public WorkTableData getMDataTable(List<M09Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("一次性缴费",
+        return WorkBookTool.getXSSFWorkTable("一次性缴费",
                 list, new M09DataMapper());
     }
 

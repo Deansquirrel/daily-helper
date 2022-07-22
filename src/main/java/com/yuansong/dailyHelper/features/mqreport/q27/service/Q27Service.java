@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q27.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q27.repository.Q27Do;
 import com.yuansong.dailyHelper.features.mqreport.q27.repository.Q27Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q27Service {
         return FileUtil.getNextStr() + "HI7.1、HI7.2慢病、两病用药.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q27Do> list) {
+    public WorkTableData getQDataTable(List<Q27Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI7.1、HI7.2慢病、两病用药", list, new Q27DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI7.1、HI7.2慢病、两病用药", list, new Q27DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

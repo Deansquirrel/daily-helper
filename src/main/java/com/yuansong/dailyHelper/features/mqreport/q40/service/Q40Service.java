@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q40.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q40.repository.Q40Do;
 import com.yuansong.dailyHelper.features.mqreport.q40.repository.Q40Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q40Service {
         return FileUtil.getNextStr() + "SI大额参保人数.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q40Do> list) {
+    public WorkTableData getQDataTable(List<Q40Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("SI大额参保人数", list, new Q40DataMapper());
+        return WorkBookTool.getXSSFWorkTable("SI大额参保人数", list, new Q40DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

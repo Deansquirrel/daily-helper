@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.m06.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.m06.repository.M06Do;
 import com.yuansong.dailyHelper.features.mqreport.m06.repository.M06Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class M06Service {
         return FileUtil.getNextStr() + "职工实施统账在职.xlsx";
     }
 
-    public XSSFWorkTable getMDataTable(List<M06Do> list) {
+    public WorkTableData getMDataTable(List<M06Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("职工实施统账在职", list, new M06DataMapper());
+        return WorkBookTool.getXSSFWorkTable("职工实施统账在职", list, new M06DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

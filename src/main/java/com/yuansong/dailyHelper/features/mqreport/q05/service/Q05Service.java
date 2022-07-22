@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q05.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q05.repository.Q05Do;
 import com.yuansong.dailyHelper.features.mqreport.q05.repository.Q05Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q05Service {
         return FileUtil.getNextStr() + "HI4普通门诊-普通门诊医疗级别.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q05Do> list) {
+    public WorkTableData getQDataTable(List<Q05Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI4普通门诊-普通门诊医疗级别", list, new Q05DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI4普通门诊-普通门诊医疗级别", list, new Q05DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

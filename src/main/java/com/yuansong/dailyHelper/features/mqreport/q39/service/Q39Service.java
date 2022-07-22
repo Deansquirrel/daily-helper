@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q39.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q39.repository.Q39Do;
 import com.yuansong.dailyHelper.features.mqreport.q39.repository.Q39Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q39Service {
         return FileUtil.getNextStr() + "SI2公务员补助.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q39Do> list) {
+    public WorkTableData getQDataTable(List<Q39Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("SI2公务员补助", list, new Q39DataMapper());
+        return WorkBookTool.getXSSFWorkTable("SI2公务员补助", list, new Q39DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

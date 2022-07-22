@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q11.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q11.repository.Q11Do;
 import com.yuansong.dailyHelper.features.mqreport.q11.repository.Q11Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q11Service {
         return FileUtil.getNextStr() + "HI4.1住院按照支出构成-医疗级别.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q11Do> list) {
+    public WorkTableData getQDataTable(List<Q11Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI4.1住院按照支出构成-医疗级别", list, new Q11DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI4.1住院按照支出构成-医疗级别", list, new Q11DataMapper());
     }
 
     private Date getDefaultQueryMonth() {

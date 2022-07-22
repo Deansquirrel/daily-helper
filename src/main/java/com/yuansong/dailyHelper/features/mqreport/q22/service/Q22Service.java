@@ -1,7 +1,7 @@
 package com.yuansong.dailyHelper.features.mqreport.q22.service;
 
-import com.github.deansquirrel.tools.poi.XSSFWorkBookTool;
-import com.github.deansquirrel.tools.poi.XSSFWorkTable;
+import com.github.deansquirrel.tools.poi.WorkBookTool;
+import com.github.deansquirrel.tools.poi.WorkTableData;
 import com.yuansong.dailyHelper.features.mqreport.q22.repository.Q22Do;
 import com.yuansong.dailyHelper.features.mqreport.q22.repository.Q22Query;
 import com.yuansong.dailyHelper.util.tool.FileUtil;
@@ -32,11 +32,11 @@ public class Q22Service {
         return FileUtil.getNextStr() + "HI7其中60岁以上老人，学生-住院按照支出类别.xlsx";
     }
 
-    public XSSFWorkTable getQDataTable(List<Q22Do> list) {
+    public WorkTableData getQDataTable(List<Q22Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("HI7其中60岁以上老人，学生-住院按照支出类别", list, new Q22DataMapper());
+        return WorkBookTool.getXSSFWorkTable("HI7其中60岁以上老人，学生-住院按照支出类别", list, new Q22DataMapper());
     }
 
     private Date getDefaultQueryMonth() {
