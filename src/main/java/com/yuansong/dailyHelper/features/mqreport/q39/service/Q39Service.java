@@ -29,14 +29,14 @@ public class Q39Service {
     }
 
     public String getExportFileName() {
-        return FileUtil.getNextStr() + "SI2大额+公务员补助.xlsx";
+        return FileUtil.getNextStr() + "SI2公务员补助.xlsx";
     }
 
     public XSSFWorkTable getQDataTable(List<Q39Do> list) {
         if(list == null) {
             list = new ArrayList<>();
         }
-        return XSSFWorkBookTool.getXSSFWorkTable("SI2大额+公务员补助", list, new Q39DataMapper());
+        return XSSFWorkBookTool.getXSSFWorkTable("SI2公务员补助", list, new Q39DataMapper());
     }
 
     private Date getDefaultQueryMonth() {
