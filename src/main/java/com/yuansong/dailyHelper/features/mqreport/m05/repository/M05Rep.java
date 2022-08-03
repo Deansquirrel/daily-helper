@@ -95,17 +95,24 @@ public class M05Rep {
             "where 1=1 " +
             "   and INSU_ADMDVS like '1311%' " +
             "   and INSUTYPE='310' " +
-            "   and MED_TYPE ='51' " +
             "   and VALI_FLAG = '1' " +
             "   and REFD_SETL_FLAG = '0' " +
             "   and SETL_TIME >= ? " +
             "   and SETL_TIME < ? " +
-            "   and exists (" +
-            "       select 1 " +
-            "       from mdtrt_d " +
-            "       where MDTRT_ID=setl_d.MDTRT_ID " +
-            "           and BIRCTRL_TYPE in ('1','2','3','4','5','6','9')" +
-            "   ) " +
+            "   and (" +
+            "           (MED_TYPE ='51' " +
+            "           and exists ( " +
+            "               select 1 " +
+            "               from mdtrt_d " +
+            "               where MDTRT_ID=setl_d.MDTRT_ID " +
+            "                   and BIRCTRL_TYPE in ('1','2','3','4','5','6','9'))) " +
+            "           OR " +
+            "           ( MED_TYPE ='52' " +
+            "           and exists ( " +
+            "               select 1 " +
+            "               from mdtrt_d " +
+            "               where MDTRT_ID=setl_d.MDTRT_ID " +
+            "                   and BIRCTRL_TYPE in ('3','4')))) " +
             "group by INSU_ADMDVS " +
             "order by INSU_ADMDVS;";
 
@@ -149,6 +156,9 @@ public class M05Rep {
     public List<M05Do> getCList(M05Query query) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(query.getMonth().getTime());
+        cal.set(
+                cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
+                0,0,0);
         cal.add(Calendar.MONTH, 1);
         String setlTimeMax = DateTool.GetDateTimeStr(cal.getTime());
         cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -162,6 +172,9 @@ public class M05Rep {
     public List<M05Do> getDList(M05Query query) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(query.getMonth().getTime());
+        cal.set(
+                cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
+                0,0,0);
         cal.add(Calendar.MONTH, 1);
         String setlTimeMax = DateTool.GetDateTimeStr(cal.getTime());
         cal.set(Calendar.MONTH, Calendar.JANUARY);
